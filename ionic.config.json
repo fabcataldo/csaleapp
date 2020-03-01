@@ -1,5 +1,7 @@
 {
   "name": "csaleapp",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "ionic-angular"
 }
