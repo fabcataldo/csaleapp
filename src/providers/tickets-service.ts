@@ -17,7 +17,7 @@ export class TicketsServiceProvider {
 
   getTickets(token) {
     return new Promise ( resolve => {
-      this.http.get<Tickets>('https://192.168.0.16:3000/api/tickets', {
+      this.http.get<Tickets>('http://192.168.0.16:3000/api/tickets', {
         headers: new HttpHeaders().set('Authorization', token)
       })
       .subscribe( data=>{
@@ -30,7 +30,7 @@ export class TicketsServiceProvider {
 
   getTicket(id, token){
     return new Promise(resolve => {
-      this.http.get<Tickets>('https://192.168.0.16:3000/api/tickets/'+id, {
+      this.http.get<Tickets>('http://192.168.0.16:3000/api/tickets/'+id, {
         headers: new HttpHeaders().set('Authorization', token)
       })
         .subscribe(res => {
@@ -44,7 +44,7 @@ export class TicketsServiceProvider {
   
   postTicket(ticket, token) {
     return new Promise(resolve => {
-      this.http.post('https://192.168.0.16:3000/api/tickets', JSON.stringify(ticket), {
+      this.http.post('http://192.168.0.16:3000/api/tickets', JSON.stringify(ticket), {
         headers: new HttpHeaders().set('Authorization', token)
       })
         .subscribe(res => {

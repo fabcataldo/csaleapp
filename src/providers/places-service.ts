@@ -17,7 +17,7 @@ export class PlacesServiceProvider {
 
   getPlaces(token) {
     return new Promise ( resolve => {
-      this.http.get<Places>('https://192.168.0.16:3000/api/places', {
+      this.http.get<Places>('http://192.168.0.16:3000/api/places', {
         headers: new HttpHeaders().set('Authorization', token)
       })
       .subscribe( data=>{
@@ -30,7 +30,7 @@ export class PlacesServiceProvider {
 
   getPlace(id, token){
     return new Promise(resolve => {
-      this.http.get<Places>('https://192.168.0.16:3000/api/places/'+id, {
+      this.http.get<Places>('http://192.168.0.16:3000/api/places/'+id, {
         headers: new HttpHeaders().set('Authorization', token)
       })
         .subscribe(res => {
@@ -44,7 +44,7 @@ export class PlacesServiceProvider {
 
   getTicketsPlace(id, token, validDateTicketFrom){
     return new Promise(resolve => {
-      this.http.get<Places>('https://192.168.0.16:3000/api/places/tickets'+id+'/'+validDateTicketFrom, {
+      this.http.get<Places>('http://192.168.0.16:3000/api/places/tickets'+id+'/'+validDateTicketFrom, {
         headers: new HttpHeaders().set('Authorization', token)
       })
         .subscribe(res => {

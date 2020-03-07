@@ -17,7 +17,7 @@ export class RolesServiceProvider {
 
   getRoles(token) {
     return new Promise ( resolve => {
-      this.http.get<Roles>('https://192.168.0.16:3000/api/roles', {
+      this.http.get<Roles>('http://192.168.0.16:3000/api/roles', {
         headers: new HttpHeaders().set('Authorization', token)
       })
       .subscribe( data=>{
@@ -30,7 +30,7 @@ export class RolesServiceProvider {
 
   getRole(id, token){
     return new Promise(resolve => {
-      this.http.get<Roles>('https://192.168.0.16:3000/api/roles/'+id, {
+      this.http.get<Roles>('http://192.168.0.16:3000/api/roles/'+id, {
         headers: new HttpHeaders().set('Authorization', token)
       })
         .subscribe(res => {

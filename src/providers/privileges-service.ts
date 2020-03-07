@@ -17,7 +17,7 @@ export class PrivilegesServiceProvider {
 
   getPrivileges(token) {
     return new Promise ( resolve => {
-      this.http.get<Privileges>('https://192.168.0.16:3000/api/privileges', {
+      this.http.get<Privileges>('http://192.168.0.16:3000/api/privileges', {
         headers: new HttpHeaders().set('Authorization', token)
       })
       .subscribe( data=>{
@@ -30,7 +30,7 @@ export class PrivilegesServiceProvider {
 
   getPrivilege(id, token){
     return new Promise(resolve => {
-      this.http.get<Privileges>('https://192.168.0.16:3000/api/privileges/'+id, {
+      this.http.get<Privileges>('http://192.168.0.16:3000/api/privileges/'+id, {
         headers: new HttpHeaders().set('Authorization', token)
       })
         .subscribe(res => {

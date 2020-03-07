@@ -17,7 +17,7 @@ export class ProductsServiceProvider {
 
   getProducts(token) {
     return new Promise ( resolve => {
-      this.http.get<Products>('https://192.168.0.16:3000/api/products', {
+      this.http.get<Products>('http://192.168.0.16:3000/api/products', {
         headers: new HttpHeaders().set('Authorization', token)
       })
       .subscribe( data=>{
@@ -30,7 +30,7 @@ export class ProductsServiceProvider {
 
   getProduct(id, token){
     return new Promise(resolve => {
-      this.http.get<Products>('https://192.168.0.16:3000/api/products/'+id, {
+      this.http.get<Products>('http://192.168.0.16:3000/api/products/'+id, {
         headers: new HttpHeaders().set('Authorization', token)
       })
         .subscribe(res => {

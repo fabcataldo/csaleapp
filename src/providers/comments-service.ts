@@ -17,7 +17,7 @@ export class CommentsServiceProvider {
 
   getComments(token) {
     return new Promise ( resolve => {
-      this.http.get<Comments>('https://192.168.0.16:3000/api/comments', {
+      this.http.get<Comments>('http://192.168.0.16:3000/api/comments', {
         headers: new HttpHeaders().set('Authorization', token)
       })
       .subscribe( data=>{
@@ -30,7 +30,7 @@ export class CommentsServiceProvider {
 
   getComment(id, token){
     return new Promise(resolve => {
-      this.http.get<Comments>('https://192.168.0.16:3000/api/comments/'+id, {
+      this.http.get<Comments>('http://192.168.0.16:3000/api/comments/'+id, {
         headers: new HttpHeaders().set('Authorization', token)
       })
         .subscribe(res => {
@@ -44,7 +44,7 @@ export class CommentsServiceProvider {
 
   deleteComment(id, token){
     return new Promise(resolve => {
-      this.http.delete('https://192.168.0.16:3000/api/comments/'+id, {
+      this.http.delete('http://192.168.0.16:3000/api/comments/'+id, {
         headers: new HttpHeaders().set('Authorization', token)
       })
         .subscribe(res => {
@@ -58,7 +58,7 @@ export class CommentsServiceProvider {
 
   postComment(comment, token) {
     return new Promise(resolve => {
-      this.http.post('https://192.168.0.16:3000/api/comments', JSON.stringify(comment), {
+      this.http.post('http://192.168.0.16:3000/api/comments', JSON.stringify(comment), {
         headers: new HttpHeaders().set('Authorization', token)
       })
         .subscribe(res => {
@@ -72,7 +72,7 @@ export class CommentsServiceProvider {
 
   putComment(comment, id, token){
     return new Promise(resolve => {
-      this.http.put<Comments>('https://192.168.0.16:3000/api/comments/'+id, comment, {
+      this.http.put<Comments>('http://192.168.0.16:3000/api/comments/'+id, comment, {
         headers: new HttpHeaders().set('Authorization', token)
       })
         .subscribe(res => {

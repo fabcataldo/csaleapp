@@ -17,7 +17,7 @@ export class UserServiceProvider {
 
   getUsers(token) {
     return new Promise ( resolve => {
-      this.http.get<Users>('https://192.168.0.16:3000/api/users', {
+      this.http.get<Users>('http://192.168.0.28:3000/api/users', {
         headers: new HttpHeaders().set('Authorization', token)
       })
       .subscribe( data=>{
@@ -30,7 +30,7 @@ export class UserServiceProvider {
 
   getUser(id, token){
     return new Promise(resolve => {
-      this.http.get<Users>('https://192.168.0.16:3000/api/users/'+id, {
+      this.http.get<Users>('http://192.168.0.16:3000/api/users/'+id, {
         headers: new HttpHeaders().set('Authorization', token)
       })
         .subscribe(res => {
@@ -58,7 +58,7 @@ export class UserServiceProvider {
 
   postUser(comment, token) {
     return new Promise(resolve => {
-      this.http.post('https://192.168.0.16:3000/api/users', JSON.stringify(comment), {
+      this.http.post('http://192.168.0.16:3000/api/users', JSON.stringify(comment), {
         headers: new HttpHeaders().set('Authorization', token)
       })
         .subscribe(res => {
@@ -72,7 +72,7 @@ export class UserServiceProvider {
 
   putUser(comment, id, token){
     return new Promise(resolve => {
-      this.http.put<Users>('https://192.168.0.16:3000/api/users/'+id, comment, {
+      this.http.put<Users>('http://192.168.0.16:3000/api/users/'+id, comment, {
         headers: new HttpHeaders().set('Authorization', token)
       })
         .subscribe(res => {
@@ -87,7 +87,7 @@ export class UserServiceProvider {
   loginUser(user){
     //en user debo enviar el email y el password
     return new Promise(resolve => {
-      this.http.post('https://192.168.0.23:3000/api/login', user, {})
+      this.http.post('http://192.168.0.28:3000/api/login', user, {})
         .subscribe(res => {
           //devuelve los datos del usuario logeado y el token
           resolve(res);
