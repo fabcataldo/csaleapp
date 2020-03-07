@@ -1,0 +1,58 @@
+<!--
+  Generated template for the LoginPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <!--
+  <ion-navbar>
+    <ion-title>login</ion-title>
+  </ion-navbar>
+  -->
+</ion-header>
+
+<ion-content padding class="backgroundImage">
+  <div style="color:white" >
+  <h1 style="text-align: center">
+    Bienvenido a CSaleApp
+  </h1>
+  <h2 style="text-align: center">
+    ¡Acá vas a poder encontrar el boliche ideal para que tu salida sea perfecta!
+  </h2>
+  <button ion-button color="facebookButton" style="left:6rem">
+    Acceder con Facebook
+  </button>
+  <br>
+  <button ion-button color="googleButton" style="left:6rem; width:20rem">
+    Acceder con Google
+  </button>
+  <br>
+  <form [formGroup]="loginForm" (ngSubmit) = "onClickSubmit(loginForm.value)" >
+    <ion-item class="bg-transparent">
+      <ion-label color="primary" stacked>Email</ion-label>
+      <ion-input type="email" placeholder="" style="color:#ffffff" formControlName="email"></ion-input>
+    </ion-item>
+    <div *ngIf="(formFields.email.invalid && formFields.email.touched) || formFields.email.dirty">
+    	<div *ngIf="formFields.email.errors?.required" >Email requerido</div>
+    	<div *ngIf="formFields.email.errors?.pattern" >Email inválido</div>
+  	</div>
+
+    <ion-item class="bg-transparent">
+      <ion-label color="primary" stacked>Contraseña</ion-label>
+      <ion-input style="box-shadow: none !important; color:#ffffff" type="password" placeholder=""
+          formControlName="password"></ion-input>
+    </ion-item>
+    <div *ngIf="(formFields.password.invalid && formFields.password.touched) || formFields.password.dirty">
+    	<div *ngIf="formFields.password.errors?.required" >Contraseña requerida</div>
+  	</div>
+  
+  <button type="submit" ion-button color="loginButton" style="left:6rem; width:20rem"
+    [disabled]="loginForm.invalid"> 
+    Iniciar sesión
+  </button>
+
+  </form>
+
+</div>
+</ion-content>
