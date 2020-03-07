@@ -15,25 +15,32 @@ import { ProductsServiceProvider } from '../providers/products-service';
 import { RolesServiceProvider } from '../providers/roles-service';
 import { PrivilegesServiceProvider } from '../providers/privileges-service';
 import { LoginPage } from '../pages/login/login';
+import { StorageManager } from '../services/storageManager';
+import { RegisterPage } from '../pages/register/register';
 
 
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
-    LoginPage
+    LoginPage,
+    RegisterPage
   ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
     HttpClientModule,
-    IonicStorageModule.forRoot()
+    IonicStorageModule.forRoot({
+      name: 'csalestrg',
+      driverOrder: ['indexeddb', 'sqlite', 'websql']
+    })
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
     HomePage,
-    LoginPage
+    LoginPage,
+    RegisterPage
   ],
   providers: [
     StatusBar,
@@ -45,7 +52,8 @@ import { LoginPage } from '../pages/login/login';
     TicketsServiceProvider,
     ProductsServiceProvider,
     RolesServiceProvider,
-    PrivilegesServiceProvider
+    PrivilegesServiceProvider,
+    StorageManager
   ]
 })
 export class AppModule {}
