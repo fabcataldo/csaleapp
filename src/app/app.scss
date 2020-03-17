@@ -15,6 +15,34 @@
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
 
+ion-icon {
+    &[class*="custom-"] {
+      mask-size: contain;
+      mask-position: 50% 50%;
+      mask-repeat: no-repeat;
+      background: currentColor;
+      width: 2rem;
+      height: 2rem;
+    }
+  
+    &[class*="custom-shopping-cart"] {
+      mask-image: url(../assets/buy-icon.svg);
+    }
+    &[class*="custom-discount-label"] {
+      mask-image: url(../assets/discount-label.svg);
+    }
+    &[class*="custom-logout"] {
+      mask-image: url(../assets/logout.svg);
+    }
+    &[class*="custom-party"] {
+        mask-image: url(../assets/party.svg);
+    }
+    &[class*="custom-account"] {
+        mask-image: url(../assets/imgs/2113250.svg);
+    }
+        
+  }
+
 h1, h2, h3{
     font-family: Roboto;
     color:white;
