@@ -1,50 +1,36 @@
-<!--
-  Generated template for the LoginPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
-<ion-header>
-  <!--
-  <ion-navbar>
-    <ion-title>login</ion-title>
-  </ion-navbar>
-  -->
-</ion-header>
-
 <ion-content padding class="backgroundImage">
   <div>
     <h1 style="text-align: center">
       Bienvenido a CSaleApp
     </h1>
     <h2 style="text-align: center">
-      ¡Acá vas a poder encontrar el boliche ideal para que tu salida sea perfecta!
+      ¡Acá vas a poder encontrar el lugar ideal para que tu salida sea perfecta!
     </h2>
-    <button ion-button color="facebookButton" class="oneButtons oAuthButtons">
+    <button ion-button color="facebookButton" class="oneButtons oAuthButtons" (tap)="socialLogin(true)">
       Acceder con Facebook
     </button>
     <br>
-    <button ion-button color="googleButton" class="oneButtons oAuthButtons">
+    <button ion-button color="googleButton" class="oneButtons oAuthButtons" (tap)="socialLogin(false)">
       Acceder con Google
     </button>
     <br>
     <form [formGroup]="loginForm" (ngSubmit) = "onClickSubmit(loginForm.value)" >
       <ion-item class="bg-transparent">
-        <ion-label style="color: white" stacked>Email</ion-label>
-        <ion-input type="email" placeholder="" style="color:#ffffff" formControlName="email"></ion-input>
+        <ion-label style="color:white" stacked>Email</ion-label>
+        <ion-input type="email" class="labelInputColor" formControlName="email"></ion-input>
       </ion-item>
       <div *ngIf="(formFields.email.invalid && formFields.email.touched) || formFields.email.dirty">
-        <div *ngIf="formFields.email.errors?.required" >Email requerido</div>
-        <div *ngIf="formFields.email.errors?.pattern" >Email inválido</div>
+        <div *ngIf="formFields.email.errors?.required" class="errorInputs">Email requerido</div>
+        <div *ngIf="formFields.email.errors?.pattern" class="errorInputs">Email inválido</div>
       </div>
 
       <ion-item class="bg-transparent">
-        <ion-label style="color: white" stacked>Contraseña</ion-label>
-        <ion-input style="box-shadow: none !important; color:#ffffff" type="password" placeholder=""
+        <ion-label style="color:white"   stacked>Contraseña</ion-label>
+        <ion-input class="labelInputColor" type="password" placeholder=""
             formControlName="password"></ion-input>
       </ion-item>
       <div *ngIf="(formFields.password.invalid && formFields.password.touched) || formFields.password.dirty">
-        <div *ngIf="formFields.password.errors?.required" >Contraseña requerida</div>
+        <div *ngIf="formFields.password.errors?.required" class="errorInputs">Contraseña requerida</div>
       </div>
     
     <div>
