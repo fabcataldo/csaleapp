@@ -36,6 +36,7 @@ export class RegisterPage {
   get formFields() { return this.registerForm.controls; }
 
   async onClickSubmit(data){
+    data.loggedWithOAuth2 = false;
     await this.UserService.postUser(data)
     .then( (data)=>{
       this.navCtrl.setRoot(LoginPage, {email: this.registerForm.value.email, password: this.registerForm.value.password});
