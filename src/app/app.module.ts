@@ -15,10 +15,23 @@ import { ProductsServiceProvider } from '../providers/products-service';
 import { RolesServiceProvider } from '../providers/roles-service';
 import { PrivilegesServiceProvider } from '../providers/privileges-service';
 import { LoginPage } from '../pages/login/login';
-import { StorageManager } from '../services/storageManager';
 import { RegisterPage } from '../pages/register/register';
+import { AngularFireModule } from 'angularfire2';
+import { AngularFireAuthModule } from 'angularfire2/auth';
+import { GooglePlus } from '@ionic-native/google-plus/ngx';
+import { Facebook } from '@ionic-native/facebook/ngx';
 
-
+const firebaseConfig = {
+  apiKey: "AIzaSyDX2SigUNlJ_UiHX_DEQ6NvNFDvXBgcF0g",
+  authDomain: "csaleapp-270523.firebaseapp.com",
+  databaseURL: "https://csaleapp-270523.firebaseio.com",
+  projectId: "csaleapp-270523",
+  storageBucket: "csaleapp-270523.appspot.com",
+  messagingSenderId: "1094589895444",
+  appId: "1:1094589895444:web:ee27ac73da014af2da2801",
+  measurementId: "G-Y2RZRHBC6G"
+};
+ 
 @NgModule({
   declarations: [
     MyApp,
@@ -33,7 +46,9 @@ import { RegisterPage } from '../pages/register/register';
     IonicStorageModule.forRoot({
       name: 'csalestrg',
       driverOrder: ['indexeddb', 'sqlite', 'websql']
-    })
+    }),
+    AngularFireModule.initializeApp(firebaseConfig),
+    AngularFireAuthModule,
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -53,7 +68,8 @@ import { RegisterPage } from '../pages/register/register';
     ProductsServiceProvider,
     RolesServiceProvider,
     PrivilegesServiceProvider,
-    StorageManager
+    GooglePlus,
+    Facebook
   ]
 })
 export class AppModule {}
