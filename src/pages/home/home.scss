@@ -11,6 +11,24 @@ page-home {
     .menuTitle{
         width:20rem;
     }
+
+    ion-menu {
+        .toolbar-background-md {
+          --background: #6200EE;
+        }
+      
+        ion-list {/* optional, but it needs when you use gradient as a background color.*/
+          background: linear-gradient(#6200EE, #310077);
+        }
+        .toolbar-background-md{
+          background: linear-gradient(#6200EE, #310077);
+        }
+       .item-md{
+            background-color: #6200EE;
+            color:white;
+          }
+        
+      }
 }
 
 
