@@ -20,6 +20,9 @@ import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { GooglePlus } from '@ionic-native/google-plus/ngx';
 import { Facebook } from '@ionic-native/facebook/ngx';
+import { BenefitsAvailablePage } from '../pages/benefits-available/benefits-available';
+import { UpdatePlacePage } from '../pages/update-place/update-place';
+import { PurchasesMadePage } from '../pages/purchases-made/purchases-made';
 
 const firebaseConfig = {
   apiKey: "AIzaSyDX2SigUNlJ_UiHX_DEQ6NvNFDvXBgcF0g",
@@ -37,7 +40,10 @@ const firebaseConfig = {
     MyApp,
     HomePage,
     LoginPage,
-    RegisterPage
+    RegisterPage,
+    BenefitsAvailablePage,
+    PurchasesMadePage,
+    UpdatePlacePage,
   ],
   imports: [
     BrowserModule,
@@ -55,7 +61,10 @@ const firebaseConfig = {
     MyApp,
     HomePage,
     LoginPage,
-    RegisterPage
+    RegisterPage,
+    BenefitsAvailablePage,
+    PurchasesMadePage,
+    UpdatePlacePage,
   ],
   providers: [
     StatusBar,
