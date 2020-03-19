@@ -11,7 +11,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 @IonicPage()
 @Component({
   selector: 'page-purchases',
-  templateUrl: 'purchases.html',
+  templateUrl: 'purchases-made.html',
 })
 export class PurchasesMadePage {
 

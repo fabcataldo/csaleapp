@@ -11,7 +11,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 @IonicPage()
 @Component({
   selector: 'page-benefits',
-  templateUrl: 'benefits.html',
+  templateUrl: 'benefits-available.html',
 })
 export class BenefitsAvailablePage {
 
