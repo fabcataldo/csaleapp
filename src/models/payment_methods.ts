@@ -1,8 +1,13 @@
 export class PaymentMethods {
-    name = String;
-    amountPaid = Number;
-    constructor(name?, amountPaid?) {
-        name = name ? name : '';
-        amountPaid = amountPaid ? amountPaid : 0;
+    _id : string;
+    name : string;
+    amountPaid : number;
+
+    constructor(paymentMethod ? : any) {
+        if(paymentMethod){
+            this._id = paymentMethod._id;
+            this.name = paymentMethod.name;
+            this.amountPaid = paymentMethod.amountPaid;
+        }
     }
 }

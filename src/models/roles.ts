@@ -1,10 +1,14 @@
 import { Privileges } from './privileges';
 
 export class Roles {
-    name = String;
-    privileges = [Privileges];
-    constructor(name?, privileges?) {
-        name = name ? name : '';
-        privileges = privileges ? privileges : [];
+    _id : string;
+    name : string;
+    privileges : Privileges[];
+    constructor(role?: any) {
+        if (role) {
+            this._id = role.id;
+            this.name = role.name;
+            this.privileges = role.privileges;
+        }
     }
 }

@@ -1,9 +1,12 @@
 export class Privileges {
-    name = String;
-    description = String;
+    _id : string;
+    name : string;
+    description : string;
 
-    constructor(name, description) {
-        name = name ? name : '';
-        description = description ? description : '';
+    constructor(privilege ? : any) {
+    if(privilege){
+        this._id = privilege._id ? privilege._id : null;
+        this.name = privilege.name ? privilege.name : '';
+        this.description = privilege.description ? privilege.description : '';
     }
 }
