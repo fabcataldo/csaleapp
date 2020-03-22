@@ -1,13 +1,12 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
-import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
+import { IonicApp, IonicErrorHandler, IonicModule, NavController } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { CommentsServiceProvider } from '../providers/comments-service';
-import { HttpClientModule } from '@angular/common/http';
-import { IonicStorageModule } from '@ionic/storage';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { UserServiceProvider } from '../providers/user-service';
 import { PlacesServiceProvider } from '../providers/places-service';
 import { TicketsServiceProvider } from '../providers/tickets-service';
@@ -23,6 +22,10 @@ import { Facebook } from '@ionic-native/facebook/ngx';
 import { BenefitsAvailablePage } from '../pages/benefits-available/benefits-available';
 import { UpdatePlacePage } from '../pages/update-place/update-place';
 import { PurchasesMadePage } from '../pages/purchases-made/purchases-made';
+import { GoogleMaps } from '@ionic-native/google-maps';
+import { IonicSelectableModule } from 'ionic-selectable';
+import { AuthInterceptorServiceProvider } from '../providers/auth-interceptor-service';
+import { StarRatingModule } from 'ionic3-star-rating';
 
 const firebaseConfig = {
   apiKey: "AIzaSyDX2SigUNlJ_UiHX_DEQ6NvNFDvXBgcF0g",
@@ -49,12 +52,10 @@ const firebaseConfig = {
     BrowserModule,
     IonicModule.forRoot(MyApp),
     HttpClientModule,
-    IonicStorageModule.forRoot({
-      name: 'csalestrg',
-      driverOrder: ['indexeddb', 'sqlite', 'websql']
-    }),
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireAuthModule,
+    IonicSelectableModule,
+    StarRatingModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -78,7 +79,14 @@ const firebaseConfig = {
     RolesServiceProvider,
     PrivilegesServiceProvider,
     GooglePlus,
-    Facebook
+    Facebook,
+    GoogleMaps,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptorServiceProvider,
+      multi: true
+    }
+    
   ]
 })
 export class AppModule {}
