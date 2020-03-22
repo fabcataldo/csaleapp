@@ -1,6 +1,8 @@
 import { Comments } from '../models/comments';
 import { HttpClient, HttpHeaders} from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import {Observable} from 'rxjs/Observable';
+import { map } from 'rxjs/operators';
 
 /*
   Generated class for the CommentsServiceProvider provider.
@@ -15,72 +17,32 @@ export class CommentsServiceProvider {
     console.log('Hello CommentsServiceProvider Provider');
   }
 
-  getComments(token) {
-    return new Promise ( resolve => {
-      this.http.get<Comments>('http://192.168.0.16:3000/api/comments', {
-        headers: new HttpHeaders().set('Authorization', token)
-      })
-      .subscribe( data=>{
-        resolve(data);
-      }, err=>{
-        console.log(err);
-      });
-    })
+  getComments():Observable<Comments[]> {
+    return this.http
+      .get<Comments>('http://192.168.0.16:3000/api/comments')
+      .pipe(map(this.mapComments))
+  }
+  
+  mapComments(res:any){
+    return (res) ? res.map((comment)=>new Comments(comment)) : res.map((comment)=>new Comments(comment));
   }
 
-  getComment(id, token){
-    return new Promise(resolve => {
-      this.http.get<Comments>('http://192.168.0.16:3000/api/comments/'+id, {
-        headers: new HttpHeaders().set('Authorization', token)
-      })
-        .subscribe(res => {
-          resolve(res);
-        }, (err) => {
-          console.log(err);
-        });
-      }
-    )
+  getComment(id): Observable<Comments>{
+    return this.http
+      .get<Comments>('http://192.168.0.16:3000/api/comments/'+id)
   }
 
-  deleteComment(id, token){
-    return new Promise(resolve => {
-      this.http.delete('http://192.168.0.16:3000/api/comments/'+id, {
-        headers: new HttpHeaders().set('Authorization', token)
-      })
-        .subscribe(res => {
-          resolve(res);
-        }, (err) => {
-          console.log(err);
-        });
-      }
-    )
+  deleteComment(id): Observable<Comments>{
+    return this.http
+      .delete<Comments>('http://192.168.0.16:3000/api/comments/'+id)
   }
 
-  postComment(comment, token) {
-    return new Promise(resolve => {
-      this.http.post('http://192.168.0.16:3000/api/comments', JSON.stringify(comment), {
-        headers: new HttpHeaders().set('Authorization', token)
-      })
-        .subscribe(res => {
-          resolve(res);
-        }, (err) => {
-          console.log(err);
-        });
-      }
-    )
+  postComment(comment): Observable<Comments> {
+    console.log(comment)
+    return this.http.post<Comments>('http://192.168.0.78:3000/api/comments', comment)
   }
 
-  putComment(comment, id, token){
-    return new Promise(resolve => {
-      this.http.put<Comments>('http://192.168.0.16:3000/api/comments/'+id, comment, {
-        headers: new HttpHeaders().set('Authorization', token)
-      })
-        .subscribe(res => {
-          resolve(res);
-        }, (err) => {
-          console.log(err);
-        });
-      }
-    )
+  putComment(comment, id): Observable<Comments>{
+    return this.http.put<Comments>('http://192.168.0.78:3000/api/comments/'+id, comment)
   }
 }

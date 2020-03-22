@@ -1,6 +1,8 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Places } from '../models/places';
+import {Observable} from 'rxjs/Observable';
+import { map } from 'rxjs/operators';
 
 /*
   Generated class for the PlacesServiceProvider provider.
@@ -15,38 +17,24 @@ export class PlacesServiceProvider {
     console.log('Hello PlacesServiceProvider Provider');
   }
 
-  getPlaces(token) {
-    return new Promise ( resolve => {
-      this.http.get<Places>('http://192.168.0.16:3000/api/places', {
-        headers: new HttpHeaders().set('Authorization', token)
-      })
-      .subscribe( data=>{
-        resolve(data);
-      }, err=>{
-        console.log(err);
-      });
-    })
+  getPlaces(): Observable<Places[]> {
+    return this.http
+      .get('http://192.168.0.78:3000/api/places')
+      .pipe(map(this.mapPlaces))
   }
 
-  getPlace(id, token){
-    return new Promise(resolve => {
-      this.http.get<Places>('http://192.168.0.16:3000/api/places/'+id, {
-        headers: new HttpHeaders().set('Authorization', token)
-      })
-        .subscribe(res => {
-          resolve(res);
-        }, (err) => {
-          console.log(err);
-        });
-      }
-    )
+  mapPlaces(res:any){
+    return (res) ? res.map((place)=>new Places(place)) : res.map((place)=>new Places(place));
   }
 
-  getTicketsPlace(id, token, validDateTicketFrom){
+  getPlace(id): Observable<Places>{
+    return this.http
+      .get<Places>('http://192.168.0.16:3000/api/places/'+id)
+  }
+
+  getTicketsPlace(id, validDateTicketFrom){
     return new Promise(resolve => {
-      this.http.get<Places>('http://192.168.0.16:3000/api/places/tickets'+id+'/'+validDateTicketFrom, {
-        headers: new HttpHeaders().set('Authorization', token)
-      })
+      this.http.get<Places>('http://192.168.0.16:3000/api/places/tickets'+id+'/'+validDateTicketFrom)
         .subscribe(res => {
           resolve(res);
         }, (err) => {

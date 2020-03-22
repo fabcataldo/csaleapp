@@ -17,9 +17,7 @@ export class UserServiceProvider {
 
   getUsers(token) {
     return new Promise ( resolve => {
-      this.http.get<Users>('http://192.168.0.28:3000/api/users', {
-        headers: new HttpHeaders().set('Authorization', token)
-      })
+      this.http.get<Users>('http://192.168.0.28:3000/api/users')
       .subscribe( data=>{
         resolve(data);
       }, err=>{
@@ -30,9 +28,7 @@ export class UserServiceProvider {
 
   getUser(id, token){
     return new Promise(resolve => {
-      this.http.get<Users>('http://192.168.0.78:3000/api/users/'+id, {
-        headers: new HttpHeaders().set('Authorization', token)
-      })
+      this.http.get<Users>('http://192.168.0.78:3000/api/users/'+id)
         .subscribe(res => {
           resolve(res);
         }, (err) => {
@@ -44,9 +40,7 @@ export class UserServiceProvider {
 
   deleteUser(id, token){
     return new Promise(resolve => {
-      this.http.delete('https://192.168.0.16:3000/api/users/'+id, {
-        headers: new HttpHeaders().set('Authorization', token)
-      })
+      this.http.delete('https://192.168.0.16:3000/api/users/'+id)
         .subscribe(res => {
           resolve(res);
         }, (err) => {
@@ -70,9 +64,7 @@ export class UserServiceProvider {
 
   putUser(comment, id, token){
     return new Promise(resolve => {
-      this.http.put<Users>('http://192.168.0.16:3000/api/users/'+id, comment, {
-        headers: new HttpHeaders().set('Authorization', token)
-      })
+      this.http.put<Users>('http://192.168.0.16:3000/api/users/'+id, comment)
         .subscribe(res => {
           resolve(res);
         }, (err) => {
