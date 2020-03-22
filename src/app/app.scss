@@ -1,6 +1,4 @@
 // http://ionicframework.com/docs/theming/
-
-
 // App Global Sass
 // --------------------------------------------------
 // Put style rules here that you want to apply globally. These
@@ -14,25 +12,23 @@
 // To declare rules for a specific mode, create a child rule
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
-
 ion-icon {
     &[class*="custom-"] {
-      mask-size: contain;
-      mask-position: 50% 50%;
-      mask-repeat: no-repeat;
-      background: currentColor;
-      width: 2rem;
-      height: 2rem;
+        mask-size: contain;
+        mask-position: 50% 50%;
+        mask-repeat: no-repeat;
+        background: currentColor;
+        width: 2rem;
+        height: 2rem;
     }
-  
     &[class*="custom-shopping-cart"] {
-      mask-image: url(../assets/buy-icon.svg);
+        mask-image: url(../assets/buy-icon.svg);
     }
     &[class*="custom-discount-label"] {
-      mask-image: url(../assets/discount-label.svg);
+        mask-image: url(../assets/discount-label.svg);
     }
     &[class*="custom-logout"] {
-      mask-image: url(../assets/logout.svg);
+        mask-image: url(../assets/logout.svg);
     }
     &[class*="custom-party"] {
         mask-image: url(../assets/party.svg);
@@ -40,48 +36,50 @@ ion-icon {
     &[class*="custom-account"] {
         mask-image: url(../assets/imgs/2113250.svg);
     }
-        
-  }
+}
 
-h1, h2, h3{
+h1,
+h2,
+h3 {
     font-family: Roboto;
-    color:white;
+    color: white;
 }
 
-h1{
+ion-title {
+    color: white;
+}
+
+h1 {
     font-size: 2rem;
-    font-weight:bold;
+    font-weight: bold;
 }
 
-ion-navbar{
+ion-navbar {
     background-color: #6200ee
 }
 
-
-h2{
+h2 {
     font-size: 1.5rem;
-    color:white;
+    color: white;
 }
 
-h3{
+h3 {
     font-size: 1.2rem;
-    color:white;
+    color: white;
 }
 
-.button{
+.button {
     text-transform: none;
 }
 
-.oneButtons{
+.oneButtons {
     //se alinea el botón al centro
     margin: 0 auto;
-    display:block;
-
+    display: block;
     //de acerudo a donde lo quieras poner al botón, lo bajás al botón tanto como quieras
     margin-top: 10%;
-
     //estilo del botón en sí
-    font-size: 1.25rem;  
-    height:3rem; 
-    width:14rem;
+    font-size: 1.25rem;
+    height: 3rem;
+    width: 14rem;
 }
