@@ -3,7 +3,6 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { HomePage } from '../home/home';
 import { UserServiceProvider } from '../../providers/user-service';
-import { Storage } from '@ionic/storage';
 import { RegisterPage } from '../register/register';
 import * as firebase from 'firebase/app';
 import { AngularFireAuth } from '@angular/fire/auth';
@@ -25,14 +24,14 @@ import { Facebook } from '@ionic-native/facebook/ngx';
 })
 export class LoginPage {
   userOAuth: any;
-  tokenUserOAuth: String;
+  tokenUserOAuth: string;
   loginForm: FormGroup;
   user: any;
   loggedIn: boolean;
   FB_APP_ID: number = 326509618306218;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private formBuilder: FormBuilder,
-    private UserService: UserServiceProvider, public storage: Storage,
+    private UserService: UserServiceProvider,
     private afAuth: AngularFireAuth,
     private gplus: GooglePlus, private platform: Platform,
     private fb: Facebook
@@ -58,8 +57,9 @@ export class LoginPage {
     await this.UserService.loginUser(data)
       .then((data) => {
         this.user = data;
-        this.storage.set('user', this.user.user);
-        this.storage.set('token', this.user.token);
+
+        localStorage.setItem('user', this.user.user)
+        localStorage.setItem('token', this.user.token)
         this.navCtrl.setRoot(HomePage);
       })
       .catch((err) => {
@@ -72,8 +72,9 @@ export class LoginPage {
       .then((res: any) => {
         this.userOAuth = res.user;
         this.tokenUserOAuth = res.token;
-        this.storage.set('userOAuth', this.userOAuth);
-        this.storage.set('token', this.tokenUserOAuth);
+
+        localStorage.setItem('user', JSON.stringify(this.userOAuth))
+        localStorage.setItem('token', JSON.stringify(this.tokenUserOAuth));
         this.navCtrl.setRoot(HomePage);
       })
       .catch((err) => {
@@ -105,6 +106,7 @@ export class LoginPage {
 
   async nativeGoogleLogin(): Promise<void> {
     try {
+      let userAuth = null;
       const gplusUser = await this.gplus.login({
         'webClientId': '979369541957-fg74ign642oj0dv66jonrmpkp45rj3ka.apps.googleusercontent.com',
         'offline': true,
@@ -113,7 +115,18 @@ export class LoginPage {
 
       const credential = await this.afAuth.auth.signInWithCredential(
         firebase.auth.GoogleAuthProvider.credential(gplusUser.idToken)
+        
       )
+      .then((result) => {
+        userAuth = {
+          name: result.user.displayName.split(" ")[0],
+          surname: result.user.displayName.split(" ")[1], email: result.user.email,
+          password: '', role: null, loggedWithOAuth2: true
+        };
+      });
+    this.userOAuth = userAuth
+    this.saveOAuthUser();
+      
     } catch (err) {
       console.log(err)
     }
