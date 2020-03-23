@@ -38,7 +38,6 @@ export class CommentsServiceProvider {
   }
 
   postComment(comment): Observable<Comments> {
-    console.log(comment)
     return this.http.post<Comments>('http://192.168.0.78:3000/api/comments', comment)
   }
 
