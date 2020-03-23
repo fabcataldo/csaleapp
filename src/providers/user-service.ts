@@ -1,6 +1,7 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Users } from '../models/users';
+import {Observable} from 'rxjs/Observable';
 
 /*
   Generated class for the UserServiceProvider provider.
@@ -12,79 +13,25 @@ import { Users } from '../models/users';
 export class UserServiceProvider {
 
   constructor(public http: HttpClient) {
-    console.log('Hello UserServiceProvider Provider');
   }
 
-  getUsers(token) {
-    return new Promise ( resolve => {
-      this.http.get<Users>('http://192.168.0.28:3000/api/users')
-      .subscribe( data=>{
-        resolve(data);
-      }, err=>{
-        console.log(err);
-      });
-    })
+  getUser(id): Observable<Users>{
+    return this.http.get<Users>('http://192.168.0.78:3000/api/users/'+id)
   }
 
-  getUser(id, token){
-    return new Promise(resolve => {
-      this.http.get<Users>('http://192.168.0.78:3000/api/users/'+id)
-        .subscribe(res => {
-          resolve(res);
-        }, (err) => {
-          console.log(err);
-        });
-      }
-    )
+  deleteUser(id): Observable<Users>{
+    return this.http.delete<Users>('https://192.168.0.78:3000/api/users/'+id)
   }
 
-  deleteUser(id, token){
-    return new Promise(resolve => {
-      this.http.delete('https://192.168.0.16:3000/api/users/'+id)
-        .subscribe(res => {
-          resolve(res);
-        }, (err) => {
-          console.log(err);
-        });
-      }
-    )
+  postUser(user): Observable<Users> {
+    return this.http.post<Users>('http://192.168.0.78:3000/api/users', user)
   }
 
-  postUser(user) {
-    return new Promise(resolve => {
-      this.http.post('http://192.168.0.78:3000/api/users', user, {})
-        .subscribe(res => {
-          resolve(res);
-        }, (err) => {
-          console.log(err);
-        });
-      }
-    )
+  putUser(comment, id): Observable<Users>{
+    return this.http.put<Users>('http://192.168.0.78:3000/api/users/'+id, comment)
   }
 
-  putUser(comment, id, token){
-    return new Promise(resolve => {
-      this.http.put<Users>('http://192.168.0.16:3000/api/users/'+id, comment)
-        .subscribe(res => {
-          resolve(res);
-        }, (err) => {
-          console.log(err);
-        });
-      }
-    )
-  }
-
-  loginUser(user){
-    //en user debo enviar el email y el password
-    return new Promise(resolve => {
-      this.http.post('http://192.168.0.78:3000/api/login', user, {})
-        .subscribe(res => {
-          //devuelve los datos del usuario logeado y el token
-          resolve(res);
-        }, (err) => {
-          console.log(err);
-        });
-      }
-    )
+  loginUser(user): Observable<Users>{
+    return this.http.post<Users>('http://192.168.0.78:3000/api/login', user)
   }
 }
