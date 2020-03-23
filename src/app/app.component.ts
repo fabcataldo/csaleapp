@@ -15,7 +15,7 @@ export class MyApp {
   rootPage:any
 
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {
-   let valueToken = localStorage.getItem('token')    
+   let valueToken = JSON.parse(localStorage.getItem('token'))
      if(valueToken)
       this.rootPage = HomePage;
     else

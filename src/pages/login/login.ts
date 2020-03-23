@@ -54,32 +54,30 @@ export class LoginPage {
   get formFields() { return this.loginForm.controls; }
 
   async onClickSubmit(data) {
-    await this.UserService.loginUser(data)
-      .then((data) => {
+    await this.UserService.loginUser(data).subscribe((data) => {
         this.user = data;
 
-        localStorage.setItem('user', this.user.user)
-        localStorage.setItem('token', this.user.token)
+        localStorage.setItem('user', JSON.stringify(this.user.user))
+        localStorage.setItem('token', JSON.stringify(this.user.token))
         this.navCtrl.setRoot(HomePage);
-      })
-      .catch((err) => {
+      }),
+      (err) => {
         console.log(err);
-      });
+      };
   }
 
   saveOAuthUser() {
-    this.UserService.postUser(this.userOAuth)
-      .then((res: any) => {
+    this.UserService.postUser(this.userOAuth).subscribe((res: any) => {
         this.userOAuth = res.user;
         this.tokenUserOAuth = res.token;
 
         localStorage.setItem('user', JSON.stringify(this.userOAuth))
         localStorage.setItem('token', JSON.stringify(this.tokenUserOAuth));
         this.navCtrl.setRoot(HomePage);
-      })
-      .catch((err) => {
+      }),
+      (err) => {
         console.log(err)
-      })
+      }
   }
 
   goToRegisterPage() {
