@@ -41,7 +41,6 @@ export class UpdatePlacePage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad UpdatePlacePage');
     this.getPlaces();
   }
 
@@ -53,13 +52,6 @@ export class UpdatePlacePage {
     })
   }
 
-  /*
-  placeChange(event){
-    this.selectedPlace = event.value;
-    console.log(this.selectedPlace);
-  }
-  */
-
   async getPlaces(){
     await this.PlacesService.getPlaces().subscribe((places)=>{
       this.places = places;
@@ -70,11 +62,9 @@ export class UpdatePlacePage {
   }
   
   async onClickSubmit(data){
-    console.log(data)
-
     let newComment = new Comments();
     newComment.comment = data.comment;
-    newComment.place = this.updatePlaceForm.get('selectedPlace').value;
+    newComment.place = this.selectedPlace;
     newComment.qualification = data.rating;
     newComment.user = JSON.parse(localStorage.getItem('user'));
     console.log(newComment)
@@ -86,15 +76,4 @@ export class UpdatePlacePage {
       console.log(err)
     }
   }
-
-
-  /*
-  ratingChange(event){
-    this.rating = event.value;
-  }
-
-  textAreaChange(event){
-    this.comment = event.value;
-  }
-  */
 }
