@@ -49,7 +49,10 @@ export class UpdatePlacePage {
 
     selectedPlaceControl.valueChanges.subscribe((value)=>{
         this.selectedPlace = value
-    })
+    }),
+    (err)=>{
+      console.log(err)
+    }
   }
 
   async getPlaces(){
