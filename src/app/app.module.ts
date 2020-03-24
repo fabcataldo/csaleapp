@@ -26,6 +26,8 @@ import { GoogleMaps } from '@ionic-native/google-maps';
 import { IonicSelectableModule } from 'ionic-selectable';
 import { AuthInterceptorServiceProvider } from '../providers/auth-interceptor-service';
 import { StarRatingModule } from 'ionic3-star-rating';
+import { MyProfilePage } from '../pages/my-profile/my-profile';
+import { UpdateAccountPage } from '../pages/update-account/update-account'; 
 
 const firebaseConfig = {
   apiKey: "AIzaSyDX2SigUNlJ_UiHX_DEQ6NvNFDvXBgcF0g",
@@ -47,6 +49,8 @@ const firebaseConfig = {
     BenefitsAvailablePage,
     PurchasesMadePage,
     UpdatePlacePage,
+    MyProfilePage,
+    UpdateAccountPage
   ],
   imports: [
     BrowserModule,
@@ -66,6 +70,8 @@ const firebaseConfig = {
     BenefitsAvailablePage,
     PurchasesMadePage,
     UpdatePlacePage,
+    MyProfilePage,
+    UpdateAccountPage
   ],
   providers: [
     StatusBar,

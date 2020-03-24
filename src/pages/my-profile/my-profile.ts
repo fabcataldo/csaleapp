@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { AlertController } from 'ionic-angular';
 import { UserServiceProvider } from '../../providers/user-service';
 import { LoginPage } from '../login/login';
+import { UpdateAccountPage } from '../update-account/update-account';
 
 /**
  * Generated class for the MyProfilePage page.
@@ -22,8 +23,14 @@ export class MyProfilePage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams, 
       private AlertController: AlertController, private UserService: UserServiceProvider) {
-    this.usrNameSurname = JSON.parse(localStorage.getItem('user')).name+' '+JSON.parse(localStorage.getItem('user')).surname;
-    this.usrEmail = JSON.parse(localStorage.getItem('user')).email;
+        if (this.navParams.get('email') && this.navParams.get('name') && this.navParams.get('surname') ) {
+          this.usrNameSurname = this.navParams.get('name')+' '+this.navParams.get('surname');
+          this.usrEmail = this.navParams.get('email');
+        }
+        else{
+          this.usrNameSurname = JSON.parse(localStorage.getItem('user')).name+' '+JSON.parse(localStorage.getItem('user')).surname;
+          this.usrEmail = JSON.parse(localStorage.getItem('user')).email;
+        }
   }
 
   ionViewDidLoad() {
@@ -54,7 +61,7 @@ export class MyProfilePage {
   }
 
   goToUpdateAccountPage(){
-
+    this.navCtrl.push(UpdateAccountPage);
   }
 
   deleteAccount(){
