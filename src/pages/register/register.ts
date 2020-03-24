@@ -29,10 +29,6 @@ export class RegisterPage {
       })    
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad RegisterPage');
-  }
-
   get formFields() { return this.registerForm.controls; }
 
   async onClickSubmit(data){
