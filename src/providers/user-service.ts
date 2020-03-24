@@ -27,8 +27,8 @@ export class UserServiceProvider {
     return this.http.post<Users>('http://192.168.0.78:3000/api/users', user)
   }
 
-  putUser(comment, id): Observable<Users>{
-    return this.http.put<Users>('http://192.168.0.78:3000/api/users/'+id, comment)
+  putUser(id, user): Observable<any>{
+    return this.http.put<Users>('http://192.168.0.78:3000/api/users/'+id, user)
   }
 
   loginUser(user): Observable<Users>{
