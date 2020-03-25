@@ -1,6 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Roles } from '../models/roles';
+import { Global } from '../utils/global';
+import {Observable} from 'rxjs/Observable';
+import { map } from 'rxjs/operators';
 
 /*
   Generated class for the RolesServiceProvider provider.
@@ -15,30 +18,15 @@ export class RolesServiceProvider {
     console.log('Hello RolesServiceProvider Provider');
   }
 
-  getRoles(token) {
-    return new Promise ( resolve => {
-      this.http.get<Roles>('http://192.168.0.16:3000/api/roles', {
-        headers: new HttpHeaders().set('Authorization', token)
-      })
-      .subscribe( data=>{
-        resolve(data);
-      }, err=>{
-        console.log(err);
-      });
-    })
+  getRoles():Observable<Roles[]> {
+    return this.http.get<Roles>(Global.SRV+Global.URL_API+'/roles').pipe(map(this.mapRoles))
   }
 
-  getRole(id, token){
-    return new Promise(resolve => {
-      this.http.get<Roles>('http://192.168.0.16:3000/api/roles/'+id, {
-        headers: new HttpHeaders().set('Authorization', token)
-      })
-        .subscribe(res => {
-          resolve(res);
-        }, (err) => {
-          console.log(err);
-        });
-      }
-    )
+  mapRoles(res:any){
+    return (res) ? res.map((role)=>new Roles(role)) : res.map((role)=>new Roles(role));
+  }
+
+  getRole(id): Observable<Roles>{
+    return this.http.get<Roles>(Global.SRV+Global.URL_API+'/roles/'+id)
   }
 }

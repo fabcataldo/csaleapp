@@ -1,6 +1,9 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Products } from '../models/products';
+import { Global } from '../utils/global';
+import {Observable} from 'rxjs/Observable';
+import { map } from 'rxjs/operators';
 
 /*
   Generated class for the ProductsServiceProvider provider.
@@ -15,30 +18,14 @@ export class ProductsServiceProvider {
     console.log('Hello ProductsServiceProvider Provider');
   }
 
-  getProducts(token) {
-    return new Promise ( resolve => {
-      this.http.get<Products>('http://192.168.0.16:3000/api/products', {
-        headers: new HttpHeaders().set('Authorization', token)
-      })
-      .subscribe( data=>{
-        resolve(data);
-      }, err=>{
-        console.log(err);
-      });
-    })
+  getProducts():Observable<Products[]> {
+    return this.http.get<Products>(Global.SRV+Global.URL_API+'/products').pipe(map(this.mapProducts))
+  }
+  mapProducts(res:any){
+    return (res) ? res.map((product)=>new Products(product)) : res.map((product)=>new Products(product));
   }
 
-  getProduct(id, token){
-    return new Promise(resolve => {
-      this.http.get<Products>('http://192.168.0.16:3000/api/products/'+id, {
-        headers: new HttpHeaders().set('Authorization', token)
-      })
-        .subscribe(res => {
-          resolve(res);
-        }, (err) => {
-          console.log(err);
-        });
-      }
-    )
+  getProduct(id):Observable<Products>{
+    return this.http.get<Products>(Global.SRV+Global.URL_API+'/products/'+id)
   }
 }

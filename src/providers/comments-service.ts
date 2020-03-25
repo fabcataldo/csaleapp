@@ -1,8 +1,9 @@
 import { Comments } from '../models/comments';
-import { HttpClient, HttpHeaders} from '@angular/common/http';
+import { HttpClient} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import { map } from 'rxjs/operators';
+import { Global } from '../utils/global';
 
 /*
   Generated class for the CommentsServiceProvider provider.
@@ -19,7 +20,7 @@ export class CommentsServiceProvider {
 
   getComments():Observable<Comments[]> {
     return this.http
-      .get<Comments>('http://192.168.0.16:3000/api/comments')
+      .get<Comments>(Global.SRV+Global.URL_API+'/comments')
       .pipe(map(this.mapComments))
   }
   
@@ -29,19 +30,19 @@ export class CommentsServiceProvider {
 
   getComment(id): Observable<Comments>{
     return this.http
-      .get<Comments>('http://192.168.0.16:3000/api/comments/'+id)
+      .get<Comments>(Global.SRV+Global.URL_API+'/comments/'+id)
   }
 
   deleteComment(id): Observable<Comments>{
     return this.http
-      .delete<Comments>('http://192.168.0.16:3000/api/comments/'+id)
+      .delete<Comments>(Global.SRV+Global.URL_API+'/comments/'+id)
   }
 
   postComment(comment): Observable<Comments> {
-    return this.http.post<Comments>('http://192.168.0.78:3000/api/comments', comment)
+    return this.http.post<Comments>(Global.SRV+Global.URL_API+'/comments', comment)
   }
 
   putComment(comment, id): Observable<Comments>{
-    return this.http.put<Comments>('http://192.168.0.78:3000/api/comments/'+id, comment)
+    return this.http.put<Comments>(Global.SRV+Global.URL_API+'/comments/'+id, comment)
   }
 }

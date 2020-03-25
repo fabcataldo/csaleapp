@@ -1,6 +1,9 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Tickets } from '../models/tickets';
+import { Global } from '../utils/global';
+import {Observable} from 'rxjs/Observable';
+import { map } from 'rxjs/operators';
 
 /*
   Generated class for the TicketsServiceProvider provider.
@@ -15,44 +18,19 @@ export class TicketsServiceProvider {
     console.log('Hello TicketsServiceProvider Provider');
   }
 
-  getTickets(token) {
-    return new Promise ( resolve => {
-      this.http.get<Tickets>('http://192.168.0.16:3000/api/tickets', {
-        headers: new HttpHeaders().set('Authorization', token)
-      })
-      .subscribe( data=>{
-        resolve(data);
-      }, err=>{
-        console.log(err);
-      });
-    })
+  getTickets(): Observable<Tickets[]> {
+    return this.http.get<Tickets[]>(Global.SRV+Global.URL_API+'/tickets').pipe(map(this.mapTickets))
+  }
+    
+  mapTickets(res:any){
+    return (res) ? res.map((ticket)=>new Tickets(ticket)) : res.map((ticket)=>new Tickets(ticket));
   }
 
-  getTicket(id, token){
-    return new Promise(resolve => {
-      this.http.get<Tickets>('http://192.168.0.16:3000/api/tickets/'+id, {
-        headers: new HttpHeaders().set('Authorization', token)
-      })
-        .subscribe(res => {
-          resolve(res);
-        }, (err) => {
-          console.log(err);
-        });
-      }
-    )
+  getTicket(id): Observable<Tickets>{
+    return this.http.get<Tickets>(Global.SRV+Global.URL_API+'/tickets/'+id)
   }
   
-  postTicket(ticket, token) {
-    return new Promise(resolve => {
-      this.http.post('http://192.168.0.16:3000/api/tickets', JSON.stringify(ticket), {
-        headers: new HttpHeaders().set('Authorization', token)
-      })
-        .subscribe(res => {
-          resolve(res);
-        }, (err) => {
-          console.log(err);
-        });
-      }
-    )
+  postTicket(ticket): Observable<Tickets> {
+    return this.http.post<Tickets>(Global.SRV+Global.URL_API+'/tickets', JSON.stringify(ticket))
   }
 }
