@@ -2,6 +2,7 @@ import { HttpClient} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Users } from '../models/users';
 import {Observable} from 'rxjs/Observable';
+import { Global } from '../utils/global';
 
 /*
   Generated class for the UserServiceProvider provider.
@@ -16,22 +17,22 @@ export class UserServiceProvider {
   }
 
   getUser(id): Observable<Users>{
-    return this.http.get<Users>('http://192.168.0.78:3000/api/users/'+id)
+    return this.http.get<Users>(Global.SRV+Global.URL_API+'/users/'+id)
   }
 
   deleteUser(id): Observable<Users>{
-    return this.http.delete<Users>('http://192.168.0.78:3000/api/users/'+id)
+    return this.http.delete<Users>(Global.SRV+Global.URL_API+'/users/'+id)
   }
 
   postUser(user): Observable<Users> {
-    return this.http.post<Users>('http://192.168.0.78:3000/api/users', user)
+    return this.http.post<Users>(Global.SRV+Global.URL_API+'/users', user)
   }
 
   putUser(id, user): Observable<any>{
-    return this.http.put<Users>('http://192.168.0.78:3000/api/users/'+id, user)
+    return this.http.put<Users>(Global.SRV+Global.URL_API+'/users/'+id, user)
   }
 
   loginUser(user): Observable<Users>{
-    return this.http.post<Users>('http://192.168.0.78:3000/api/login', user)
+    return this.http.post<Users>(Global.SRV+Global.URL_API+'/login', user)
   }
 }
