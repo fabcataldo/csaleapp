@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { IonicPage, NavController, NavParams,  Navbar } from 'ionic-angular';
 import { AlertController } from 'ionic-angular';
 import { UserServiceProvider } from '../../providers/user-service';
 import { LoginPage } from '../login/login';
 import { UpdateAccountPage } from '../update-account/update-account';
+import { HomePage } from '../home/home';
 
 /**
  * Generated class for the MyProfilePage page.
@@ -21,8 +22,10 @@ export class MyProfilePage {
   usrNameSurname: string;
   usrEmail: string;
 
+  @ViewChild(Navbar) navBar: Navbar;
   constructor(public navCtrl: NavController, public navParams: NavParams, 
-      private AlertController: AlertController, private UserService: UserServiceProvider) {
+      private AlertController: AlertController, private UserService: UserServiceProvider
+      ) {
         if (this.navParams.get('email') && this.navParams.get('name') && this.navParams.get('surname') ) {
           this.usrNameSurname = this.navParams.get('name')+' '+this.navParams.get('surname');
           this.usrEmail = this.navParams.get('email');
@@ -33,8 +36,16 @@ export class MyProfilePage {
         }
   }
 
+  backButtonHandler(){
+    this.navCtrl.setRoot(HomePage);
+  }
+
   ionViewDidLoad() {
     console.log('ionViewDidLoad MyProfilePage');
+  }
+
+  ionViewDidEnter(){
+    this.navBar.backButtonClick = this.backButtonHandler;
   }
 
   showConfirmDialog(){
