@@ -20,7 +20,7 @@ export class UserServiceProvider {
   }
 
   deleteUser(id): Observable<Users>{
-    return this.http.delete<Users>('https://192.168.0.78:3000/api/users/'+id)
+    return this.http.delete<Users>('http://192.168.0.78:3000/api/users/'+id)
   }
 
   postUser(user): Observable<Users> {
