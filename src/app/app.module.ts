@@ -12,7 +12,6 @@ import { PlacesServiceProvider } from '../providers/places-service';
 import { TicketsServiceProvider } from '../providers/tickets-service';
 import { ProductsServiceProvider } from '../providers/products-service';
 import { RolesServiceProvider } from '../providers/roles-service';
-import { PrivilegesServiceProvider } from '../providers/privileges-service';
 import { LoginPage } from '../pages/login/login';
 import { RegisterPage } from '../pages/register/register';
 import { AngularFireModule } from 'angularfire2';
@@ -83,7 +82,6 @@ const firebaseConfig = {
     TicketsServiceProvider,
     ProductsServiceProvider,
     RolesServiceProvider,
-    PrivilegesServiceProvider,
     GooglePlus,
     Facebook,
     GoogleMaps,
