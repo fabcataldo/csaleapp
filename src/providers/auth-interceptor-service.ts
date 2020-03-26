@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
+import { Global } from '../utils/global';
 
 /*
   Generated class for the AuthInterceptorServiceProvider provider.
@@ -19,11 +20,12 @@ export class AuthInterceptorServiceProvider implements HttpInterceptor{
       let request = req;  
       let newHeaders = request.headers;
       this.token = JSON.parse(localStorage.getItem('token'));
-        newHeaders = newHeaders.append('authorization', `${ this.token }`);
+      newHeaders = newHeaders.append('authorization', `${ this.token }`);
         
-        request = req.clone({
-          headers: newHeaders
-        })
+      request = req.clone({
+        headers: newHeaders
+      })
+      Global.USER_TOKEN = this.token;
       console.log(request);
       return next.handle(request);
     
