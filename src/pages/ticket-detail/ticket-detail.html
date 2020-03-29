@@ -40,7 +40,7 @@
                                         Descripción
                                     </ion-col>
                                     <ion-col>
-                                        Precio unitario
+                                        Precio
                                     </ion-col>
                                     <ion-col>
                                         Cantidad
@@ -61,8 +61,31 @@
                         </ion-item>
                     </ion-list>
                 </ion-item>
+                <ion-item no-lines text-wrap style="margin-bottom: -10px; margin-top: -10px">
+                    Validez: {{ticket.validDateFrom.getDate()}}/{{ticket.validDateFrom.getMonth()}} /{{ticket.validDateFrom.getFullYear()}} {{ticket.validDateFrom.getHours()}}:{{ticket.validDateFrom.getMinutes()}} - {{ticket.validDateTo.getDate()}}/{{ticket.validDateTo.getMonth()}}
+                    /{{ticket.validDateTo.getFullYear()}} {{ticket.validDateTo.getHours()}}:{{ticket.validDateTo.getMinutes()}}
+                </ion-item>
+                <ion-item no lines>
+                    Total: {{ticket.total}} ARS
+                </ion-item>
+                <ion-item no lines>
+                    Pagaste con:
+                    <ion-grid *ngFor="let paymentMethod of ticket.paymentMethods">
+                        <ion-row>
+                            - {{paymentMethod.name}}
+                        </ion-row>
+                        <ion-row>
+                            Abonaste: {{paymentMethod.amount_paid}} ARS
+                        </ion-row>
+                    </ion-grid>
+                </ion-item>
+                <div>
+                    Nota: cuando llegués a la entrada, mostrale al boletero/a o barman/barwoman este ticket, asi aprovechás tu compra!.
+                </div>
             </ion-list>
         </ion-card-content>
     </ion-card>
-
+    <button ion-button (tap)="downloadTicket()" class="oneButtons">
+        Imprimir
+    </button>
 </ion-content>
