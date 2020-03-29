@@ -26,7 +26,6 @@ export class AuthInterceptorServiceProvider implements HttpInterceptor{
         headers: newHeaders
       })
       Global.USER_TOKEN = this.token;
-      console.log(request);
       return next.handle(request);
     
   }
