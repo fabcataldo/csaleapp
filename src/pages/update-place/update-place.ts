@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { IonicSelectableModule } from 'ionic-selectable';
 import { Places } from '../../models/places';
 import { PlacesServiceProvider } from '../../providers/places-service';
 import { FormGroup, FormBuilder, Validators} from '@angular/forms';
