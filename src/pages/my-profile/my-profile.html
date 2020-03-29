@@ -24,7 +24,7 @@
             <ion-grid>
                 <ion-row>
                     <ion-col col-6>
-                        <button ion-button outline>
+                        <button ion-button outline [disabled]="disableUpdateAccount">
                           <p class="labels" (tap)="goToUpdateAccountPage()">
                             Actualizar datos
                           </p>

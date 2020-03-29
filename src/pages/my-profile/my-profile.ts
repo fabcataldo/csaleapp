@@ -21,6 +21,7 @@ import { HomePage } from '../home/home';
 export class MyProfilePage {
   usrNameSurname: string;
   usrEmail: string;
+  disableUpdateAccount: boolean;
 
   @ViewChild(Navbar) navBar: Navbar;
   constructor(public navCtrl: NavController, public navParams: NavParams, 
@@ -34,6 +35,7 @@ export class MyProfilePage {
           this.usrNameSurname = JSON.parse(localStorage.getItem('user')).name+' '+JSON.parse(localStorage.getItem('user')).surname;
           this.usrEmail = JSON.parse(localStorage.getItem('user')).email;
         }
+      this.disableUpdateAccount = JSON.parse(localStorage.getItem('user')).loggedWithOAuth2 ? true : false;
   }
 
   backButtonHandler(){
