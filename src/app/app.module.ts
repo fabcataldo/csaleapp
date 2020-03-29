@@ -27,6 +27,8 @@ import { AuthInterceptorServiceProvider } from '../providers/auth-interceptor-se
 import { StarRatingModule } from 'ionic3-star-rating';
 import { MyProfilePage } from '../pages/my-profile/my-profile';
 import { UpdateAccountPage } from '../pages/update-account/update-account'; 
+import { TicketDetailPage } from '../pages/ticket-detail/ticket-detail';
+
 
 const firebaseConfig = {
   apiKey: "AIzaSyDX2SigUNlJ_UiHX_DEQ6NvNFDvXBgcF0g",
@@ -49,7 +51,8 @@ const firebaseConfig = {
     PurchasesMadePage,
     UpdatePlacePage,
     MyProfilePage,
-    UpdateAccountPage
+    UpdateAccountPage,
+    TicketDetailPage
   ],
   imports: [
     BrowserModule,
@@ -70,7 +73,8 @@ const firebaseConfig = {
     PurchasesMadePage,
     UpdatePlacePage,
     MyProfilePage,
-    UpdateAccountPage
+    UpdateAccountPage,
+    TicketDetailPage
   ],
   providers: [
     StatusBar,
