@@ -33,4 +33,8 @@ export class TicketsServiceProvider {
   postTicket(ticket): Observable<Tickets> {
     return this.http.post<Tickets>(Global.SRV+Global.URL_API+'/tickets', JSON.stringify(ticket))
   }
+
+  getUserTickets(user): Observable<Tickets>{
+    return this.http.get<Tickets>(Global.SRV+Global.URL_API+'/tickets/'+user).pipe(map(this.mapTickets))
+  }
 }
