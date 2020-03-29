@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Tickets } from "../../models/tickets";
+import { TicketDetailPage } from '../ticket-detail/ticket-detail';
 
 /**
  * Generated class for the PurchasesPage page.
@@ -14,12 +16,20 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'purchases-made.html',
 })
 export class PurchasesMadePage {
+  public tickets: Tickets[];
+  public totalPurchase: number;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, 
+   ) {
+      this.tickets = this.navParams.get('tickets');
+      console.log(this.tickets);
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad PurchasesPage');
+  }
+
+  viewTicketDetail(ticket){
+    this.navCtrl.push(TicketDetailPage, {ticket: ticket});
   }
 
 }

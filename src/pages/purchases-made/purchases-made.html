@@ -5,11 +5,21 @@
   Ionic pages and navigation.
 -->
 <ion-header>
-  <ion-navbar>
-    <ion-title>purchases</ion-title>
-  </ion-navbar>
+    <ion-navbar color="primary">
+        <ion-title>Compras realizadas</ion-title>
+    </ion-navbar>
 </ion-header>
 
 <ion-content padding>
+    <div *ngFor="let ticket of tickets">
+        <ion-card (tap)="viewTicketDetail(ticket)">
+            <ion-item>
+                <ion-label>Fecha: {{ticket.dateOfPurchase.getDate()}}/{{ticket.dateOfPurchase.getMonth()}}/{{ticket.dateOfPurchase.getFullYear()}}</ion-label>
+            </ion-item>
 
+            <ion-card-content>
+                <ion-label>Total: ${{ticket.total}}</ion-label>
+            </ion-card-content>
+        </ion-card>
+    </div>
 </ion-content>
