@@ -144,28 +144,26 @@ export class LoginPage {
   }
 
   async webFacebookLogin(): Promise<void> {
+    console.log('FACAC')
+    var auth2 = this.afAuth
     try {
-      let user = null;
       var newUser = null;
+      
       const provider = new firebase.auth.FacebookAuthProvider();
-      const credential = await this.afAuth.auth.signInWithPopup(provider)
+      await this.afAuth.auth.signInWithPopup(provider)
         .then((result) => {
-          user = result.user;
-          result.user.getIdToken().then((token) => {
-            this.tokenUserOAuth = token
-          })
           newUser = {
             name: result.user.displayName.split(" ")[0],
-            surname: result.user.displayName.split(" ")[1], email: result.user.email,
+            surname: result.user.displayName.split(" ")[1], 
+            email: result.user.email ? result.user.email :
+              result.additionalUserInfo.profile ? result.additionalUserInfo.profile['email'] : null,
             password: '', role: null, loggedWithOAuth2: true
           };
         });
-      this.userOAuth = newUser;
-      this.saveOAuthUser();
-
-    } catch (err) {
-      console.log(err);
-      this.afAuth.auth.signOut()
+        this.userOAuth = newUser;
+        this.saveOAuthUser();
+    } catch (error) {
+      console.log(error)
     }
   }
 
@@ -175,14 +173,12 @@ export class LoginPage {
       const provider = new firebase.auth.GoogleAuthProvider();
       const credential = await this.afAuth.auth.signInWithPopup(provider)
         .then((result) => {
+          console.log(result)
           userAuth = {
             name: result.user.displayName.split(" ")[0],
             surname: result.user.displayName.split(" ")[1], email: result.user.email,
             password: '', role: null, loggedWithOAuth2: true
           };
-
-          //var credential2 = result.credential as firebase.auth.OAuthCredential       
-          //this.tokenUserOAuth = credential2.accessToken;
         });
       this.userOAuth = userAuth
       this.saveOAuthUser();
