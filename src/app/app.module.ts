@@ -16,8 +16,8 @@ import { LoginPage } from '../pages/login/login';
 import { RegisterPage } from '../pages/register/register';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuthModule } from 'angularfire2/auth';
-import { GooglePlus } from '@ionic-native/google-plus/ngx';
-import { Facebook } from '@ionic-native/facebook/ngx';
+import { GooglePlus } from '@ionic-native/google-plus';
+import { Facebook } from '@ionic-native/facebook';
 import { BenefitsAvailablePage } from '../pages/benefits-available/benefits-available';
 import { UpdatePlacePage } from '../pages/update-place/update-place';
 import { PurchasesMadePage } from '../pages/purchases-made/purchases-made';
@@ -28,6 +28,8 @@ import { StarRatingModule } from 'ionic3-star-rating';
 import { MyProfilePage } from '../pages/my-profile/my-profile';
 import { UpdateAccountPage } from '../pages/update-account/update-account'; 
 import { TicketDetailPage } from '../pages/ticket-detail/ticket-detail';
+import { File } from '@ionic-native/file';
+import { FileOpener } from '@ionic-native/file-opener';
 
 
 const firebaseConfig = {
@@ -93,8 +95,9 @@ const firebaseConfig = {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptorServiceProvider,
       multi: true
-    }
-    
+    },
+    File,
+    FileOpener,
   ]
 })
 export class AppModule {}
