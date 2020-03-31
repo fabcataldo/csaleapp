@@ -11,80 +11,82 @@
 </ion-header>
 
 <ion-content padding>
-    <ion-card>
-        <ion-item no-lines>
-            <h1 style="color:black; text-align:center; ">
-                CSaleApp
-            </h1>
-            <h2 style="color:black; text-align:center;">
-                Recibo
-            </h2>
-            <h3 style="color:black; text-align:center;">
-                Código de compra: <br>{{ticket._id}}
-            </h3>
-        </ion-item>
+    <div id="Html2Pdf">
+        <ion-card>
+            <ion-item no-lines>
+                <h1 style="color:black; text-align:center; ">
+                    CSaleApp
+                </h1>
+                <h2 style="color:black; text-align:center;">
+                    Recibo
+                </h2>
+                <h3 style="color:black; text-align:center;">
+                    Código de compra: <br>{{ticket._id}}
+                </h3>
+            </ion-item>
 
-        <ion-card-content>
-            <ion-list>
-                <ion-item no-lines>
-                    Fecha: {{ticket.dateOfPurchase.getDate()}}/{{ticket.dateOfPurchase.getMonth()}}/{{ticket.dateOfPurchase.getFullYear()}}
-                </ion-item>
+            <ion-card-content>
+                <ion-list>
+                    <ion-item no-lines>
+                        Fecha: {{ticket.dateOfPurchase.getDate()}}/{{ticket.dateOfPurchase.getMonth()}}/{{ticket.dateOfPurchase.getFullYear()}}
+                    </ion-item>
 
-                <ion-item no-lines>
-                    Productos:
-                    <ion-list>
-                        <ion-item text-wrap>
-                            <ion-grid *ngFor="let product of ticket.products">
-                                <ion-row>
-                                    <ion-col>
-                                        Descripción
-                                    </ion-col>
-                                    <ion-col>
-                                        Precio
-                                    </ion-col>
-                                    <ion-col>
-                                        Cantidad
-                                    </ion-col>
-                                </ion-row>
-                                <ion-row>
-                                    <ion-col>
-                                        {{product.description}}
-                                    </ion-col>
-                                    <ion-col>
-                                        {{product.price}}
-                                    </ion-col>
-                                    <ion-col>
-                                        {{product.quantity}}
-                                    </ion-col>
-                                </ion-row>
-                            </ion-grid>
-                        </ion-item>
-                    </ion-list>
-                </ion-item>
-                <ion-item no-lines text-wrap style="margin-bottom: -10px; margin-top: -10px">
-                    Validez: {{ticket.validDateFrom.getDate()}}/{{ticket.validDateFrom.getMonth()}} /{{ticket.validDateFrom.getFullYear()}} {{ticket.validDateFrom.getHours()}}:{{ticket.validDateFrom.getMinutes()}} - {{ticket.validDateTo.getDate()}}/{{ticket.validDateTo.getMonth()}}
-                    /{{ticket.validDateTo.getFullYear()}} {{ticket.validDateTo.getHours()}}:{{ticket.validDateTo.getMinutes()}}
-                </ion-item>
-                <ion-item no lines>
-                    Total: {{ticket.total}} ARS
-                </ion-item>
-                <ion-item no lines>
-                    Pagaste con:
-                    <ion-grid *ngFor="let paymentMethod of ticket.paymentMethods">
-                        <ion-row>
-                            - {{paymentMethod.name}}
-                        </ion-row>
-                        <ion-row>
-                            Abonaste: {{paymentMethod.amount_paid}} ARS
-                        </ion-row>
-                    </ion-grid>
-                </ion-item>
-                <div>
-                    Nota: cuando llegués a la entrada, mostrale al boletero/a o barman/barwoman este ticket, asi aprovechás tu compra!.
-                </div>
-            </ion-list>
-        </ion-card-content>
-    </ion-card>
+                    <ion-item no-lines>
+                        Productos:
+                        <ion-list>
+                            <ion-item text-wrap>
+                                <ion-grid *ngFor="let product of ticket.products">
+                                    <ion-row>
+                                        <ion-col>
+                                            Descripción
+                                        </ion-col>
+                                        <ion-col>
+                                            Precio
+                                        </ion-col>
+                                        <ion-col>
+                                            Cantidad
+                                        </ion-col>
+                                    </ion-row>
+                                    <ion-row>
+                                        <ion-col>
+                                            {{product.description}}
+                                        </ion-col>
+                                        <ion-col>
+                                            {{product.price}}
+                                        </ion-col>
+                                        <ion-col>
+                                            {{product.quantity}}
+                                        </ion-col>
+                                    </ion-row>
+                                </ion-grid>
+                            </ion-item>
+                        </ion-list>
+                    </ion-item>
+                    <ion-item no-lines text-wrap style="margin-bottom: -10px; margin-top: -10px">
+                        Validez: {{ticket.validDateFrom.getDate()}}/{{ticket.validDateFrom.getMonth()}} /{{ticket.validDateFrom.getFullYear()}} {{ticket.validDateFrom.getHours()}}:{{ticket.validDateFrom.getMinutes()}} - {{ticket.validDateTo.getDate()}}/{{ticket.validDateTo.getMonth()}}
+                        /{{ticket.validDateTo.getFullYear()}} {{ticket.validDateTo.getHours()}}:{{ticket.validDateTo.getMinutes()}}
+                    </ion-item>
+                    <ion-item no lines>
+                        Total: {{ticket.total}} ARS
+                    </ion-item>
+                    <ion-item no lines>
+                        Pagaste con:
+                        <ion-grid *ngFor="let paymentMethod of ticket.paymentMethods">
+                            <ion-row>
+                                - {{paymentMethod.name}}
+                            </ion-row>
+                            <ion-row>
+                                Abonaste: {{paymentMethod.amount_paid}} ARS
+                            </ion-row>
+                        </ion-grid>
+                    </ion-item>
+                    <div>
+                        Nota: cuando llegués a la entrada, mostrale al boletero/a o barman/barwoman este ticket, asi aprovechás tu compra!.
+                    </div>
+                </ion-list>
+            </ion-card-content>
+        </ion-card>
+    </div>
     <button ion-button (tap)="downloadTicket()" class="oneButtons">
         Imprimir
     </button>
