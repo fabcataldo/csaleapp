@@ -6,9 +6,9 @@ import { UserServiceProvider } from '../../providers/user-service';
 import { RegisterPage } from '../register/register';
 import * as firebase from 'firebase/app';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { GooglePlus } from '@ionic-native/google-plus/ngx';
+import { GooglePlus } from '@ionic-native/google-plus';
 import { Platform } from 'ionic-angular';
-import { Facebook } from '@ionic-native/facebook/ngx';
+import { Facebook } from '@ionic-native/facebook';
 
 /**
  * Generated class for the LoginPage page.
@@ -105,16 +105,23 @@ export class LoginPage {
   async nativeGoogleLogin(): Promise<void> {
     try {
       let userAuth = null;
+      /*
       const gplusUser = await this.gplus.login({
         'webClientId': '979369541957-fg74ign642oj0dv66jonrmpkp45rj3ka.apps.googleusercontent.com',
         'offline': true,
         'scopes': 'profile email'
       })
-
+       */
+      /*
       const credential = await this.afAuth.auth.signInWithCredential(
         firebase.auth.GoogleAuthProvider.credential(gplusUser.idToken)
-        
       )
+       */
+      this.gplus.login({
+        'webClientId': 'webClientId.apps.googleusercontent.com',
+        'offline': true,
+        'scopes': 'profile email'
+      })
       .then((result) => {
         userAuth = {
           name: result.user.displayName.split(" ")[0],
