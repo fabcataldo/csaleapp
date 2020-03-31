@@ -1,31 +1,32 @@
-page-home {
-    .imgStyle{
-            height: 10rem;
-            width: 10rem;
-    }
-    .menuHeader{
-        background: linear-gradient(#6200EE, #310077);
-        font-weight: lighter;
-        color: white;
-    }
-    .menuTitle{
-        width:20rem;
-    }
-
-    ion-menu {
-        .toolbar-background-md {
-          --background: #6200EE;
-        }
-      
-        .toolbar-background-md{
-          background: linear-gradient(#6200EE, #310077);
-        }
-       .item-md{
-            background-color: #6200EE;
-            color:white;
-          }
-        
-      }
-}
-
-
+ .imgStyle {
+     height: 10rem;
+     width: 10rem;
+ }
+ 
+ .menuHeader {
+     background: linear-gradient(#6200EE, #310077);
+     font-weight: lighter;
+     color: white;
+ }
+ 
+ .menuTitle {
+     width: 20rem;
+ }
+ 
+ ion-menu {
+     .toolbar-background-md {
+         --background: #6200EE;
+     }
+     .toolbar-background-md {
+         background: linear-gradient(#6200EE, #310077);
+     }
+     .item-md {
+         background-color: #6200EE;
+         color: white;
+     }
+ }
+ 
+ #map_canvas {
+     height: 90%;
+     width: 90%
+ }

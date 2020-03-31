@@ -1,43 +1,43 @@
 <ion-header>
-  <ion-navbar color="primary" #mycontent>
-    <button ion-button menuToggle>
+    <ion-navbar color="primary" #mycontent>
+        <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-   <ion-title style="font-family: Roboto;">
-      CSaleApp
-    </ion-title>
-  </ion-navbar>
+        <ion-title>
+            CSaleApp
+        </ion-title>
+    </ion-navbar>
 </ion-header>
 
 <ion-menu [content]="mycontent" type="overlay">
-  <ion-header>
-    <ion-toolbar>
-      <ion-grid  class="menuHeader">
-        <ion-row>
-          <ion-col>
-            <div>
-              <img class="imgStyle" src="../assets/imgs/2113250.png">
-            </div>
-          </ion-col>
-          <ion-col>
-            <ion-title class="menuTitle">
-              <h1>
-                Hola {{userLoggedName}}!
-              </h1>
-              <h2>
-                Hoy, nos vamos de fiesta.
-              </h2>
-            </ion-title>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </ion-toolbar>
-  </ion-header>
+    <ion-header>
+        <ion-toolbar>
+            <ion-grid class="menuHeader">
+                <ion-row>
+                    <ion-col>
+                        <div>
+                            <img class="imgStyle" src="../assets/imgs/2113250.png" (tap)="goToMyprofilePage()">
+                        </div>
+                    </ion-col>
+                    <ion-col>
+                        <ion-title class="menuTitle">
+                            <h1>
+                                Hola {{userLoggedName}}!
+                            </h1>
+                            <h2>
+                                Hoy, nos vamos de fiesta.
+                            </h2>
+                        </ion-title>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+        </ion-toolbar>
+    </ion-header>
 
 
-  <ion-content>
-    <ion-list>
-      <button ion-item (tap)="goToUpdatePlacePage()">
+    <ion-content>
+        <ion-list>
+            <button ion-item (tap)="goToUpdatePlacePage()">
           <ion-icon name="custom-party" item-left>
           </ion-icon>
           <ion-label>
@@ -45,40 +45,34 @@
           </ion-label>
       </button>
 
-      <button ion-item (tap)="goToBenefitsAvailablePage()">
+            <button ion-item (tap)="goToBenefitsAvailablePage()">
         <ion-icon name="custom-discount-label" item-left></ion-icon>
         <ion-label>
           Beneficios disponibles
         </ion-label>
       </button>
-        
-      <button ion-item (tap)="goToPurchasesMadePage()">
+
+            <button ion-item (tap)="goToPurchasesMadePage()">
         <ion-icon name="custom-shopping-cart" item-left></ion-icon>
         <ion-label>
           Compras realizadas
         </ion-label>
       </button>
 
-      <button ion-item (tap)="logOut()"> 
+            <button ion-item (tap)="logOut()"> 
         <ion-icon name="custom-logout" item-left></ion-icon>
         <ion-label>
           Cerrar sesión
         </ion-label>
       </button>
-    </ion-list>
-  </ion-content>
+        </ion-list>
+    </ion-content>
 </ion-menu>
 
 
 <ion-content padding>
-  <div>
-    pepeee
-    <!--
-    <ion-list>
-      <ion-item  *ngFor="let comment of comments">
-        {{comment}}
-      </ion-item>
-    </ion-list>
-    -->
-  </div>
+    <ion-searchbar (ionInput)="getLocation($event)"></ion-searchbar>
+    <div id="map_canvas">
+    </div>
+
 </ion-content>
