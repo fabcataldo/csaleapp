@@ -5,10 +5,11 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { BenefitsAvailablePage } from '../benefits-available/benefits-available';
 import { PurchasesMadePage } from '../purchases-made/purchases-made';
 import { UpdatePlacePage } from '../update-place/update-place';
-import { GoogleMap, GoogleMaps, Geocoder, GeocoderResult } from '@ionic-native/google-maps';
+import { GoogleMap, GoogleMaps, Geocoder, GeocoderResult, GoogleMapOptions, CameraPosition, LatLng, MarkerOptions, GoogleMapsEvent } from '@ionic-native/google-maps';
 import { MyProfilePage } from '../my-profile/my-profile';
 import { TicketsServiceProvider } from '../../providers/tickets-service';
 import { Tickets } from '../../models/tickets';
+import {Geolocation} from '@ionic-native/geolocation';
 
 
 @Component({
@@ -21,17 +22,23 @@ export class HomePage {
   token: any;
   userLoggedName: string;
   map: GoogleMap;
-
   tickets: Tickets[];
+  mapOptions: GoogleMapOptions = {
+    controls: {
+      myLocation: true,
+      myLocationButton: true         
+    }, 
+  }
+  myPosition: any={};
 
   constructor(public navCtrl: NavController, private afAuth: AngularFireAuth,  
-    public TicketsSrv: TicketsServiceProvider) {
+    public TicketsSrv: TicketsServiceProvider, private geolocation: Geolocation) {
 
   }
 
   ionViewDidLoad() {
     this.getStorageValues();
-    this.loadMap();
+    this.getCurrentPosition()
     //this.setMarkers();
 
     this.TicketsSrv.getTickets().subscribe((res)=>{
@@ -50,35 +57,26 @@ export class HomePage {
       })
       .then((results: GeocoderResult[])=>{
         console.log(results);
-  
-        return this.map.addMarker({
+        let positionCamera: CameraPosition<LatLng> = {
+          target: new LatLng(results[0].position.lat, results[0].position.lng),
+          zoom: 17 
+        };
+        this.map.moveCamera(positionCamera);
+        let marker = this.map.addMarkerSync({
           'position': results[0].position,
-          'title': JSON.stringify(results[0].position)
-
+          'title': event.target.value
         })
+        marker.on(GoogleMapsEvent.MARKER_CLICK).subscribe(() => {
+          //ACÁ AHCER LA CARD DEL PROTOTIPO, Y QUE EL CALL TO ACTON SEA
+          // AL DETALLE DE ESTE LUGAR, Y TERMINO EL FLUJO
+          alert('clicked');
+        });
+        return marker;
       }),
       (err)=>{
         console.log(err)
       }
     }
-  }
-
-  getPosition(): void{
-    this.map.getMyLocation()
-    .then(response => {
-      this.map.moveCamera({
-        target: response.latLng
-      });
-      this.map.addMarker({
-        title: 'My Position',
-        icon: 'blue',
-        animation: 'DROP',
-        position: response.latLng
-      });
-    })
-    .catch(error =>{
-      console.log(error);
-    });
   }
 
 
@@ -122,13 +120,53 @@ export class HomePage {
     }
   }
 
-  loadMap(){
-    this.map = GoogleMaps.create('map_canvas');
-    this.getPosition();
+  getCurrentPosition(){
+    this.geolocation.getCurrentPosition()
+    .then(position => {
+      this.myPosition = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      }
+      this.loadMap();
+    })
+    .catch(error=>{
+      console.log(error);
+    })
   }
 
-  /*
-  setMarkers(){
+  loadMap(){
+    
+    this.map = GoogleMaps.create('map_canvas', this.mapOptions);
+    this.map.setVisible(true);
+     // create CameraPosition
+     let position: CameraPosition<LatLng> = {
+      target: new LatLng(this.myPosition.lat, this.myPosition.lng),
+      zoom: 17 
+    };
+    this.map.setAllGesturesEnabled(true);
+    this.map.setMyLocationEnabled(true);
+    this.map.one(GoogleMapsEvent.MAP_READY).then(()=>{
+      console.log('Map is ready!');
+
+      // move the map's camera to position
+      this.map.moveCamera(position);
+      console.log(this.myPosition)
+      console.log(position)
+      let markerOptions: MarkerOptions = {
+        position: this.myPosition,
+        title: "Hola , soy turista!",
+        icon: 'red',
+        animation: 'DROP',
+      };
+      this.map.addMarkerSync(markerOptions)
+      //this.setMarkers(markerOptions);
+      
+    });
+  }
+
+  
+  setMarkers(marker){
+    /*
     let marker = this.map.addMarkerSync({
       title: 'La Barra Boliche',
       icon: 'red',
@@ -138,11 +176,12 @@ export class HomePage {
         lng: -64.1827632
       }
     });
+    */
     //marker.showInfoWindow();
     marker.on(GoogleMapsEvent.MARKER_CLICK).subscribe(() => {
       alert('clicked');
     });
   }
-   */
+ 
 }
 

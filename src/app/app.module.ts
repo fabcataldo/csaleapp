@@ -30,7 +30,7 @@ import { UpdateAccountPage } from '../pages/update-account/update-account';
 import { TicketDetailPage } from '../pages/ticket-detail/ticket-detail';
 import { File } from '@ionic-native/file';
 import { FileOpener } from '@ionic-native/file-opener';
-
+import {Geolocation} from '@ionic-native/geolocation';
 
 const firebaseConfig = {
   apiKey: "AIzaSyDX2SigUNlJ_UiHX_DEQ6NvNFDvXBgcF0g",
@@ -98,6 +98,7 @@ const firebaseConfig = {
     },
     File,
     FileOpener,
+    Geolocation
   ]
 })
 export class AppModule {}
