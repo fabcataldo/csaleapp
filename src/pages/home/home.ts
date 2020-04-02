@@ -10,7 +10,7 @@ import { MyProfilePage } from '../my-profile/my-profile';
 import { TicketsServiceProvider } from '../../providers/tickets-service';
 import { Tickets } from '../../models/tickets';
 import {Geolocation} from '@ionic-native/geolocation';
-
+import { PlacesServiceProvider } from '../../providers/places-service';
 
 @Component({
   selector: 'page-home',
@@ -30,16 +30,27 @@ export class HomePage {
     }, 
   }
   myPosition: any={};
+  places: Places[];
+
 
   constructor(public navCtrl: NavController, private afAuth: AngularFireAuth,  
-    public TicketsSrv: TicketsServiceProvider, private geolocation: Geolocation) {
-
+    public TicketsSrv: TicketsServiceProvider, private geolocation: Geolocation,
+    private PlacesServiceProvider: PlacesServiceProvider) {
   }
 
   ionViewDidLoad() {
     this.getStorageValues();
     this.getCurrentPosition()
-    //this.setMarkers();
+    
+    this.PlacesServiceProvider.getPlaces().subscribe((places)=>{
+      this.places = places;
+      for(let i=0;i<this.places.length;i++){
+        this.setMarkers(this.places[i].lat, this.places[i].lng, this.places[i].name);
+      }
+    }),
+    (err)=>{
+      console.log(err)
+    }
 
     this.TicketsSrv.getTickets().subscribe((res)=>{
       this.tickets = res;
@@ -49,14 +60,17 @@ export class HomePage {
     }
   }
 
+
   getLocation(event){
     var value = event.target.value;
+    var locationResult=null;
     if (value && value.trim() != '') {
       Geocoder.geocode({
         "address": event.target.value
       })
       .then((results: GeocoderResult[])=>{
         console.log(results);
+        locationResult = results;
         let positionCamera: CameraPosition<LatLng> = {
           target: new LatLng(results[0].position.lat, results[0].position.lng),
           zoom: 17 
@@ -69,7 +83,13 @@ export class HomePage {
         marker.on(GoogleMapsEvent.MARKER_CLICK).subscribe(() => {
           //ACÁ AHCER LA CARD DEL PROTOTIPO, Y QUE EL CALL TO ACTON SEA
           // AL DETALLE DE ESTE LUGAR, Y TERMINO EL FLUJO
-          alert('clicked');
+
+          console.log('Location result: ',locationResult)
+          //LUGAR AGENDADO EN LA BD, VALIDO, LEVANTO LA CARD entonces
+          var aux = this.places.filter(item=>results[0].extra.lines[0] === item.address)
+          if(aux){
+            alert('clicked: ');
+          }
         });
         return marker;
       }),
@@ -78,7 +98,6 @@ export class HomePage {
       }
     }
   }
-
 
   getStorageValues() {
     this.userLogged = JSON.parse(localStorage.getItem('user'));
@@ -165,22 +184,17 @@ export class HomePage {
   }
 
   
-  setMarkers(marker){
-    /*
+  setMarkers(lat, lng, title){
     let marker = this.map.addMarkerSync({
-      title: 'La Barra Boliche',
+      title:  title,
       icon: 'red',
       animation: 'DROP',
       position:{
-        lat: -31.4132711,
-        lng: -64.1827632
+        lat: lat,
+        lng: lng
       }
     });
-    */
     //marker.showInfoWindow();
-    marker.on(GoogleMapsEvent.MARKER_CLICK).subscribe(() => {
-      alert('clicked');
-    });
   }
  
 }
