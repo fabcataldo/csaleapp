@@ -31,6 +31,7 @@ import { TicketDetailPage } from '../pages/ticket-detail/ticket-detail';
 import { File } from '@ionic-native/file';
 import { FileOpener } from '@ionic-native/file-opener';
 import {Geolocation} from '@ionic-native/geolocation';
+import { AndroidPermissions } from '@ionic-native/android-permissions';
 
 const firebaseConfig = {
   apiKey: "AIzaSyDX2SigUNlJ_UiHX_DEQ6NvNFDvXBgcF0g",
@@ -98,7 +99,8 @@ const firebaseConfig = {
     },
     File,
     FileOpener,
-    Geolocation
+    Geolocation,
+    AndroidPermissions
   ]
 })
 export class AppModule {}
