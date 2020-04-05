@@ -20,6 +20,7 @@
         "@angular/forms": "5.2.11",
         "@angular/platform-browser": "5.2.11",
         "@angular/platform-browser-dynamic": "5.2.11",
+        "@ionic-native/android-permissions": "^4.2.0",
         "@ionic-native/core": "^4.20.0",
         "@ionic-native/facebook": "^4.2.0",
         "@ionic-native/file": "^4.20.0",
@@ -35,6 +36,7 @@
         "angularfire2": "^5.4.2",
         "cordova-android": "^8.1.0",
         "cordova-plugin-advanced-http": "^2.4.1",
+        "cordova-plugin-android-permissions": "^1.0.2",
         "cordova-plugin-cleartext": "^1.0.0",
         "cordova-plugin-facebook4": "^6.4.0",
         "cordova-plugin-file": "^6.0.2",
@@ -85,7 +87,7 @@
                 "APP_NAME": "CSaleApp"
             },
             "cordova-plugin-googleplus": {
-                "WEB_APPLICATION_CLIENT_ID": "AIzaSyDX2SigUNlJ_UiHX_DEQ6NvNFDvXBgcF0g",
+                "WEB_APPLICATION_CLIENT_ID": "1094589895444-np6ve4h2mkm3bste3bvc9olk5kksko9f.apps.googleusercontent.com",
                 "PLAY_SERVICES_VERSION": "15.0.1"
             },
             "cordova-plugin-googlemaps": {
@@ -94,7 +96,8 @@
             "cordova-plugin-file": {},
             "cordova-plugin-file-opener2": {
                 "ANDROID_SUPPORT_V4_VERSION": "27.+"
-            }
+            },
+            "cordova-plugin-android-permissions": {}
         },
         "platforms": [
             "android"
