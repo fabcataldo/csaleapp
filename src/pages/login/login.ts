@@ -103,38 +103,27 @@ export class LoginPage {
   }
 
   async nativeGoogleLogin(): Promise<void> {
-    try {
-      let userAuth = null;
-      /*
-      const gplusUser = await this.gplus.login({
-        'webClientId': '979369541957-fg74ign642oj0dv66jonrmpkp45rj3ka.apps.googleusercontent.com',
+       this.gplus.login({
+        'webClientId': '1094589895444-np6ve4h2mkm3bste3bvc9olk5kksko9f.apps.googleusercontent.com',
         'offline': true,
         'scopes': 'profile email'
+      }).then((obj)=>{
+        if (!firebase.auth().currentUser) {
+          firebase.auth().signInWithCredential(firebase.auth.GoogleAuthProvider.credential(obj.idToken))
+          .then((success) => {
+              this.userOAuth = {
+                name: obj.givenName,
+                surname: obj.familyName, 
+                email: obj.email,
+                password: '', role: null, loggedWithOAuth2: true
+              };
+              this.saveOAuthUser();
+            })
+          .catch((gplusErr) => {
+              console.log(gplusErr);
+          });
+        }
       })
-       */
-      /*
-      const credential = await this.afAuth.auth.signInWithCredential(
-        firebase.auth.GoogleAuthProvider.credential(gplusUser.idToken)
-      )
-       */
-      this.gplus.login({
-        'webClientId': 'webClientId.apps.googleusercontent.com',
-        'offline': true,
-        'scopes': 'profile email'
-      })
-      .then((result) => {
-        userAuth = {
-          name: result.user.displayName.split(" ")[0],
-          surname: result.user.displayName.split(" ")[1], email: result.user.email,
-          password: '', role: null, loggedWithOAuth2: true
-        };
-      });
-    this.userOAuth = userAuth
-    this.saveOAuthUser();
-      
-    } catch (err) {
-      console.log(err)
-    }
   }
 
   async nativeFacebookLogin() {
@@ -159,6 +148,7 @@ export class LoginPage {
       const provider = new firebase.auth.FacebookAuthProvider();
       await this.afAuth.auth.signInWithPopup(provider)
         .then((result) => {
+          console.log(result);
           newUser = {
             name: result.user.displayName.split(" ")[0],
             surname: result.user.displayName.split(" ")[1], 
@@ -183,7 +173,9 @@ export class LoginPage {
           console.log(result)
           userAuth = {
             name: result.user.displayName.split(" ")[0],
-            surname: result.user.displayName.split(" ")[1], email: result.user.email,
+            surname: result.user.displayName.split(" ")[1], 
+            email: result.user.email ? result.user.email :
+              result.additionalUserInfo.profile ? result.additionalUserInfo.profile['email'] : null,
             password: '', role: null, loggedWithOAuth2: true
           };
         });
