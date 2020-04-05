@@ -31,16 +31,4 @@ export class PlacesServiceProvider {
     return this.http
       .get<Places>('http://192.168.0.16:3000/api/places/'+id)
   }
-
-  getTicketsPlace(id, validDateTicketFrom){
-    return new Promise(resolve => {
-      this.http.get<Places>('http://192.168.0.16:3000/api/places/tickets'+id+'/'+validDateTicketFrom)
-        .subscribe(res => {
-          resolve(res);
-        }, (err) => {
-          console.log(err);
-        });
-      }
-    )
-  }
 }
