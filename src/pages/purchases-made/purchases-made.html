@@ -14,7 +14,7 @@
     <div *ngFor="let ticket of tickets">
         <ion-card (tap)="viewTicketDetail(ticket)">
             <ion-item>
-                <ion-label>Fecha: {{ticket.dateOfPurchase.getDate()}}/{{ticket.dateOfPurchase.getMonth()}}/{{ticket.dateOfPurchase.getFullYear()}}</ion-label>
+                <ion-label>Fecha: {{ticket.dateOfPurchase}}</ion-label>
             </ion-item>
 
             <ion-card-content>

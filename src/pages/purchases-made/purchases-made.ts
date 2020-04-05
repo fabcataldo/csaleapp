@@ -21,8 +21,7 @@ export class PurchasesMadePage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams, 
    ) {
-      this.tickets = this.navParams.get('tickets');
-      console.log(this.tickets);
+      this.tickets = JSON.parse(localStorage.getItem('user')).tickets;
   }
 
   ionViewDidLoad() {
