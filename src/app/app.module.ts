@@ -32,6 +32,8 @@ import { File } from '@ionic-native/file';
 import { FileOpener } from '@ionic-native/file-opener';
 import {Geolocation} from '@ionic-native/geolocation';
 import { AndroidPermissions } from '@ionic-native/android-permissions';
+import { PlaceBasicInfoComponent } from '../components/place-basic-info/place-basic-info';
+import { PlaceDetailPage } from '../pages/place-detail/place-detail';
 
 const firebaseConfig = {
   apiKey: "AIzaSyDX2SigUNlJ_UiHX_DEQ6NvNFDvXBgcF0g",
@@ -55,7 +57,9 @@ const firebaseConfig = {
     UpdatePlacePage,
     MyProfilePage,
     UpdateAccountPage,
-    TicketDetailPage
+    TicketDetailPage,
+    PlaceBasicInfoComponent,
+    PlaceDetailPage
   ],
   imports: [
     BrowserModule,
@@ -77,7 +81,9 @@ const firebaseConfig = {
     UpdatePlacePage,
     MyProfilePage,
     UpdateAccountPage,
-    TicketDetailPage
+    TicketDetailPage,
+    PlaceBasicInfoComponent,
+    PlaceDetailPage
   ],
   providers: [
     StatusBar,
