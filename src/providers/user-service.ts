@@ -32,7 +32,7 @@ export class UserServiceProvider {
     return this.http.put<Users>(Global.SRV+Global.URL_API+'/users/'+id, user)
   }
 
-  loginUser(user): Observable<Users>{
+  loginUser(user): Observable<any>{
     return this.http.post<Users>(Global.SRV+Global.URL_API+'/login', user)
   }
 }
