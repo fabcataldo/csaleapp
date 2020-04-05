@@ -31,10 +31,6 @@ export class MyApp {
      this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.ACCESS_COARSE_LOCATION)
      .then(
         result=>{
-          console.log('Acceso a la ubicación activado');
-          // put your code here
-          alert("Acceso a la ubicación activado!");
-          
           let valueToken = JSON.parse(localStorage.getItem('token'))
           if(valueToken)
             this.rootPage = HomePage;
