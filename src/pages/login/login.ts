@@ -9,6 +9,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { GooglePlus } from '@ionic-native/google-plus';
 import { Platform } from 'ionic-angular';
 import { Facebook } from '@ionic-native/facebook';
+import { Users } from '../../models/users';
 
 /**
  * Generated class for the LoginPage page.
@@ -55,10 +56,9 @@ export class LoginPage {
 
   async onClickSubmit(data) {
     await this.UserService.loginUser(data).subscribe((data) => {
-        this.user = data;
-
-        localStorage.setItem('user', JSON.stringify(this.user.user))
-        localStorage.setItem('token', JSON.stringify(this.user.token))
+        this.user = new Users(data['user']);
+        localStorage.setItem('user', JSON.stringify(this.user));
+        localStorage.setItem('token', JSON.stringify(data['token']));
         this.navCtrl.setRoot(HomePage);
       }),
       (err) => {
