@@ -66,12 +66,10 @@ export class UpdatePlacePage {
   async onClickSubmit(data){
     let newComment = new Comments();
     newComment.comment = data.comment;
-    newComment.place = this.selectedPlace;
+    //newComment.place = this.selectedPlace;
     newComment.qualification = data.rating;
-    newComment.user = JSON.parse(localStorage.getItem('user'));
-    console.log(newComment)
+    //newComment.user = JSON.parse(localStorage.getItem('user'));
     await this.CommentsServiceProvider.postComment(newComment).subscribe((result)=>{
-      console.log(result);
       this.navCtrl.setRoot(HomePage);
     }),
     (err)=>{
