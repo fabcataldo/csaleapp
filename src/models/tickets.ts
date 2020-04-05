@@ -16,7 +16,6 @@ export class Tickets {
     constructor(ticket ? : any) {
         this._id = ticket._id ? ticket._id : null;
         this.dateOfPurchase = ticket.date_of_purchase ? new Date(ticket.date_of_purchase) : new Date();
-        this.user = ticket.user ? ticket.user : new Users();
         this.products = ticket.products ? ticket.products : new Products();
         this.paymentMethods = ticket.payment_methods ? ticket.payment_methods : new PaymentMethods();
         this.validDateFrom = ticket.valid_date_from ? new Date(ticket.valid_date_from) : new Date();
