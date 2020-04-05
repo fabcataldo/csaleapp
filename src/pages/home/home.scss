@@ -1,12 +1,12 @@
- .imgStyle {
-     height: 10rem;
-     width: 10rem;
- }
- 
  .menuHeader {
      background: linear-gradient(#6200EE, #310077);
      font-weight: lighter;
      color: white;
+ }
+
+ .headerStyle{
+    color: black;
+    text-align: center;
  }
  
  .menuTitle {
@@ -27,6 +27,6 @@
  }
  
  #map_canvas {
-     height: 90%;
-     width: 90%
+     height: 80%;
+     width: 100%;
  }
