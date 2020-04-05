@@ -5,12 +5,17 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { BenefitsAvailablePage } from '../benefits-available/benefits-available';
 import { PurchasesMadePage } from '../purchases-made/purchases-made';
 import { UpdatePlacePage } from '../update-place/update-place';
-import { GoogleMap, GoogleMaps, Geocoder, GeocoderResult, GoogleMapOptions, CameraPosition, LatLng, MarkerOptions, GoogleMapsEvent } from '@ionic-native/google-maps';
+import { GoogleMap, GoogleMaps, Geocoder, GeocoderResult, GoogleMapOptions, CameraPosition, LatLng, MarkerOptions, GoogleMapsEvent, HtmlInfoWindow } from '@ionic-native/google-maps';
 import { MyProfilePage } from '../my-profile/my-profile';
 import { TicketsServiceProvider } from '../../providers/tickets-service';
 import { Tickets } from '../../models/tickets';
 import {Geolocation} from '@ionic-native/geolocation';
 import { PlacesServiceProvider } from '../../providers/places-service';
+import { Places } from '../../models/places';
+import { PopoverController } from 'ionic-angular';  
+import { PlaceBasicInfoComponent } from '../../components/place-basic-info/place-basic-info';
+import { PlaceDetailPage } from '../place-detail/place-detail';
+
 
 @Component({
   selector: 'page-home',
@@ -31,15 +36,18 @@ export class HomePage {
   }
   myPosition: any={};
   places: Places[];
+  placeFounded: Places;
+  cardPlaceFounded: boolean;
 
 
   constructor(public navCtrl: NavController, private afAuth: AngularFireAuth,  
     public TicketsSrv: TicketsServiceProvider, private geolocation: Geolocation,
-    private PlacesServiceProvider: PlacesServiceProvider) {
+    private PlacesServiceProvider: PlacesServiceProvider, private PopoverCtrl: PopoverController) {
   }
 
   ionViewDidLoad() {
     this.getStorageValues();
+    this.loadMap();
     this.getCurrentPosition()
     
     this.PlacesServiceProvider.getPlaces().subscribe((places)=>{
@@ -73,23 +81,48 @@ export class HomePage {
         locationResult = results;
         let positionCamera: CameraPosition<LatLng> = {
           target: new LatLng(results[0].position.lat, results[0].position.lng),
-          zoom: 17 
+          zoom: 25
         };
         this.map.moveCamera(positionCamera);
+
+        this.placeFounded = this.places.filter(item=>results[0].extra.lines[0] === item.address)[0]
+
+        console.log('THIS.PLACEFOUDNEDDDDD')
+        console.log(this.placeFounded)
+        
         let marker = this.map.addMarkerSync({
           'position': results[0].position,
-          'title': event.target.value
+          'title': this.placeFounded.name
         })
+
+        let htmlInfoWindow = new HtmlInfoWindow();
+        let frame: HTMLElement = document.createElement('div');
+        frame.innerHTML = [
+          '<div>',
+            '<div>',
+              '<img src="assets/imgs/background.jpg">',
+            '</div>',
+            '<div>',
+              '<h1 style="color:black; text-align: center;">'+this.placeFounded.name+'</h1>',
+              '<h2 style="color:black; text-align: center;">'+this.placeFounded.address+'</h2>',
+              '<h2 style="color:black; text-align: center;">Estado: <h2 style="color:black; font-weight:bold">Abierto!'+'</h2>',
+            '</div>',
+          '</div>'
+            //'<!--<p style="font-weight: bold;"> {{this.placeFounded.state}}</p>-->',
+        ].join("");
+        frame.getElementsByTagName("div")[0].addEventListener("click", () => {
+          this.navCtrl.push(PlaceDetailPage, {place: this.placeFounded});
+        });
+        htmlInfoWindow.setContent(frame, {width: "19rem", height: "15rem"});
+
         marker.on(GoogleMapsEvent.MARKER_CLICK).subscribe(() => {
           //ACÁ AHCER LA CARD DEL PROTOTIPO, Y QUE EL CALL TO ACTON SEA
           // AL DETALLE DE ESTE LUGAR, Y TERMINO EL FLUJO
-
-          console.log('Location result: ',locationResult)
           //LUGAR AGENDADO EN LA BD, VALIDO, LEVANTO LA CARD entonces
-          var aux = this.places.filter(item=>results[0].extra.lines[0] === item.address)
-          if(aux){
-            alert('clicked: ');
-          }
+
+          //this.openPlaceBasicInfoModal(new Event(GoogleMapsEvent.MARKER_CLICK));
+          htmlInfoWindow.open(marker);
+          console.log(this.cardPlaceFounded)
         });
         return marker;
       }),
@@ -140,6 +173,7 @@ export class HomePage {
   }
 
   getCurrentPosition(){
+    /*
     this.geolocation.getCurrentPosition()
     .then(position => {
       this.myPosition = {
@@ -151,26 +185,18 @@ export class HomePage {
     .catch(error=>{
       console.log(error);
     })
-  }
+     */
 
-  loadMap(){
-    
-    this.map = GoogleMaps.create('map_canvas', this.mapOptions);
-    this.map.setVisible(true);
-     // create CameraPosition
-     let position: CameraPosition<LatLng> = {
-      target: new LatLng(this.myPosition.lat, this.myPosition.lng),
-      zoom: 17 
-    };
-    this.map.setAllGesturesEnabled(true);
-    this.map.setMyLocationEnabled(true);
     this.map.one(GoogleMapsEvent.MAP_READY).then(()=>{
-      console.log('Map is ready!');
-
-      // move the map's camera to position
-      this.map.moveCamera(position);
-      console.log(this.myPosition)
-      console.log(position)
+      this.map.getMyLocation().then((result)=>{
+        console.log('MY LOCATION: ',result)
+        let position: CameraPosition<LatLng> = {
+          target: new LatLng(result.latLng.lat, result.latLng.lng),
+          zoom: 20
+        };
+        this.map.moveCamera(position);
+      })
+      /*
       let markerOptions: MarkerOptions = {
         position: this.myPosition,
         title: "Hola , soy turista!",
@@ -179,8 +205,23 @@ export class HomePage {
       };
       this.map.addMarkerSync(markerOptions)
       //this.setMarkers(markerOptions);
-      
+      */ 
     });
+  }
+
+  loadMap(){
+    this.map = GoogleMaps.create('map_canvas', this.mapOptions);
+    this.map.setVisible(true);
+    this.map.one(GoogleMapsEvent.MAP_READY).then(()=>{
+      this.map.on(GoogleMapsEvent.MAP_CLICK).subscribe(()=>{
+        this.cardPlaceFounded = false;
+
+        console.log(this.cardPlaceFounded)
+      })
+    })
+    this.map.setAllGesturesEnabled(true);
+    this.map.setMyLocationEnabled(true);
+    this.map.setMyLocationButtonEnabled(true);
   }
 
   
