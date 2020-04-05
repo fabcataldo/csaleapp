@@ -12,12 +12,45 @@
 
 <ion-content padding>
   <ion-card>
-      <ion-item>
-        <img class="imgStyle" src="../assets/imgs/labarraboliche.jpg" (tap)="goToMyprofilePage()">
-        <h1 style="text-align: center;">{{this.place.name}}</h1>
-      </ion-item>
-      <ion-card-content>
-        <h2 style="text-align: center;">{{this.place.address}}</h2>
-      </ion-card-content>
+    <ion-item>
+      <img class="imgStyle" src="../assets/imgs/labarraboliche.jpg">
+      <h1 style="text-align: center;">{{place.name}}</h1>
+    </ion-item>
+    <ion-card-content>
+      <h2 style="text-align: center;">{{place.address}}</h2>
+    </ion-card-content>
   </ion-card>
+  <ion-card>
+    <ion-item>
+      <h1 style="text-align: center;">Actualizaciones del ambiente</h1>
+    </ion-item>
+    
+    <div *ngIf="place.comments.length!==0">
+      <ion-card-content  *ngFor="let comment of place.comments">
+        <ion-card>
+          <ion-item no-lines text-wrap>
+            <h3 style="text-align: center;">{{comment.comment}}</h3>
+          </ion-item>
+          <ion-card-content>
+            <h2 style="text-align: center;">Puntuación</h2>
+            <ionic3-star-rating #rating activeIcon="ios-star" text-align="center" defaultIcon="ios-star-outline"
+              activeColor="black" defaultColor="black" readonly="true" [rating]="comment.qualification" fontSize="32px">
+            </ionic3-star-rating>
+          </ion-card-content>
+        </ion-card>
+      </ion-card-content>
+    </div>
+  
+    <div *ngIf="place.comments.length==0">
+      <ion-card-content>
+        <h3 style="text-align: center;">No hay comentarios.</h3>
+      </ion-card-content>  
+    </div>
+
+
+  </ion-card>
+  <div class="buyProductsButtonContainer">
+    <button ion-button>Comprar productos</button>
+  </div>
+
 </ion-content>
