@@ -1,5 +1,6 @@
 import { Tickets } from "./tickets";
 import { Comments } from "./comments";
+import { Accessories } from "../utils/accessories";
 
 export class Places {
     _id: string;
@@ -19,7 +20,7 @@ export class Places {
         this.lng = place.lng ? place.lng : '';
         this.address = place.address ? place.address : '';
         this.number_of_people_enabled = place.number_of_people_enabled ? place.number_of_people_enabled : 0;
-        this.tickets = place.tickets ? place.tickets : null;
-        this.comments = place.comments ? place.comments : null;
+        this.tickets = place.tickets ? Accessories.mapModelArray(place.tickets,'tickets') : null;
+        this.comments = place.comments ? Accessories.mapModelArray(place.comments, 'comments') : null;
    }
 }

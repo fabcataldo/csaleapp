@@ -1,6 +1,7 @@
 import { Roles } from './roles';
 import { Tickets } from './tickets';
 import { Comments } from './comments';
+import { Accessories } from '../utils/accessories';
 
 export class Users {
     _id : string;
@@ -18,8 +19,8 @@ export class Users {
         this.surname = user.surname ? user.surname : '';
         this.email = user.email ? user.email : '';
         this.password = user.password ? user.password : '';
-        this.role = user.role ? user.role : new Roles();
-        this.tickets = user.tickets ? user.tickets : null;
-        this.comments = user.comments ? user.comments : null;
+        this.role = user.role ? new Roles(user.role) : null;
+        this.tickets = user.tickets ? Accessories.mapModelArray(user.tickets, 'tickets') : null;
+        this.comments = user.comments ? Accessories.mapModelArray(user.comments, 'comments') : null;
     }
 }
