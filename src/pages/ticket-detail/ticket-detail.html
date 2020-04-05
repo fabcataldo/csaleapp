@@ -28,7 +28,7 @@
             <ion-card-content>
                 <ion-list>
                     <ion-item no-lines>
-                        Fecha: {{ticket.dateOfPurchase.getDate()}}/{{ticket.dateOfPurchase.getMonth()}}/{{ticket.dateOfPurchase.getFullYear()}}
+                        Fecha: {{ticket.dateOfPurchase}}
                     </ion-item>
 
                     <ion-item no-lines>
@@ -63,8 +63,7 @@
                         </ion-list>
                     </ion-item>
                     <ion-item no-lines text-wrap style="margin-bottom: -10px; margin-top: -10px">
-                        Validez: {{ticket.validDateFrom.getDate()}}/{{ticket.validDateFrom.getMonth()}} /{{ticket.validDateFrom.getFullYear()}} {{ticket.validDateFrom.getHours()}}:{{ticket.validDateFrom.getMinutes()}} - {{ticket.validDateTo.getDate()}}/{{ticket.validDateTo.getMonth()}}
-                        /{{ticket.validDateTo.getFullYear()}} {{ticket.validDateTo.getHours()}}:{{ticket.validDateTo.getMinutes()}}
+                        Validez: {{ticket.validDateFrom}}-{{ticket.validDateTo}}
                     </ion-item>
                     <ion-item no lines>
                         Total: {{ticket.total}} ARS
