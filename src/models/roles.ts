@@ -6,7 +6,7 @@ export class Roles {
     privileges : Privileges[];
     constructor(role?: any) {
         if (role) {
-            this._id = role.id;
+            this._id = role._id;
             this.name = role.name;
             this.privileges = role.privileges;
         }
