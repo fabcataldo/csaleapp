@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Places } from '../../models/places';
+import { PlacesServiceProvider } from '../../providers/places-service';
 
 /**
  * Generated class for the PlaceDetailPage page.
@@ -16,9 +17,13 @@ import { Places } from '../../models/places';
 })
 export class PlaceDetailPage {
   place : Places;
+  freeSpace : boolean;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private PlaceSrv: PlacesServiceProvider) {
     this.place = this.navParams.get('place');
+    this.PlaceSrv.getFreeSpace(this.place._id).subscribe((result)=>{
+      this.freeSpace = result;
+    });
   }
 
   ionViewDidLoad() {
