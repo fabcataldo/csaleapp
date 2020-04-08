@@ -41,22 +41,16 @@ export class UpdateAccountPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad UpdateAccountPage');
   }
 
   get formFields() { return this.updateAccountForm.controls; }
 
   async onClickSubmit(data){
     data.loggedWithOAuth2 = false;
-    console.log('asdasd')
-    console.log(this.userDataStrge.password)
-    console.log(data.password);
     if(data.password === ''){
-      console.log('asdasdasdasdasdasddass')
       data.password = this.userDataStrge.password;
     }
     await this.UserService.putUser(this.userDataStrge._id, data).subscribe( (result)=>{
-      console.log(result)
       if(result.token)
         localStorage.token = JSON.stringify(result.token);
       
