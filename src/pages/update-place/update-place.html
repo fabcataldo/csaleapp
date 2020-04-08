@@ -14,7 +14,7 @@
     <form [formGroup]="updatePlaceForm" (ngSubmit)="onClickSubmit(updatePlaceForm.value)">
         <ion-item>
             <ion-label>Buscar boliche</ion-label>
-            <ionic-selectable color="primary" item-content formControlName="selectedPlace" itemValueField="id" itemTextField="name" [items]="places" [canSearch]="true">
+            <ionic-selectable color="primary" item-content formControlName="selectedPlace" itemValueField="_id" itemTextField="name" [items]="places" [canSearch]="true">
             </ionic-selectable>
         </ion-item>
 
