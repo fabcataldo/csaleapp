@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Places } from '../../models/places';
 import { PlacesServiceProvider } from '../../providers/places-service';
+import { ShoppingPage } from '../shopping/shopping';
 
 /**
  * Generated class for the PlaceDetailPage page.
@@ -30,4 +31,7 @@ export class PlaceDetailPage {
     console.log('ionViewDidLoad PlaceDetailPage');
   }
 
+  goToShoppingPage(){
+    this.navCtrl.push(ShoppingPage);
+  }
 }
