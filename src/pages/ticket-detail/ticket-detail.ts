@@ -31,7 +31,6 @@ export class TicketDetailPage {
   }
 
   ionViewDidLoad() {
-    console.log(this.ticket);
   }
 
   downloadTicket(){
