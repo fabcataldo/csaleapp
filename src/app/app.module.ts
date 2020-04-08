@@ -33,6 +33,7 @@ import { FileOpener } from '@ionic-native/file-opener';
 import {Geolocation} from '@ionic-native/geolocation';
 import { AndroidPermissions } from '@ionic-native/android-permissions';
 import { PlaceDetailPage } from '../pages/place-detail/place-detail';
+import { ShoppingPage } from '../pages/shopping/shopping';
 
 const firebaseConfig = {
   apiKey: "AIzaSyDX2SigUNlJ_UiHX_DEQ6NvNFDvXBgcF0g",
@@ -57,7 +58,8 @@ const firebaseConfig = {
     MyProfilePage,
     UpdateAccountPage,
     TicketDetailPage,
-    PlaceDetailPage
+    PlaceDetailPage,
+    ShoppingPage
   ],
   imports: [
     BrowserModule,
@@ -80,7 +82,8 @@ const firebaseConfig = {
     MyProfilePage,
     UpdateAccountPage,
     TicketDetailPage,
-    PlaceDetailPage
+    PlaceDetailPage,
+    ShoppingPage
   ],
   providers: [
     StatusBar,
