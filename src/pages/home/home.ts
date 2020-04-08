@@ -13,7 +13,6 @@ import { Places } from '../../models/places';
 import { PopoverController } from 'ionic-angular';
 import { PlaceDetailPage } from '../place-detail/place-detail';
 
-
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
@@ -59,7 +58,6 @@ export class HomePage {
 
 
   getLocation(event) {
-    console.log(event.target.value)
     if (event.target.value && event.target.value.trim() != '') {
       Geocoder.geocode({
         "address": event.target.value
@@ -72,7 +70,7 @@ export class HomePage {
               zoom: 25
             };
             this.map.moveCamera(positionCamera);
-
+            
             this.placeFounded = this.places.filter(item => results[0].extra.lines[0].toLocaleLowerCase() === item.address.toLocaleLowerCase())[0]
 
             if (!this.placeFounded) {
@@ -128,20 +126,6 @@ export class HomePage {
   }
 
   getCurrentPosition() {
-    /*
-    this.geolocation.getCurrentPosition()
-    .then(position => {
-      this.myPosition = {
-        lat: position.coords.latitude,
-        lng: position.coords.longitude
-      }
-      this.loadMap();
-    })
-    .catch(error=>{
-      console.log(error);
-    })
-     */
-
     this.map.one(GoogleMapsEvent.MAP_READY).then(() => {
       this.map.getMyLocation().then((result) => {
         let position: CameraPosition<LatLng> = {
@@ -150,16 +134,6 @@ export class HomePage {
         };
         this.map.moveCamera(position);
       })
-      /*
-      let markerOptions: MarkerOptions = {
-        position: this.myPosition,
-        title: "Hola , soy turista!",
-        icon: 'red',
-        animation: 'DROP',
-      };
-      this.map.addMarkerSync(markerOptions)
-      //this.setMarkers(markerOptions);
-      */
     });
   }
 
@@ -171,7 +145,15 @@ export class HomePage {
     this.map.setMyLocationButtonEnabled(true);
   }
 
+  getStateOfPlace(place){
+    if(place.customer_service_days.find(item => item===new Date().getDay())){
+      return true;
+    }
+    return false;
+  }
+
   setPlaceInfoWindow(place) {
+    let isPlaceOpen = this.getStateOfPlace(place);
     let htmlInfoWindow = new HtmlInfoWindow();
     let frame: HTMLElement = document.createElement('div');
     frame.innerHTML = [
@@ -183,7 +165,8 @@ export class HomePage {
       '<div>',
       '<h1 style="color:black; text-align: center;">' + place.name + '</h1>',
       '<h2 style="color:black; text-align: center;">' + place.address + '</h2>',
-      '<h2 style="color:black; text-align: center;">Estado: Abierto!' + '</h2>',
+      isPlaceOpen ?  '<h2 style="color:black; text-align: center;">Estado: Abierto!' + '</h2>' : 
+      '<h2 style="color:black; text-align: center;">Estado: Cerrado!' + '</h2>',
       '</div>',
       '</div>'
       //'<!--<p style="font-weight: bold;"> {{this.placeFounded.state}}</p>-->',
