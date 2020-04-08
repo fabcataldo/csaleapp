@@ -140,7 +140,6 @@ export class LoginPage {
   }
 
   async webFacebookLogin(): Promise<void> {
-    console.log('FACAC')
     var auth2 = this.afAuth
     try {
       var newUser = null;
@@ -148,7 +147,6 @@ export class LoginPage {
       const provider = new firebase.auth.FacebookAuthProvider();
       await this.afAuth.auth.signInWithPopup(provider)
         .then((result) => {
-          console.log(result);
           newUser = {
             name: result.user.displayName.split(" ")[0],
             surname: result.user.displayName.split(" ")[1], 
