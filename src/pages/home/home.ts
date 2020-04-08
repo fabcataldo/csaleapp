@@ -127,10 +127,11 @@ export class HomePage {
 
   getCurrentPosition() {
     this.map.one(GoogleMapsEvent.MAP_READY).then(() => {
-      this.map.getMyLocation().then((result) => {
+      this.geolocation.getCurrentPosition().then((result)=>{
+        console.log(result)
         let position: CameraPosition<LatLng> = {
-          target: new LatLng(result.latLng.lat, result.latLng.lng),
-          zoom: 20
+          target: new LatLng(result.coords.latitude, result.coords.longitude),
+          zoom: 10
         };
         this.map.moveCamera(position);
       })
