@@ -14,13 +14,10 @@ import { map } from 'rxjs/operators';
 export class PlacesServiceProvider {
 
   constructor(public http: HttpClient) {
-    console.log('Hello PlacesServiceProvider Provider');
   }
 
   getPlaces(): Observable<Places[]> {
-    return this.http
-      .get('http://192.168.0.78:3000/api/places')
-      .pipe(map(this.mapPlaces))
+    return this.http.get('http://192.168.0.78:3000/api/places').pipe(map(this.mapPlaces))
   }
 
   mapPlaces(res:any){
@@ -28,7 +25,14 @@ export class PlacesServiceProvider {
   }
 
   getPlace(id): Observable<Places>{
-    return this.http
-      .get<Places>('http://192.168.0.16:3000/api/places/'+id)
+    return this.http.get<Places>('http://192.168.0.78:3000/api/places/'+id)
+  }
+
+  getFreeSpace(id): Observable<any>{
+    return this.http.get<any>('http://192.168.0.78:3000/api/places/freeSpace/'+id)
+  }
+
+  putPlace(id, place): Observable<Places>{
+    return this.http.put<Places>('http://192.168.0.78:3000/api/places/'+id, place);
   }
 }

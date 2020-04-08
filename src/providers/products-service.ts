@@ -15,7 +15,7 @@ import { map } from 'rxjs/operators';
 export class ProductsServiceProvider {
 
   constructor(public http: HttpClient) {
-    console.log('Hello ProductsServiceProvider Provider');
+
   }
 
   getProducts():Observable<Products[]> {

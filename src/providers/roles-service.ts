@@ -15,7 +15,6 @@ import { map } from 'rxjs/operators';
 export class RolesServiceProvider {
 
   constructor(public http: HttpClient) {
-    console.log('Hello RolesServiceProvider Provider');
   }
 
   getRoles():Observable<Roles[]> {

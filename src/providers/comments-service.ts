@@ -15,13 +15,10 @@ import { Global } from '../utils/global';
 export class CommentsServiceProvider {
   
   constructor(public http: HttpClient) {
-    console.log('Hello CommentsServiceProvider Provider');
   }
 
   getComments():Observable<Comments[]> {
-    return this.http
-      .get<Comments>(Global.SRV+Global.URL_API+'/comments')
-      .pipe(map(this.mapComments))
+    return this.http.get<Comments>(Global.SRV+Global.URL_API+'/comments').pipe(map(this.mapComments))
   }
   
   mapComments(res:any){

@@ -15,7 +15,6 @@ import { map } from 'rxjs/operators';
 export class TicketsServiceProvider {
 
   constructor(public http: HttpClient) {
-    console.log('Hello TicketsServiceProvider Provider');
   }
 
   getTickets(): Observable<Tickets[]> {
