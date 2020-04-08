@@ -5,7 +5,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { BenefitsAvailablePage } from '../benefits-available/benefits-available';
 import { PurchasesMadePage } from '../purchases-made/purchases-made';
 import { UpdatePlacePage } from '../update-place/update-place';
-import { GoogleMap, GoogleMaps, Geocoder, GeocoderResult, GoogleMapOptions, CameraPosition, LatLng, MarkerOptions, GoogleMapsEvent, HtmlInfoWindow } from '@ionic-native/google-maps';
+import { GoogleMap, GoogleMaps, Geocoder, GeocoderResult, GoogleMapOptions, CameraPosition, LatLng, GoogleMapsEvent, HtmlInfoWindow } from '@ionic-native/google-maps';
 import { MyProfilePage } from '../my-profile/my-profile';
 import { Geolocation } from '@ionic-native/geolocation';
 import { PlacesServiceProvider } from '../../providers/places-service';
@@ -170,7 +170,6 @@ export class HomePage {
       '<h2 style="color:black; text-align: center;">Estado: Cerrado!' + '</h2>',
       '</div>',
       '</div>'
-      //'<!--<p style="font-weight: bold;"> {{this.placeFounded.state}}</p>-->',
     ].join("");
     frame.getElementsByTagName("div")[0].addEventListener("click", () => {
       this.navCtrl.push(PlaceDetailPage, { place: place });
@@ -194,6 +193,5 @@ export class HomePage {
       markerInfoWindow.open(marker);
     });
   }
-
 }
 
