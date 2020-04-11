@@ -35,7 +35,7 @@
                         Productos:
                         <ion-list>
                             <ion-item text-wrap>
-                                <ion-grid *ngFor="let product of ticket.products">
+                                <ion-grid *ngFor="let purchaseProduct of ticket.purchaseProducts">
                                     <ion-row>
                                         <ion-col>
                                             Descripción
@@ -49,13 +49,13 @@
                                     </ion-row>
                                     <ion-row>
                                         <ion-col>
-                                            {{product.description}}
+                                            {{purchaseProduct.product.description}}
                                         </ion-col>
                                         <ion-col>
-                                            {{product.price}}
+                                            {{purchaseProduct.product.price}}
                                         </ion-col>
                                         <ion-col>
-                                            {{product.quantity}}
+                                            {{purchaseProduct.quantity}}
                                         </ion-col>
                                     </ion-row>
                                 </ion-grid>
