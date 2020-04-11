@@ -2,6 +2,7 @@ import { Products } from "../models/products";
 import { PaymentMethods } from "../models/payment_methods";
 import { Tickets } from "../models/tickets";
 import { Comments } from "../models/comments";
+import { PurchasedProducts } from "../models/purchased_products";
 
 export class Accessories{
     static formatDate(date){
@@ -18,5 +19,12 @@ export class Accessories{
             return array.map((item)=> new PaymentMethods(item));
         if(model==='comments')
             return array.map((item)=> new Comments(item));
+        if(model==='purchased_products')
+            return array.map((item)=> new PurchasedProducts(item));
+    }
+
+    static mapModelObject(object, model){
+        if(model==='products')
+            return new Products(object)
     }
 }
