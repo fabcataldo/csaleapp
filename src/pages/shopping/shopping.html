@@ -11,5 +11,16 @@
 </ion-header>
 
 <ion-content padding>
+  <div *ngFor="let product of products">
+    <ion-card (tap)="viewTicketDetail(ticket)">
+        <ion-item>
+            <img class="imgStyle" src="../assets/imgs/2113250.png">
+            <ion-label>{{product.description}}</ion-label>
+        </ion-item>
 
+        <ion-card-content>
+            <ion-label>{{product.price}}</ion-label>
+        </ion-card-content>
+    </ion-card>
+</div>
 </ion-content>
