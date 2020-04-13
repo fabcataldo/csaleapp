@@ -32,6 +32,6 @@ export class PlaceDetailPage {
   }
 
   goToShoppingPage(){
-    this.navCtrl.push(ShoppingPage);
+    this.navCtrl.push(ShoppingPage, {place: this.place});
   }
 }
