@@ -8,9 +8,9 @@ export class PurchasedProducts {
 
     constructor(purchasedProducts ? : any) {
         if(purchasedProducts){
-            this.id = purchasedProducts._id;
+            this.id = purchasedProducts._id ? purchasedProducts._id : null;
             this.product = Accessories.mapModelObject(purchasedProducts.product, 'products');
-            this.quantity = purchasedProducts.quantity;
+            this.quantity = purchasedProducts.quantity ? purchasedProducts.quantity : 0;
         }
     }
 }
