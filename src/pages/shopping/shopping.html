@@ -13,27 +13,20 @@
 <ion-content padding>
     <ion-list *ngFor="let product of productsSrv; let i=index">
       <ion-item no-lines text-wrap>
-        <ion-label>        
+        <ion-label class="labelProducts">        
             {{product.description}}
           <br>
             Validez: {{product.validDateFrom}} - {{product.validDateTo}}
           <br>
             $ {{product.price}}
       </ion-label>
-      <ion-label>
+      <ion-label class="labelProducts">
         Cantidad:
       </ion-label>
       <ion-input type="number" value="{{setQuantities(product)}}" (change)="addItem(i, $event, product)"></ion-input>                
       </ion-item>
     </ion-list>
-  <!--
-  <button type="submit" ion-button color="loginButton" class="oneButtons"
-    [disabled]="registerForm.invalid"
-      > 
-    Continuar
-  </button>
-  -->
-  <button type="submit" ion-button color="loginButton" class="oneButtons"> 
+  <button type="submit" ion-button color="loginButton" class="oneButtons" (tap)="goToCheckoutPage()"> 
     Continuar
   </button>
 </ion-content>
