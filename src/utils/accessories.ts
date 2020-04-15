@@ -27,4 +27,8 @@ export class Accessories{
         if(model==='products')
             return new Products(object)
     }
+
+    static capitalizeFirstChar(string){
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
 }
