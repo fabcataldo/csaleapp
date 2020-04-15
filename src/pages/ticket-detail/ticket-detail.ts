@@ -4,6 +4,7 @@ import { Tickets } from '../../models/tickets';
 import { File } from '@ionic-native/file';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+import { Accessories } from '../../utils/accessories';
 
 /*
 import { FileOpener } from '@ionic-native/file-opener';
@@ -25,6 +26,7 @@ pdfMake.vfs = pdfFonts.vfs;
 })
 export class TicketDetailPage {
   ticket:Tickets;
+  //accessories: Accessories;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private file: File) {
     this.ticket = this.navParams.get('ticket');
@@ -60,6 +62,10 @@ export class TicketDetailPage {
       .then((success)=> console.log("File created Succesfully" + JSON.stringify(success)))
       .catch((error)=> console.log("Cannot Create File " +JSON.stringify(error)));
     });
+  }
+
+  toCapitalize(str){
+    return Accessories.capitalizeFirstChar(str);
   }
 
 }
