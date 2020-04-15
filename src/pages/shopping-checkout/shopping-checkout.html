@@ -1,0 +1,92 @@
+<!--
+  Generated template for the ShoppingCheckoutPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>Comprar productos</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <h1 style="color:black; text-align:center">
+    Total: ${{this.cart.ticket.total}}
+    <br>
+    Restante: ${{this.remainingAmount}} 
+  </h1>
+  <br>
+  <h2 style="color:black; text-align:center">
+    Detalle
+  </h2>
+    <ion-list>
+        <ion-item text-wrap>
+            <ion-grid>
+                <ion-row>
+                    <ion-col class="cell-class">
+                        Descripción
+                    </ion-col>
+                    <ion-col class="cell-class">
+                        Precio
+                    </ion-col>
+                    <ion-col class="cell-class">
+                        Cantidad
+                    </ion-col>
+                    <ion-col class="cell-class">
+                        Validez
+                    </ion-col>
+                </ion-row>
+                <div *ngFor="let purchaseProduct of cart.ticket.purchasedProducts">
+                    <ion-row>
+                        <ion-col class="cell-class">
+                            {{purchaseProduct.product.description}}
+                        </ion-col>
+                        <ion-col class="cell-class">
+                            {{purchaseProduct.product.price}}
+                        </ion-col>
+                        <ion-col class="cell-class">
+                            {{purchaseProduct.quantity}}
+                        </ion-col>
+                        <ion-col class="cell-class">
+                            {{purchaseProduct.product.validDateFrom}}-{{purchaseProduct.product.validDateTo}}
+                        </ion-col>
+                    </ion-row>
+                </div>
+            </ion-grid>
+        </ion-item>
+    </ion-list>
+    <br>
+  <h2 style="color:black; text-align:center">
+    ¿Cómo vas a pagar?
+  </h2>  
+  <ion-grid>
+    <ion-row style="margin-top: -2rem;">
+      <ion-col  col-6>
+        <button ion-button outline color="loginButton" class="oneButtons" 
+          (tap)="goToCheckoutPage()"> 
+          Efectivo
+        </button>
+      </ion-col>
+      <ion-col  col-6>
+        <button ion-button outline color="loginButton" class="oneButtons" 
+          (tap)="goToCheckoutPage()"> 
+          Tarjeta
+        </button>
+      </ion-col>
+    </ion-row>
+    <ion-row style="margin-top: -2rem;">
+      <ion-col  col-12>
+        <button ion-button outline color="loginButton" class="oneButtons" 
+          (tap)="goToCheckoutPage()"> 
+          Mercado Pago
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+<ion-footer>
+  <button ion-button block (tap)="goToCheckoutPage()"> 
+    Continuar
+  </button>
+</ion-footer>

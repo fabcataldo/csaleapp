@@ -34,6 +34,8 @@ import {Geolocation} from '@ionic-native/geolocation';
 import { AndroidPermissions } from '@ionic-native/android-permissions';
 import { PlaceDetailPage } from '../pages/place-detail/place-detail';
 import { ShoppingPage } from '../pages/shopping/shopping';
+import { ShoppingCheckoutPage } from '../pages/shopping-checkout/shopping-checkout';
+import { CartServiceProvider } from '../providers/cart-service';
 
 const firebaseConfig = {
   apiKey: "AIzaSyDX2SigUNlJ_UiHX_DEQ6NvNFDvXBgcF0g",
@@ -59,7 +61,8 @@ const firebaseConfig = {
     UpdateAccountPage,
     TicketDetailPage,
     PlaceDetailPage,
-    ShoppingPage
+    ShoppingPage,
+    ShoppingCheckoutPage
   ],
   imports: [
     BrowserModule,
@@ -83,7 +86,8 @@ const firebaseConfig = {
     UpdateAccountPage,
     TicketDetailPage,
     PlaceDetailPage,
-    ShoppingPage
+    ShoppingPage,
+    ShoppingCheckoutPage
   ],
   providers: [
     StatusBar,
@@ -106,7 +110,8 @@ const firebaseConfig = {
     File,
     FileOpener,
     Geolocation,
-    AndroidPermissions
+    AndroidPermissions,
+    CartServiceProvider
   ]
 })
 export class AppModule {}
