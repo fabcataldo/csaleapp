@@ -5,7 +5,6 @@ export class Products {
     _id : string;
     description : string;
     price : number;
-    quantity : number;
     validDateFrom : string;
     validDateTo : string;
 
