@@ -27,13 +27,12 @@ export class HomePage {
     controls: {
       myLocation: true,
       myLocationButton: true
-    },
+    }
   }
   myPosition: any = {};
   places: Places[];
   placeFounded: Places;
   cardPlaceFounded: boolean;
-
 
   constructor(public navCtrl: NavController, private afAuth: AngularFireAuth,
     private geolocation: Geolocation,
@@ -64,7 +63,6 @@ export class HomePage {
       })
         .then((results: GeocoderResult[]) => {
           if (results.length!==0) {
-            console.log(results[0])
             let positionCamera: CameraPosition<LatLng> = {
               target: new LatLng(results[0].position.lat, results[0].position.lng),
               zoom: 25
@@ -112,7 +110,9 @@ export class HomePage {
       this.signOut();
     }
     localStorage.removeItem('user');
-    localStorage.removeItem('token')
+    localStorage.removeItem('token');
+    localStorage.removeItem('cart');
+    localStorage.removeItem('place');
     this.navCtrl.setRoot(LoginPage)
   }
 
@@ -128,7 +128,6 @@ export class HomePage {
   getCurrentPosition() {
     this.map.one(GoogleMapsEvent.MAP_READY).then(() => {
       this.geolocation.getCurrentPosition().then((result)=>{
-        console.log(result)
         let position: CameraPosition<LatLng> = {
           target: new LatLng(result.coords.latitude, result.coords.longitude),
           zoom: 10
