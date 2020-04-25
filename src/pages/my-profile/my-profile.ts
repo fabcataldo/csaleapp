@@ -43,7 +43,6 @@ export class MyProfilePage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad MyProfilePage');
   }
 
   ionViewDidEnter(){
