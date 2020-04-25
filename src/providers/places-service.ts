@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Places } from '../models/places';
 import {Observable} from 'rxjs/Observable';
 import { map } from 'rxjs/operators';
+import { Global } from '../utils/global';
 
 /*
   Generated class for the PlacesServiceProvider provider.
@@ -17,7 +18,7 @@ export class PlacesServiceProvider {
   }
 
   getPlaces(): Observable<Places[]> {
-    return this.http.get('http://192.168.0.78:3000/api/places').pipe(map(this.mapPlaces))
+    return this.http.get(Global.SRV+Global.URL_API+'/places').pipe(map(this.mapPlaces))
   }
 
   mapPlaces(res:any){
@@ -25,14 +26,15 @@ export class PlacesServiceProvider {
   }
 
   getPlace(id): Observable<Places>{
-    return this.http.get<Places>('http://192.168.0.78:3000/api/places/'+id)
+    return this.http.get<Places>(Global.SRV+Global.URL_API+'/places/'+id)
   }
 
   getFreeSpace(id): Observable<any>{
-    return this.http.get<any>('http://192.168.0.78:3000/api/places/freeSpace/'+id)
+    return this.http.get<any>(Global.SRV+Global.URL_API+'/places/freeSpace/'+id)
   }
 
   putPlace(id, place): Observable<Places>{
-    return this.http.put<Places>('http://192.168.0.78:3000/api/places/'+id, place);
+    console.log(place)
+    return this.http.put<Places>(Global.SRV+Global.URL_API+'/places/'+id, place);
   }
 }
