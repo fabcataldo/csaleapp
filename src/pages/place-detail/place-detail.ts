@@ -22,6 +22,7 @@ export class PlaceDetailPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private PlaceSrv: PlacesServiceProvider) {
     this.place = this.navParams.get('place');
+
     this.PlaceSrv.getFreeSpace(this.place._id).subscribe((result)=>{
       this.freeSpace = result;
     });
