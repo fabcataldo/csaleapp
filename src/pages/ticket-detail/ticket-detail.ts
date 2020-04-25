@@ -1,23 +1,12 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Tickets } from '../../models/tickets';
-import { File } from '@ionic-native/file';
+import { File, IWriteOptions } from '@ionic-native/file';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import { Accessories } from '../../utils/accessories';
-
-/*
-import { FileOpener } from '@ionic-native/file-opener';
-import pdfMake from 'pdfmake/build/pdfmake';
-import pdfFonts from 'pdfmake/build/vfs_fonts';
-pdfMake.vfs = pdfFonts.vfs;
- */
-/**
- * Generated class for the TicketDetailPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { CartServiceProvider } from '../../providers/cart-service';
+import { HomePage } from '../home/home';
 
 @IonicPage()
 @Component({
@@ -25,12 +14,16 @@ pdfMake.vfs = pdfFonts.vfs;
   templateUrl: 'ticket-detail.html',
 })
 export class TicketDetailPage {
-  ticket:Tickets;
-  //accessories: Accessories;
+  ticket: Tickets;
+  isShopping: boolean;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private file: File) {
-    this.ticket = this.navParams.get('ticket');
+  constructor(public navCtrl: NavController, public navParams: NavParams, private file: File,
+    private CartSrv: CartServiceProvider) {
+    this.ticket = this.navParams.get('ticket') ? this.navParams.get('ticket') : this.CartSrv.getCart().ticket;
+    this.isShopping = this.navParams.get('isShopping') ? this.navParams.get('isShopping') : false;
   }
+
+
 
   ionViewDidLoad() {
   }
@@ -40,11 +33,19 @@ export class TicketDetailPage {
     const options = {background:"white",height :div.clientHeight , width : div.clientWidth  };
     html2canvas(div,options).then((canvas)=>{
       //Initialize JSPDF
-      var doc = new jsPDF();
+      var doc;
+      //new jsPDF(orientation (landscape or portrait), unit, format (a4... etc), putOnlyUsedPonts
+      //compress, precision, userUnit)
+      if(canvas.width > canvas.height){
+        doc = new jsPDF('l', 'cm', [canvas.width, canvas.height]);
+        }
+        else{
+        doc = new jsPDF('p', 'cm', [canvas.height, canvas.width]);
+        }
       //Converting canvas to Image
       let imgData = canvas.toDataURL("image/PNG");
       //Add image Canvas to PDF
-      doc.addImage(imgData, 'PNG', 20,20 );
+      doc.addImage(imgData, 'PNG', 5, 5 );
       
       let pdfOutput = doc.output();
       // using ArrayBuffer will allow you to put image inside PDF
@@ -58,7 +59,11 @@ export class TicketDetailPage {
       // for more information please visit https://ionicframework.com/docs/native/file/,
       //name of pdf)
       //Writing File to Device
-      this.file.writeFile(this.file.externalApplicationStorageDirectory, "comprobante.pdf",buffer)
+      let options: IWriteOptions = {
+        replace: true
+      }
+      this.file.writeFile(this.file.externalApplicationStorageDirectory, "comprobante"+Accessories.makeRandomString(2)+".pdf",buffer, 
+        options)
       .then((success)=> console.log("File created Succesfully" + JSON.stringify(success)))
       .catch((error)=> console.log("Cannot Create File " +JSON.stringify(error)));
     });
@@ -66,6 +71,11 @@ export class TicketDetailPage {
 
   toCapitalize(str){
     return Accessories.capitalizeFirstChar(str);
+  }
+
+  goToHomePage(){
+    this.CartSrv.uploadCart();
+    this.navCtrl.setRoot(HomePage);
   }
 
 }

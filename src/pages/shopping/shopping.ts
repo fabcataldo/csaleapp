@@ -110,6 +110,6 @@ export class ShoppingPage {
     this.ticket.total = this.getTotal();
     this.cart.ticket = this.ticket;
     this.CartSrv.setCart(this.cart);
-    this.navCtrl.push(ShoppingCheckoutPage, {cart: this.cart});
+    this.navCtrl.push(ShoppingCheckoutPage);
   }
 }

@@ -1,0 +1,32 @@
+<!--
+  Generated template for the ShoppingCashPaymentPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar  color="primary">
+    <ion-title>Pago en efectivo</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <h1 style="color:black; text-align:center">
+    Restante: ${{remainingAmount}} 
+  </h1>
+  <br>
+  <ion-item>
+    <ion-label>
+      Monto:
+    </ion-label>
+    <ion-input style="color:black" type="number" [ngModel]="amount" (ionChange)="inputChange($event)"></ion-input>
+  </ion-item>
+  <br>
+  <div style="text-align: center;">
+    <button ion-button (tap)="goToCheckoutPage()" [disabled]="!canPay"> 
+      Aplicar
+    </button>  
+  </div>
+
+
+</ion-content>

@@ -12,9 +12,9 @@
 
 <ion-content padding>
   <h1 style="color:black; text-align:center">
-    Total: ${{this.cart.ticket.total}}
+    Total: ${{cart.ticket.total}}
     <br>
-    Restante: ${{this.remainingAmount}} 
+    Restante: ${{CartSrv.getRemainingAmount()}} 
   </h1>
   <br>
   <h2 style="color:black; text-align:center">
@@ -56,7 +56,6 @@
             </ion-grid>
         </ion-item>
     </ion-list>
-    <br>
   <h2 style="color:black; text-align:center">
     ¿Cómo vas a pagar?
   </h2>  
@@ -64,13 +63,13 @@
     <ion-row style="margin-top: -2rem;">
       <ion-col  col-6>
         <button ion-button outline color="loginButton" class="oneButtons" 
-          (tap)="goToCheckoutPage()"> 
+          (tap)="goToCashPaymentPage()" [disabled]="!canPay"> 
           Efectivo
         </button>
       </ion-col>
       <ion-col  col-6>
         <button ion-button outline color="loginButton" class="oneButtons" 
-          (tap)="goToCheckoutPage()"> 
+          (tap)="goToCardPaymentPage()" [disabled]="!canPay"> 
           Tarjeta
         </button>
       </ion-col>
@@ -78,15 +77,34 @@
     <ion-row style="margin-top: -2rem;">
       <ion-col  col-12>
         <button ion-button outline color="loginButton" class="oneButtons" 
-          (tap)="goToCheckoutPage()"> 
+          (tap)="goToMercadoPago()" [disabled]="!canPay"> 
           Mercado Pago
         </button>
       </ion-col>
     </ion-row>
   </ion-grid>
+
+  <h2 style="color:black; text-align:center">
+    Pagos realizados
+  </h2>
+  <ion-list *ngFor="let paymentMethod of this.cart.ticket.paymentMethods">
+    <ion-item-sliding>
+      <ion-item>
+        {{toCapitalize(paymentMethod.paymentMethod.name)}}: ${{paymentMethod.amountPaid}}
+      </ion-item>
+      <ion-item-options side="right">
+        <button ion-button icon-start (click)="goToPaymentPage(paymentMethod)">
+          <ion-icon name="create"></ion-icon>
+        </button>
+        <button ion-button icon-start (click)="removePayment(paymentMethod)">
+          <ion-icon name="trash"></ion-icon>
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
 </ion-content>
 <ion-footer>
-  <button ion-button block (tap)="goToCheckoutPage()"> 
+  <button ion-button block (tap)="goToTicketDetailPage()" [disabled]="canPay"> 
     Continuar
   </button>
 </ion-footer>

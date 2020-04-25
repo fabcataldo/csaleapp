@@ -4,7 +4,7 @@ import { Accessories } from '../utils/accessories';
 import { PurchasedProducts } from './purchased_products';
 
 export class Tickets {
-    _id : string = "0";
+    _id : string = null;
     dateOfPurchase : string = "";
     user : Users = null;
     paymentMethods : PaymentMethods[] = [];
