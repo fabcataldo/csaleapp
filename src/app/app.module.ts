@@ -36,6 +36,10 @@ import { PlaceDetailPage } from '../pages/place-detail/place-detail';
 import { ShoppingPage } from '../pages/shopping/shopping';
 import { ShoppingCheckoutPage } from '../pages/shopping-checkout/shopping-checkout';
 import { CartServiceProvider } from '../providers/cart-service';
+import { ShoppingCashPaymentPage } from '../pages/shopping-cash-payment/shopping-cash-payment';
+import { ShoppingCardPaymentPage } from '../pages/shopping-card-payment/shopping-card-payment';
+import { AvailablePaymentMethodsServiceProvider } from '../providers/available-payment-methods';
+import { PaymentMethodsServiceProvider } from '../providers/payment-methods';
 
 const firebaseConfig = {
   apiKey: "AIzaSyDX2SigUNlJ_UiHX_DEQ6NvNFDvXBgcF0g",
@@ -62,7 +66,9 @@ const firebaseConfig = {
     TicketDetailPage,
     PlaceDetailPage,
     ShoppingPage,
-    ShoppingCheckoutPage
+    ShoppingCheckoutPage,
+    ShoppingCashPaymentPage,
+    ShoppingCardPaymentPage
   ],
   imports: [
     BrowserModule,
@@ -87,7 +93,9 @@ const firebaseConfig = {
     TicketDetailPage,
     PlaceDetailPage,
     ShoppingPage,
-    ShoppingCheckoutPage
+    ShoppingCheckoutPage,
+    ShoppingCashPaymentPage,
+    ShoppingCardPaymentPage
   ],
   providers: [
     StatusBar,
@@ -111,7 +119,9 @@ const firebaseConfig = {
     FileOpener,
     Geolocation,
     AndroidPermissions,
-    CartServiceProvider
+    CartServiceProvider,
+    AvailablePaymentMethodsServiceProvider,
+    PaymentMethodsServiceProvider
   ]
 })
 export class AppModule {}
