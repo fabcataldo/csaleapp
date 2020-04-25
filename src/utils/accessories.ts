@@ -33,6 +33,7 @@ export class Accessories{
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
 
+    //validador de números de tarjeta
     static cardValidator(control: AbstractControl): {[key: string]: boolean} | null{
         let cards = {
             'mc': '5[1-5][0-9]{14}',
@@ -63,6 +64,8 @@ export class Accessories{
         return results.length ? { validCard: true } : null;
     };
 
+    //clase que se usa, por ej., para generar un string adicionalñ
+    //a la hora de guardar un ticket en el dispositivo.
     static makeRandomString(length) {
         var result           = '';
         var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
