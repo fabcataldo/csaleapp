@@ -18,7 +18,6 @@ import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { GooglePlus } from '@ionic-native/google-plus';
 import { Facebook } from '@ionic-native/facebook';
-import { BenefitsAvailablePage } from '../pages/benefits-available/benefits-available';
 import { UpdatePlacePage } from '../pages/update-place/update-place';
 import { PurchasesMadePage } from '../pages/purchases-made/purchases-made';
 import { GoogleMaps } from '@ionic-native/google-maps';
@@ -58,7 +57,6 @@ const firebaseConfig = {
     HomePage,
     LoginPage,
     RegisterPage,
-    BenefitsAvailablePage,
     PurchasesMadePage,
     UpdatePlacePage,
     MyProfilePage,
@@ -85,7 +83,6 @@ const firebaseConfig = {
     HomePage,
     LoginPage,
     RegisterPage,
-    BenefitsAvailablePage,
     PurchasesMadePage,
     UpdatePlacePage,
     MyProfilePage,

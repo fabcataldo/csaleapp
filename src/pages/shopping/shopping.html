@@ -6,7 +6,12 @@
 -->
 <ion-header>
   <ion-navbar color="primary">
-    <ion-title>Comprar productos</ion-title>
+    <div *ngIf="!filterProductsPerBenefit">
+      <ion-title>Comprar productos</ion-title>
+    </div>
+    <div *ngIf="filterProductsPerBenefit">
+      <ion-title>Beneficios disponibles</ion-title>
+    </div>
   </ion-navbar>
 </ion-header>
 
@@ -16,7 +21,7 @@
         <ion-label class="labelProducts">        
             {{product.description}}
           <br>
-            Validez: {{product.validDateFrom}} - {{product.validDateTo}}
+            Validez: {{product.valid_date_from}} - {{product.valid_date_to}}
           <br>
             $ {{product.price}}
       </ion-label>

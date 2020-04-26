@@ -28,25 +28,27 @@ export class ShoppingPage {
   cart: Cart;
   ticket: Tickets = new Tickets();
   purchasedProducts: PurchasedProducts[] = [];
+  filterProductsPerBenefit: boolean;
 
   private sub1$:any;
   private sub2$:any;
 
   constructor(public platform: Platform, public navCtrl: NavController, public navParams: NavParams, 
     public ProductsSrv: ProductsServiceProvider, private CartSrv: CartServiceProvider) {
+    this.filterProductsPerBenefit = this.navParams.get('filterProductsPerBenefit') ? this.navParams.get('filterProductsPerBenefit') : false;
     this.ProductsSrv.getProducts().subscribe((result)=>{
-      this.productsSrv = result;
+      this.productsSrv = this.getFilteredProducts(result);
     })
     if(localStorage.getItem('cart')){
       this.cart = new Cart(this.CartSrv.getCart());
       this.ticket = this.cart.ticket;
-      this.purchasedProducts = this.ticket.purchasedProducts;
+      this.purchasedProducts = this.ticket.purchased_products;
     }
     else{
       this.cart = new Cart();
-      this.ticket.dateOfPurchase = new Date().toISOString();
+      this.ticket.date_of_purchase = new Date().toISOString();
       this.ticket.user = JSON.parse(localStorage.getItem('user')); 
-      this.ticket.purchasedProducts = this.purchasedProducts;
+      this.ticket.purchased_products = this.purchasedProducts;
       
       this.cart.place = this.navParams.get('place');
       this.cart.ticket = this.ticket;
@@ -61,6 +63,16 @@ export class ShoppingPage {
           console.log('****UserdashboardPage RESUMED****');
       });
     });
+  }
+
+  getFilteredProducts(products){
+    return products.filter(item=>{
+      if(!this.filterProductsPerBenefit)
+        return item.description.includes(this.navParams.get('place').name);
+      else{
+        return (!item.description.includes('Entrada'));
+      }
+    })
   }
 
   setQuantities(product){
@@ -94,7 +106,7 @@ export class ShoppingPage {
       this.purchasedProducts.push(new PurchasedProducts({_id: null, product: this.productsSrv[index], quantity: event.target.value}));
     }
 
-    this.ticket.purchasedProducts = this.purchasedProducts;
+    this.ticket.purchased_products = this.purchasedProducts;
     this.cart.ticket = this.ticket;    
   }
 
