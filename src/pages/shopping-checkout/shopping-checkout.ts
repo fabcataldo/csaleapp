@@ -81,7 +81,7 @@ export class ShoppingCheckoutPage {
       paymentMethod:
         this.availablePaymentMethods.find(item => item.name == 'efectivo'),
       cashPayment: payment ? payment : this.CartSrv.findPaymentMethod(null, 'cash') !== -1 ?
-        this.cart.ticket.paymentMethods[this.CartSrv.findPaymentMethod(null, 'cash')] : null
+        this.cart.ticket.payment_methods[this.CartSrv.findPaymentMethod(null, 'cash')] : null
     });
   }
 
