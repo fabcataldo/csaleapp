@@ -12,6 +12,7 @@ import { PlacesServiceProvider } from '../../providers/places-service';
 import { Places } from '../../models/places';
 import { PopoverController } from 'ionic-angular';
 import { PlaceDetailPage } from '../place-detail/place-detail';
+import { ShoppingPage } from '../shopping/shopping';
 
 @Component({
   selector: 'page-home',
@@ -70,7 +71,6 @@ export class HomePage {
             this.map.moveCamera(positionCamera);
             
             this.placeFounded = this.places.filter(item => results[0].extra.lines[0].toLocaleLowerCase() === item.address.toLocaleLowerCase())[0]
-
             if (!this.placeFounded) {
               //this.setMarkers(this.placeFounded)
               //EN UN FUTURO: poner mensaje de que el lugar no se encuentra disponible en la app
@@ -90,7 +90,7 @@ export class HomePage {
   }
 
   goToBenefitsAvailablePage() {
-    this.navCtrl.push(BenefitsAvailablePage);
+    this.navCtrl.push(ShoppingPage, {filterProductsPerBenefit: true});
   }
 
   goToMyprofilePage() {
