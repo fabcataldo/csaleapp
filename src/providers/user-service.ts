@@ -29,7 +29,6 @@ export class UserServiceProvider {
   }
 
   putUser(id, user): Observable<any>{
-    console.log(user)
     return this.http.put<Users>(Global.SRV+Global.URL_API+'/users/'+id, user)
   }
 

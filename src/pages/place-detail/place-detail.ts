@@ -29,7 +29,6 @@ export class PlaceDetailPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad PlaceDetailPage');
   }
 
   goToShoppingPage(){

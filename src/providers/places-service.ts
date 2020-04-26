@@ -34,7 +34,6 @@ export class PlacesServiceProvider {
   }
 
   putPlace(id, place): Observable<Places>{
-    console.log(place)
     return this.http.put<Places>(Global.SRV+Global.URL_API+'/places/'+id, place);
   }
 }
