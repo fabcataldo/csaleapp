@@ -32,7 +32,7 @@ export class CartServiceProvider {
     
     getTotalPaid(){
         let total = 0;
-        this.cart.ticket.paymentMethods.forEach(item => {
+        this.cart.ticket.payment_methods.forEach(item => {
           total+=Number(item.amountPaid);
         })
         return total;
@@ -40,12 +40,12 @@ export class CartServiceProvider {
 
     findPaymentMethod(paymentMethod, type){
         if(type == 'cash'){
-            return this.cart.ticket.paymentMethods.findIndex(item=>{
+            return this.cart.ticket.payment_methods.findIndex(item=>{
                 return 'efectivo' == item.paymentMethod.name
             })
         }
         if(type == 'card'){
-            return this.cart.ticket.paymentMethods.findIndex(item=>{
+            return this.cart.ticket.payment_methods.findIndex(item=>{
                 if(item.card){
                     return paymentMethod.card.card_number == item.card.card_number
                 }
@@ -56,17 +56,17 @@ export class CartServiceProvider {
     savePaymentMethod(paymentMethod, type){
         let paymentIdx = this.findPaymentMethod(paymentMethod, type);
         if(paymentIdx !== -1){
-            this.cart.ticket.paymentMethods[paymentIdx].amountPaid = paymentMethod.amountPaid;
+            this.cart.ticket.payment_methods[paymentIdx].amountPaid = paymentMethod.amountPaid;
         }
         else{
-            this.cart.ticket.paymentMethods.push(paymentMethod);
+            this.cart.ticket.payment_methods.push(paymentMethod);
         }
     }
 
     removePaymentMethod(paymentMethod, type){
         let paymentIdx = this.findPaymentMethod(paymentMethod, type);
         if(paymentIdx !== -1){
-            this.cart.ticket.paymentMethods.splice(paymentIdx, 1);
+            this.cart.ticket.payment_methods.splice(paymentIdx, 1);
         }
     }
 
@@ -74,7 +74,6 @@ export class CartServiceProvider {
         this.getCart().place.tickets.push(this.getCart().ticket);
         
         let userStored = JSON.parse(localStorage.getItem('user'))
-        console.log('userStored: ', userStored)
         if(userStored.tickets)
             userStored.tickets.push(this.getCart().ticket) 
         else
@@ -82,6 +81,10 @@ export class CartServiceProvider {
             
         
         localStorage.setItem('user', JSON.stringify(userStored));
+
+        this.TicketSrv.postTicket(this.getCart().ticket).subscribe(resp=>{
+            console.log('postTicket resp: \n'+resp);
+        });
 
         this.PlaceSrv.putPlace(this.getCart().place._id, this.getCart().place).subscribe(resp=>{
             console.log(resp)

@@ -28,7 +28,7 @@
             <ion-card-content>
                 <ion-list>
                     <ion-item no-lines>
-                        Fecha: {{ticket.dateOfPurchase}}
+                        Fecha: {{ticket.date_of_purchase}}
                     </ion-item>
 
                     <ion-item>
@@ -50,7 +50,7 @@
                                             Validez
                                         </ion-col>
                                     </ion-row>
-                                    <div *ngFor="let purchaseProduct of ticket.purchasedProducts">
+                                    <div *ngFor="let purchaseProduct of ticket.purchased_products">
                                         <ion-row>
                                             <ion-col class="cell-class">
                                                 {{purchaseProduct.product.description}}
@@ -62,7 +62,7 @@
                                                 {{purchaseProduct.quantity}}
                                             </ion-col>
                                             <ion-col class="cell-class">
-                                                {{purchaseProduct.product.validDateFrom}}-{{purchaseProduct.product.validDateTo}}
+                                                {{purchaseProduct.product.valid_date_from}}-{{purchaseProduct.product.valid_date_to}}
                                             </ion-col>
                                         </ion-row>
                                     </div>
@@ -76,7 +76,7 @@
                     </ion-item>
                     <ion-item no lines>
                         Pagaste con:
-                        <ion-grid *ngFor="let paymentMethod of ticket.paymentMethods">
+                        <ion-grid *ngFor="let paymentMethod of ticket.payment_methods">
                             <ion-row>
                                 - {{toCapitalize(paymentMethod.paymentMethod.name)}}
                             </ion-row>

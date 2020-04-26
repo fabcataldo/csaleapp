@@ -5,19 +5,19 @@ import { PurchasedProducts } from './purchased_products';
 
 export class Tickets {
     _id : string = null;
-    dateOfPurchase : string = "";
+    date_of_purchase : string = "";
     user : Users = null;
-    paymentMethods : PaymentMethods[] = [];
+    payment_methods : PaymentMethods[] = [];
     total : number = 0;
-    purchasedProducts: PurchasedProducts[] = [];
+    purchased_products: PurchasedProducts[] = [];
 
     constructor(ticket ? : any) {
         if(ticket){
             this._id = ticket._id ? ticket._id : null;
-            this.dateOfPurchase = ticket.date_of_purchase ? Accessories.formatDate(ticket.date_of_purchase) : Accessories.formatDate(new Date().toISOString());
-            this.paymentMethods = ticket.payment_methods ? Accessories.mapModelArray(ticket.payment_methods, 'payment_methods') : null;
+            this.date_of_purchase = ticket.date_of_purchase ? Accessories.formatDate(ticket.date_of_purchase) : Accessories.formatDate(new Date().toISOString());
+            this.payment_methods = ticket.payment_methods ? Accessories.mapModelArray(ticket.payment_methods, 'payment_methods') : null;
             this.total = ticket.total ? ticket.total : 0;
-            this.purchasedProducts = ticket.purchased_products ? Accessories.mapModelArray(ticket.purchased_products, 'purchased_products') : null;
+            this.purchased_products = ticket.purchased_products ? Accessories.mapModelArray(ticket.purchased_products, 'purchased_products') : null;
         }
     }
 }
