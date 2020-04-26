@@ -83,7 +83,6 @@ export class ShoppingCardPaymentPage {
 
     const cardNumberControl = this.cardForm.get('card_number');
     cardNumberControl.valueChanges.subscribe((value)=>{
-      console.log(cardNumberControl.errors)
       if(value.length>0){
         cardNumberControl.clearValidators();
         cardNumberControl.setValidators(Validators.compose([Validators.required, Accessories.cardValidator]))
@@ -92,13 +91,11 @@ export class ShoppingCardPaymentPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad ShoppingCardPaymentPage');
   }
 
   getFormFields() { return this.cardForm.controls; }
 
   onClickSubmit(data){
-    console.log(data)
     let newCard = new Cards({
       _id: null, 
       card_number: data.card_number,
