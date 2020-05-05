@@ -7,6 +7,8 @@ import { CartServiceProvider } from '../../providers/cart-service';
 import { PaymentMethods } from '../../models/payment_methods';
 import { Accessories} from '../../utils/accessories';
 import { ShoppingCheckoutPage } from '../shopping-checkout/shopping-checkout';
+import { PaymentMethodsServiceProvider } from '../../providers/payment-methods';
+import { NotificationsProvider } from '../../providers/notifications-service';
 
 /**
  * Generated class for the ShoppingCardPaymentPage page.
@@ -14,6 +16,8 @@ import { ShoppingCheckoutPage } from '../shopping-checkout/shopping-checkout';
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
  */
+
+declare var Mercadopago: any;
 
 @IonicPage()
 @Component({
@@ -27,9 +31,14 @@ export class ShoppingCardPaymentPage {
   remainingAmount: number=0;
   payment: PaymentMethods;
   canPay: boolean = true;
+  isMercadopago: boolean;
+  mercadopagoData: [];
 
   constructor(public navCtrl: NavController, public navParams: NavParams, 
-    private formBuilder: FormBuilder, private cartSrv: CartServiceProvider) {
+    private formBuilder: FormBuilder, private cartSrv: CartServiceProvider,
+    private PaymentMethodSrv: PaymentMethodsServiceProvider,
+    private NotificationsCtrl: NotificationsProvider) {
+    
     this.cardForm = this.formBuilder.group({
       card_number: ['', Validators.compose([Validators.required, Accessories.cardValidator])],
       user_dni: ['', Validators.compose([Validators.required])],
@@ -40,7 +49,10 @@ export class ShoppingCardPaymentPage {
     })
     this.getFormFields()['user_name'].setValue(JSON.parse(localStorage.getItem('user')).name)
     this.cart = this.cartSrv.getCart();
-    
+    Mercadopago.setPublishableKey("TEST-29ec7fdc-602d-4241-bb97-e94a7dfa7b11")
+    console.log('DNISSS : ',Mercadopago.getIdentificationTypes())
+    this.isMercadopago = this.navParams.get('isMercadopago')
+
     this.card = this.navParams.get('paymentMethod');
 
     this.payment = this.navParams.get('cardPayment');
@@ -95,6 +107,21 @@ export class ShoppingCardPaymentPage {
 
   getFormFields() { return this.cardForm.controls; }
 
+  payWithMercadopago(card){
+    console.log('ES CON MERCADO PAGO')
+      var respuesta = Mercadopago.createToken({
+        "cardNumber" : card.card_number,
+        "securityCode" : card.security_code ,
+        "cardExpirationMonth" : '11' ,
+        "cardExpirationYear" : '25',
+        "cardholderName" : 'Pepe Argento',
+        "docType": 'DNI',
+        "docNumber": '38914652',
+        "installments": 1
+      }, this.sdkResponseHandler.bind(this));
+      console.log('RESPUESTA: '+respuesta);
+  }
+
   onClickSubmit(data){
     let newCard = new Cards({
       _id: null, 
@@ -113,8 +140,47 @@ export class ShoppingCardPaymentPage {
         amountPaid: data.amount
       }
     )
+    if(this.isMercadopago){
+      this.payWithMercadopago(newCard);
+    }
     this.cartSrv.savePaymentMethod(newPaymentMethod, 'card');
     this.cartSrv.setCart(this.cartSrv.getCart());
+
     this.navCtrl.push(ShoppingCheckoutPage);
   }
+
+  sdkResponseHandler(status, response) {
+    if (status != 200 && status != 201) {
+        console.log("verify filled data");
+    }else{
+      console.log(this.cardForm)
+      let mercadopagoData = {
+        token: response.id,
+        description: 'pago de compra CSaleApp; monto: , '+parseInt(this.cardForm.controls.amount.value),
+        payment_method_id: 'visa',
+        payer_email: JSON.parse(localStorage.getItem('user')).email,
+        transaction_amount: parseInt(this.cardForm.controls.amount.value)
+      }
+      this.PaymentMethodSrv.postMercadopagoPayment(mercadopagoData).subscribe(result=>{
+        console.log('PAGO EN MERCADO PAGO REALZIADO, PAGO CON TAREJTA APROVADO Y ACREDITADO')
+        console.log(result);
+      }),
+      (err)=>{
+        this.NotificationsCtrl.presentErrorNotification("Pago en Mercado Pago fallido.\nError técnico: "+err);
+        console.log(err);
+      }
+      let mercadopagoStorage = JSON.parse(localStorage.getItem('mercadopagoData'));
+
+      if(mercadopagoStorage){
+        mercadopagoStorage.push(mercadopagoData);
+        localStorage.setItem('mercadopagoData', JSON.stringify(mercadopagoStorage));
+      }
+      else{
+        localStorage.setItem('mercadopagoData', JSON.stringify([mercadopagoData]));
+      }
+
+      console.log(response)
+      return response;
+    }
+};
 }

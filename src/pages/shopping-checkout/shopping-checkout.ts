@@ -9,6 +9,8 @@ import { AvailablePaymentMethodsServiceProvider } from '../../providers/availabl
 import { AvailablePaymentMethods } from '../../models/available_payment_methods';
 import { Accessories } from '../../utils/accessories';
 import { TicketDetailPage } from '../ticket-detail/ticket-detail';
+import { ShoppingMercadopagoPaymentPage } from '../shopping-mercadopago-payment/shopping-mercadopago-payment';
+import { NotificationsProvider } from '../../providers/notifications-service';
 
 /**
  * Generated class for the ShoppingCheckoutPage page.
@@ -30,14 +32,16 @@ export class ShoppingCheckoutPage {
 
   @ViewChild(Navbar) navBar: Navbar;
   constructor(public navCtrl: NavController, public navParams: NavParams, 
-    private CartSrv: CartServiceProvider, private availablePaymentMethodsSrv: AvailablePaymentMethodsServiceProvider) {
-      this.setCart();
+    private CartSrv: CartServiceProvider, private availablePaymentMethodsSrv: AvailablePaymentMethodsServiceProvider,
+    private NotificationsCtrl: NotificationsProvider) {
       this.getAvailablePaymentMethods();
+      this.setCart();
+      this.setRemainingAmount();
+      this.setCanPay();
   }
 
   ionViewDidLoad() {
-    this.setRemainingAmount();
-    this.setCanPay();
+
   }
 
   setCart(){
@@ -55,7 +59,10 @@ export class ShoppingCheckoutPage {
   async getAvailablePaymentMethods(){
     await this.availablePaymentMethodsSrv.getAvailablePaymentMethods().subscribe(data=>{
       this.availablePaymentMethods = data;
-    })
+    }),
+    (err)=>{
+      this.NotificationsCtrl.presentErrorNotification("No se pudieron obtener los métodos de pago disponibles.\nError técnico: "+err);
+    }
   }
 
   ionViewDidEnter(){
@@ -92,8 +99,11 @@ export class ShoppingCheckoutPage {
     });
   }
 
-  goToMercadoPago(){
-    console.log('No implementado')
+  goToMercadopagoPaymentPage(payment?:any){
+    this.navCtrl.push(ShoppingMercadopagoPaymentPage, {
+      paymentMethod: this.availablePaymentMethods.find(item => item.name == 'mercado pago'),
+      mercadopagoPayment: payment ? payment : null
+    });
   }
 
   removePayment(paymentMethod){
@@ -101,7 +111,7 @@ export class ShoppingCheckoutPage {
       ? 'cash' : (paymentMethod.paymentMethod.name === 'tarjeta') ? 'card' : 'mercadopago'; 
     this.CartSrv.removePaymentMethod(paymentMethod, type);
     this.cart = this.CartSrv.getCart();
-
+    localStorage.setItem('cart', JSON.stringify(this.cart))
     this.setRemainingAmount();
     this.setCanPay();
   }
