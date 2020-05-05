@@ -87,8 +87,7 @@ export class ShoppingCardPaymentPage {
         else{
           this.remainingAmount = this.cartSrv.getRemainingAmount() - amount
         }
-        this.canPay = this.remainingAmount >= 0 && this.remainingAmount <= this.cartSrv.getRemainingAmount() ? true : false;
-
+        this.canPay = this.remainingAmount >= 0 && this.remainingAmount <= this.cart.ticket.total ? true : false;
         amountControl.clearValidators();
         amountControl.setValidators(Validators.compose([Validators.required]))
     })

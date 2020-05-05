@@ -59,7 +59,7 @@ export class ShoppingCashPaymentPage {
     else{
       this.remainingAmount = this.cartSrv.getRemainingAmount() - this.amount
     }
-    this.canPay = this.remainingAmount >= 0 && this.remainingAmount <= this.cartSrv.getRemainingAmount() ? true : false;
+    this.canPay = this.remainingAmount >= 0 && this.remainingAmount <= this.cart.ticket.total ? true : false;
   }
 
   goToCheckoutPage(){
