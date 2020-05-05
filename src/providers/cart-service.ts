@@ -3,13 +3,14 @@ import { Cart } from '../models/cart';
 import { PlacesServiceProvider } from './places-service';
 import { UserServiceProvider } from './user-service';
 import { TicketsServiceProvider } from './tickets-service';
+import { PaymentMethodsServiceProvider } from './payment-methods';
 
 @Injectable()
 export class CartServiceProvider {
     private cart: Cart;
 
     constructor(private PlaceSrv: PlacesServiceProvider, private UserSrv: UserServiceProvider,
-        private TicketSrv: TicketsServiceProvider) {
+        private TicketSrv: TicketsServiceProvider, private PaymentMethodSrv: PaymentMethodsServiceProvider) {
         this.cart = JSON.parse(localStorage.getItem('cart'));
     }
     
@@ -68,6 +69,7 @@ export class CartServiceProvider {
         if(paymentIdx !== -1){
             this.cart.ticket.payment_methods.splice(paymentIdx, 1);
         }
+        console.log(this.cart.ticket.payment_methods)
     }
 
     uploadCart(){
@@ -84,20 +86,36 @@ export class CartServiceProvider {
 
         this.TicketSrv.postTicket(this.getCart().ticket).subscribe(resp=>{
             console.log('postTicket resp: \n'+resp);
-        });
+        }),
+        (err)=>{
+            console.log('ERROR al guardar ticket: Modelo Tickets')
+            console.log(err);
+        };
 
         this.PlaceSrv.putPlace(this.getCart().place._id, this.getCart().place).subscribe(resp=>{
             console.log(resp)
         }),
         (err)=>{
+            console.log('ERROR al guardar ticket: Modelo Places')
             console.log(err);
         }
         this.UserSrv.putUser(userStored._id, userStored).subscribe(resp2=>{
             console.log(resp2)
         }),
         (err)=>{
+            console.log('ERROR al guardar ticket: Modelo USERS')
             console.log(err);
         }
+        this.getCart().ticket.payment_methods.forEach((paymentMethod)=>{
+            this.PaymentMethodSrv.postPaymentMethod(paymentMethod).subscribe((resp3)=>{
+                console.log(resp3)
+            }),
+            (err)=>{
+                console.log('ERROR al guardar ticket: Modelo PAYMENT METHODS')
+                console.log(err);
+            }
+        })
+
 
         localStorage.removeItem('cart');
     }
