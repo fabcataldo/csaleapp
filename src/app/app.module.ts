@@ -39,6 +39,9 @@ import { ShoppingCashPaymentPage } from '../pages/shopping-cash-payment/shopping
 import { ShoppingCardPaymentPage } from '../pages/shopping-card-payment/shopping-card-payment';
 import { AvailablePaymentMethodsServiceProvider } from '../providers/available-payment-methods';
 import { PaymentMethodsServiceProvider } from '../providers/payment-methods';
+import { ShoppingMercadopagoPaymentPage } from '../pages/shopping-mercadopago-payment/shopping-mercadopago-payment';
+import { NotificationsProvider } from '../providers/notifications-service';
+import { RecoverPasswordPage } from '../pages/recover-password/recover-password';
 
 const firebaseConfig = {
   apiKey: "AIzaSyDX2SigUNlJ_UiHX_DEQ6NvNFDvXBgcF0g",
@@ -66,7 +69,9 @@ const firebaseConfig = {
     ShoppingPage,
     ShoppingCheckoutPage,
     ShoppingCashPaymentPage,
-    ShoppingCardPaymentPage
+    ShoppingCardPaymentPage,
+    ShoppingMercadopagoPaymentPage,
+    RecoverPasswordPage
   ],
   imports: [
     BrowserModule,
@@ -92,7 +97,9 @@ const firebaseConfig = {
     ShoppingPage,
     ShoppingCheckoutPage,
     ShoppingCashPaymentPage,
-    ShoppingCardPaymentPage
+    ShoppingCardPaymentPage,
+    ShoppingMercadopagoPaymentPage,
+    RecoverPasswordPage
   ],
   providers: [
     StatusBar,
@@ -118,7 +125,8 @@ const firebaseConfig = {
     AndroidPermissions,
     CartServiceProvider,
     AvailablePaymentMethodsServiceProvider,
-    PaymentMethodsServiceProvider
+    PaymentMethodsServiceProvider,
+    NotificationsProvider
   ]
 })
 export class AppModule {}
