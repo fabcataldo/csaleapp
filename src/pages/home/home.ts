@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { LoginPage } from '../login/login';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { BenefitsAvailablePage } from '../benefits-available/benefits-available';
 import { PurchasesMadePage } from '../purchases-made/purchases-made';
 import { UpdatePlacePage } from '../update-place/update-place';
 import { GoogleMap, GoogleMaps, Geocoder, GeocoderResult, GoogleMapOptions, CameraPosition, LatLng, GoogleMapsEvent, HtmlInfoWindow } from '@ionic-native/google-maps';
@@ -13,6 +12,8 @@ import { Places } from '../../models/places';
 import { PopoverController } from 'ionic-angular';
 import { PlaceDetailPage } from '../place-detail/place-detail';
 import { ShoppingPage } from '../shopping/shopping';
+import { NotificationsProvider } from '../../providers/notifications-service';
+
 
 @Component({
   selector: 'page-home',
@@ -37,7 +38,8 @@ export class HomePage {
 
   constructor(public navCtrl: NavController, private afAuth: AngularFireAuth,
     private geolocation: Geolocation,
-    private PlacesServiceProvider: PlacesServiceProvider, private PopoverCtrl: PopoverController) {
+    private PlacesServiceProvider: PlacesServiceProvider,
+    private NotificationsCtrl: NotificationsProvider) {
   }
 
   ionViewDidLoad() {
@@ -52,6 +54,7 @@ export class HomePage {
       }
     }),
       (err) => {
+        this.NotificationsCtrl.presentErrorNotification("No se pudieron cargar los lugares disponibles.\nError técnico: "+err);
         console.log(err)
       }
   }
@@ -72,13 +75,18 @@ export class HomePage {
             
             this.placeFounded = this.places.filter(item => results[0].extra.lines[0].toLocaleLowerCase() === item.address.toLocaleLowerCase())[0]
             if (!this.placeFounded) {
-              //this.setMarkers(this.placeFounded)
-              //EN UN FUTURO: poner mensaje de que el lugar no se encuentra disponible en la app
+              this.NotificationsCtrl.presentInfoNotification("El lugar no está disponible en la app.");
             }
-
+            /* */
+            else{
+              if(this.placeFounded.customer_service_days.find(item => item !== new Date().getDay())){
+                this.NotificationsCtrl.presentInfoNotification("El lugar está cerrado. Disfrutalo otro día!");
+              }  
+            }
           }
         }),
         (err) => {
+          this.NotificationsCtrl.presentErrorNotification("Error al buscar el lugar ingresado.\nError técnico: "+err);
           console.log(err)
         }
     }
@@ -133,7 +141,10 @@ export class HomePage {
           zoom: 10
         };
         this.map.moveCamera(position);
-      })
+      }),
+      (err)=>{
+        this.NotificationsCtrl.presentErrorNotification("Búsqueda de ubicación actual fallida.\nError técnico: "+err);
+      }
     });
   }
 
@@ -171,7 +182,13 @@ export class HomePage {
       '</div>'
     ].join("");
     frame.getElementsByTagName("div")[0].addEventListener("click", () => {
-      this.navCtrl.push(PlaceDetailPage, { place: place });
+      if(place.customer_service_days.find(item => item == new Date().getDay())){
+        this.navCtrl.push(PlaceDetailPage, { place: place });        
+      }  
+      else{
+        this.NotificationsCtrl.presentInfoNotification("El lugar está cerrado. Disfrutalo otro día!");
+
+      }
     });
     htmlInfoWindow.setContent(frame, { width: "25rem", height: "36rem" });
     return htmlInfoWindow;
