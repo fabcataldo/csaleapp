@@ -83,3 +83,21 @@ h3 {
     height: 3rem;
     width: 10rem;
 }
+
+.okToastStyle {
+    .toast-wrapper{
+        background-color: #6200ee;
+    }
+}
+
+.errorToastStyle{
+    .toast-wrapper{
+        background-color: #e86854;
+    } 
+}
+
+.infoToastStyle{
+    .toast-wrapper{
+        background-color: white;
+    } 
+}
