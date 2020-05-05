@@ -7,6 +7,7 @@ import { CommentsServiceProvider } from '../../providers/comments-service';
 import { HomePage } from '../home/home';
 import { Comments } from '../../models/comments';
 import { UserServiceProvider } from '../../providers/user-service';
+import { NotificationsProvider } from '../../providers/notifications-service';
 
 /**
  * Generated class for the UpdatePlacePage page.
@@ -30,7 +31,8 @@ export class UpdatePlacePage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams, 
     public PlacesService : PlacesServiceProvider, private formBuilder: FormBuilder,
-    public CommentsServiceProvider: CommentsServiceProvider, private UserSrv: UserServiceProvider
+    public CommentsServiceProvider: CommentsServiceProvider, private UserSrv: UserServiceProvider,
+    private NotificationsCtrl: NotificationsProvider
     ) {
       this.updatePlaceForm = this.formBuilder.group({
         comment: ['', Validators.compose([Validators.required])],
@@ -60,7 +62,7 @@ export class UpdatePlacePage {
       this.places = places;
     }),
     (err)=>{
-      console.log(err)
+      this.NotificationsCtrl.presentErrorNotification("No se pudieron obtener los lugares disponibles.\nError técnico: "+err);
     }
   }
   
@@ -84,22 +86,19 @@ export class UpdatePlacePage {
           console.log(result);
       }),
       (err)=>{
-        console.log('ERROR al agregar el nuevo comentario en el lugar seleccionado, y guardado en la BD')
-        console.log(err)
+        this.NotificationsCtrl.presentErrorNotification("No se pudo guardar la actualización al lugar elegido.\nError técnico"+err);
       }
       this.UserSrv.putUser(user._id, user).subscribe((result)=>{
         console.log(result);
       }),
       (err)=>{
-        console.log('ERROR al agregar el nuevo comentario al usuario actual, y guardado en la BD')
-        console.log(err);
+        this.NotificationsCtrl.presentErrorNotification("No se pudo guardar la actualización al usuario actual.\nError técnico"+err);
       }
-
+      this.NotificationsCtrl.presentOkNotification("Actualización enviada!.");
       this.navCtrl.setRoot(HomePage);
     }),
     (err)=>{
-      console.log('ERROR al subir un nuevo comentario del usuario actual')
-      console.log(err)
+      this.NotificationsCtrl.presentErrorNotification("No se pudo guardar la actualización.\nError técnico"+err);
     }
   }
 }

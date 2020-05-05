@@ -9,6 +9,7 @@ import { Platform } from 'ionic-angular';
 import { Tickets } from '../../models/tickets';
 import { ShoppingCheckoutPage } from '../shopping-checkout/shopping-checkout';
 import { CartServiceProvider } from '../../providers/cart-service';
+import { NotificationsProvider } from '../../providers/notifications-service';
 
 /**
  * Generated class for the PurchaseProductsPage page.
@@ -34,11 +35,16 @@ export class ShoppingPage {
   private sub2$:any;
 
   constructor(public platform: Platform, public navCtrl: NavController, public navParams: NavParams, 
-    public ProductsSrv: ProductsServiceProvider, private CartSrv: CartServiceProvider) {
+    public ProductsSrv: ProductsServiceProvider, private CartSrv: CartServiceProvider,
+    private NotificationsCtrl: NotificationsProvider) {
     this.filterProductsPerBenefit = this.navParams.get('filterProductsPerBenefit') ? this.navParams.get('filterProductsPerBenefit') : false;
     this.ProductsSrv.getProducts().subscribe((result)=>{
       this.productsSrv = this.getFilteredProducts(result);
-    })
+    }),
+    (err)=>{
+      console.log(err);
+      this.NotificationsCtrl.presentErrorNotification("Carga de productos fallida.\nError técnico: "+err);
+    }
     if(localStorage.getItem('cart')){
       this.cart = new Cart(this.CartSrv.getCart());
       this.ticket = this.cart.ticket;

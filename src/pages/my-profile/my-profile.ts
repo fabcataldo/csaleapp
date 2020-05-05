@@ -5,6 +5,7 @@ import { UserServiceProvider } from '../../providers/user-service';
 import { LoginPage } from '../login/login';
 import { UpdateAccountPage } from '../update-account/update-account';
 import { HomePage } from '../home/home';
+import { NotificationsProvider } from '../../providers/notifications-service';
 
 /**
  * Generated class for the MyProfilePage page.
@@ -25,7 +26,8 @@ export class MyProfilePage {
 
   @ViewChild(Navbar) navBar: Navbar;
   constructor(public navCtrl: NavController, public navParams: NavParams, 
-      private AlertController: AlertController, private UserService: UserServiceProvider
+      private AlertController: AlertController, private UserService: UserServiceProvider,
+      private NotificationsCtrl: NotificationsProvider
       ) {
         if (this.navParams.get('email') && this.navParams.get('name') && this.navParams.get('surname') ) {
           this.usrNameSurname = this.navParams.get('name')+' '+this.navParams.get('surname');
@@ -82,9 +84,11 @@ export class MyProfilePage {
       localStorage.removeItem('user');
       localStorage.removeItem('token');
       this.navCtrl.setRoot(LoginPage);
+      this.NotificationsCtrl.presentOkNotification("Cuenta eliminada!");
     }),
     (err)=>{
       console.log(err)
+      this.NotificationsCtrl.presentErrorNotification("Eliminación fallida.\nError técnico: "+err);
     };
   }
 }

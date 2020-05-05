@@ -10,6 +10,8 @@ import { GooglePlus } from '@ionic-native/google-plus';
 import { Platform } from 'ionic-angular';
 import { Facebook } from '@ionic-native/facebook';
 import { Users } from '../../models/users';
+import { NotificationsProvider } from '../../providers/notifications-service';
+import { RecoverPasswordPage } from '../recover-password/recover-password';
 
 /**
  * Generated class for the LoginPage page.
@@ -35,7 +37,8 @@ export class LoginPage {
     private UserService: UserServiceProvider,
     private afAuth: AngularFireAuth,
     private gplus: GooglePlus, private platform: Platform,
-    private fb: Facebook
+    private fb: Facebook,
+    private NotificationsCtrl: NotificationsProvider
   ) {
     this.loginForm = this.formBuilder.group({
       email: ['', Validators.compose([Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$")])],
@@ -63,6 +66,7 @@ export class LoginPage {
       }),
       (err) => {
         console.log(err);
+        this.NotificationsCtrl.presentErrorNotification("No se pudo iniciar sesión.\nError técnico: "+err);
       };
   }
 
@@ -76,7 +80,7 @@ export class LoginPage {
         this.navCtrl.setRoot(HomePage);
       }),
       (err) => {
-        console.log(err)
+        this.NotificationsCtrl.presentErrorNotification("No se pudo guardar los datos del usuario.\nError técnico: "+err);
       }
   }
 
@@ -120,7 +124,7 @@ export class LoginPage {
               this.saveOAuthUser();
             })
           .catch((gplusErr) => {
-              console.log(gplusErr);
+              this.NotificationsCtrl.presentErrorNotification("No se pudo iniciar sesión con Google.\nError técnico: "+gplusErr);
           });
         }
       })
@@ -135,7 +139,7 @@ export class LoginPage {
         console.log("Not logged in :(");
       }
     }, error => {
-      console.log(error);
+      this.NotificationsCtrl.presentErrorNotification("No se pudo iniciar sesión con Facebook.\nError técnico: "+ error);
     });
   }
 
@@ -183,6 +187,10 @@ export class LoginPage {
     } catch (err) {
       console.log(err);
     }
+  }
+
+  goToRecoverPasswordPage(){
+    this.navCtrl.push(RecoverPasswordPage);
   }
 
 }

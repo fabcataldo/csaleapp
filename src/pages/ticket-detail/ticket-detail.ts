@@ -7,6 +7,7 @@ import html2canvas from 'html2canvas';
 import { Accessories } from '../../utils/accessories';
 import { CartServiceProvider } from '../../providers/cart-service';
 import { HomePage } from '../home/home';
+import { NotificationsProvider } from '../../providers/notifications-service';
 
 @IonicPage()
 @Component({
@@ -18,7 +19,7 @@ export class TicketDetailPage {
   isShopping: boolean;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private file: File,
-    private CartSrv: CartServiceProvider) {
+    private CartSrv: CartServiceProvider, private NotificationsCtrl: NotificationsProvider) {
     this.ticket = this.navParams.get('ticket') ? this.navParams.get('ticket') : this.CartSrv.getCart().ticket;
     this.isShopping = this.navParams.get('isShopping') ? this.navParams.get('isShopping') : false;
   }
@@ -64,8 +65,10 @@ export class TicketDetailPage {
       }
       this.file.writeFile(this.file.externalApplicationStorageDirectory, "comprobante"+Accessories.makeRandomString(2)+".pdf",buffer, 
         options)
-      .then((success)=> console.log("File created Succesfully" + JSON.stringify(success)))
-      .catch((error)=> console.log("Cannot Create File " +JSON.stringify(error)));
+      .then((success)=> this.NotificationsCtrl
+      .presentErrorNotification("Ticket guardado!.\nError técnico: "+JSON.stringify(success)))
+      .catch((error)=> this.NotificationsCtrl
+        .presentErrorNotification("No se pudo guardar el ticket.\nError técnico: "+JSON.stringify(error)))
     });
   }
 

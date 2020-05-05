@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { FormGroup, FormBuilder, Validators} from '@angular/forms';
 import { UserServiceProvider } from '../../providers/user-service';
 import { MyProfilePage } from '../my-profile/my-profile';
+import { NotificationsProvider } from '../../providers/notifications-service';
 
 /**
  * Generated class for the UpdateAccountPage page.
@@ -21,7 +22,7 @@ export class UpdateAccountPage {
   userDataStrge = JSON.parse(localStorage.getItem('user'));
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private formBuilder: FormBuilder,
-    private UserService: UserServiceProvider) {
+    private UserService: UserServiceProvider, private NotificationsCtrl: NotificationsProvider) {
       this.updateAccountForm = this.formBuilder.group({
         email: [this.userDataStrge.email, Validators.compose([Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$")])],
         password: [''],
@@ -58,9 +59,11 @@ export class UpdateAccountPage {
       localStorage.user = JSON.stringify(result.user);
       this.navCtrl.push(MyProfilePage, {email: this.updateAccountForm.value.email, 
         name: this.updateAccountForm.value.name, surname: this.updateAccountForm.value.surname});
+      this.NotificationsCtrl.presentOkNotification("Cuenta actualizada!");
     }),
     (err)=>{
       console.log(err);
+      this.NotificationsCtrl.presentErrorNotification("Actualización fallida.\n"+"Error técnico: "+err);
     };
   }
 
