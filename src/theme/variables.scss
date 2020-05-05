@@ -89,3 +89,13 @@ $colors: (
 
 @import "roboto";
 @import "noto-sans";
+
+@font-face{
+  font-family: AppFont;
+  src: url("../../www/assets/fonts/roboto-regular.ttf");
+}
+
+$font-family-ios-base: “AppFont”;
+$font-family-md-base:“AppFont”;
+$font-family-wp-base:“AppFont”;
+
