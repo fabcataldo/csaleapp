@@ -4,6 +4,7 @@ import { ShoppingCardPaymentPage } from '../shopping-card-payment/shopping-card-
 import { AvailablePaymentMethods } from '../../models/available_payment_methods';
 import { AvailablePaymentMethodsServiceProvider } from '../../providers/available-payment-methods';
 import { CartServiceProvider } from '../../providers/cart-service';
+import { PaymentMethods } from '../../models/payment_methods';
 
 /**
  * Generated class for the ShoppingCheckoutMercadopagoPage page.
@@ -19,10 +20,14 @@ import { CartServiceProvider } from '../../providers/cart-service';
 })
 export class ShoppingMercadopagoPaymentPage {
   availablePaymentMethods: AvailablePaymentMethods[];
+  mercadopagoPayment: PaymentMethods;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private availablePaymentMethodsSrv: AvailablePaymentMethodsServiceProvider,
     private CartSrv: CartServiceProvider) {
       this.getAvailablePaymentMethods();
+      if (this.navParams.get('mercadopagoPayment')){
+        this.mercadopagoPayment = this.navParams.get('mercadopagoPayment');
+      }
   }
 
   ionViewDidLoad() {
@@ -34,10 +39,11 @@ export class ShoppingMercadopagoPaymentPage {
     })
   }
 
-  goToCardPaymentPage(payment: any){
+  goToCardPaymentPage(){
     this.navCtrl.push(ShoppingCardPaymentPage, {
       paymentMethod: this.availablePaymentMethods.find(item => item.name == 'mercado pago'),
-      cardPayment: payment ? payment : null,
+      cardPayment: null,
+      mercadoPagoPayment: this.mercadopagoPayment ? this.mercadopagoPayment : null,
       isMercadopago: true
     });
   }
