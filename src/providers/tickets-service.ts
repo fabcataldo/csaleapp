@@ -30,7 +30,7 @@ export class TicketsServiceProvider {
   }
   
   postTicket(ticket): Observable<Tickets> {
-    return this.http.post<Tickets>(Global.SRV+Global.URL_API+'/tickets', JSON.stringify(ticket))
+    return this.http.post<Tickets>(Global.SRV+Global.URL_API+'/tickets', ticket)
   }
 
 }
