@@ -42,6 +42,8 @@ import { PaymentMethodsServiceProvider } from '../providers/payment-methods';
 import { ShoppingMercadopagoPaymentPage } from '../pages/shopping-mercadopago-payment/shopping-mercadopago-payment';
 import { NotificationsProvider } from '../providers/notifications-service';
 import { RecoverPasswordPage } from '../pages/recover-password/recover-password';
+import { ShoppingCartPage } from '../pages/shopping-cart/shopping-cart';
+import { ShoppingConfirmPage } from '../pages/shopping-confirm/shopping-confirm';
 
 const firebaseConfig = {
   apiKey: "AIzaSyDX2SigUNlJ_UiHX_DEQ6NvNFDvXBgcF0g",
@@ -71,7 +73,9 @@ const firebaseConfig = {
     ShoppingCashPaymentPage,
     ShoppingCardPaymentPage,
     ShoppingMercadopagoPaymentPage,
-    RecoverPasswordPage
+    RecoverPasswordPage,
+    ShoppingCartPage,
+    ShoppingConfirmPage
   ],
   imports: [
     BrowserModule,
@@ -99,7 +103,9 @@ const firebaseConfig = {
     ShoppingCashPaymentPage,
     ShoppingCardPaymentPage,
     ShoppingMercadopagoPaymentPage,
-    RecoverPasswordPage
+    RecoverPasswordPage,
+    ShoppingCartPage,
+    ShoppingConfirmPage
   ],
   providers: [
     StatusBar,
