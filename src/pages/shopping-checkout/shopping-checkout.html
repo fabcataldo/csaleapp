@@ -12,84 +12,38 @@
 
 <ion-content padding>
   <h1 style="color:black; text-align:center">
-    Total: ${{cart.ticket.total}}
-    <br>
-    Restante: ${{CartSrv.getRemainingAmount()}} 
+    ¿Cómo querés pagar?
   </h1>
   <br>
-  <h2 style="color:black; text-align:center">
-    Detalle
-  </h2>
-    <ion-list>
-        <ion-item text-wrap>
-            <ion-grid>
-                <ion-row>
-                    <ion-col class="cell-class">
-                        Descripción
-                    </ion-col>
-                    <ion-col class="cell-class">
-                        Precio
-                    </ion-col>
-                    <ion-col class="cell-class">
-                        Cantidad
-                    </ion-col>
-                    <ion-col class="cell-class">
-                        Validez
-                    </ion-col>
-                </ion-row>
-                <div *ngFor="let purchaseProduct of cart.ticket.purchased_products">
-                    <ion-row>
-                        <ion-col class="cell-class">
-                            {{purchaseProduct.product.description}}
-                        </ion-col>
-                        <ion-col class="cell-class">
-                            {{purchaseProduct.product.price}}
-                        </ion-col>
-                        <ion-col class="cell-class">
-                            {{purchaseProduct.quantity}}
-                        </ion-col>
-                        <ion-col class="cell-class">
-                            {{purchaseProduct.product.validDateFrom}}-{{purchaseProduct.product.validDateTo}}
-                        </ion-col>
-                    </ion-row>
-                </div>
-            </ion-grid>
-        </ion-item>
-    </ion-list>
-  <h2 style="color:black; text-align:center">
-    ¿Cómo vas a pagar?
-  </h2>  
-  <ion-grid>
-    <ion-row style="margin-top: -2rem;">
-      <ion-col  col-6>
-        <button ion-button outline color="loginButton" class="oneButtons" 
-          (tap)="goToCashPaymentPage()" [disabled]="!canPay"> 
-          Efectivo
-        </button>
-      </ion-col>
-      <ion-col  col-6>
-        <button ion-button outline color="loginButton" class="oneButtons" 
-          (tap)="goToCardPaymentPage()" [disabled]="!canPay"> 
-          Tarjeta
-        </button>
-      </ion-col>
-    </ion-row>
-    <ion-row style="margin-top: -2rem;">
-      <ion-col  col-12>
-        <button ion-button outline color="loginButton" class="oneButtons" 
-          (tap)="goToMercadopagoPaymentPage()" [disabled]="!canPay"> 
-          Mercado Pago
-        </button>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+  <ion-list>
+    <ion-item style="border-bottom: 6px solid #ffff" (tap)="goToCashPaymentPage()" >
+      <img item-start class="imgPaymentMethods" src="../assets/imgs/coin.png">
+      <ion-label>Efectivo</ion-label>
+    </ion-item>
+    <ion-item style="border-bottom: 6px solid #ffff"(tap)="goToCardPaymentPage()">
+      <img item-start  class="imgPaymentMethods" src="../assets/imgs/card.png">
+      <ion-label>Tarjeta</ion-label>
+    </ion-item>
+    <ion-item style="border-bottom: 6px solid #ffff" (tap)="goToMercadopagoPaymentPage()" >
+      <img item-start class="imgPaymentMethods" src="../assets/imgs/mp.png">
+      <ion-label>Mercado Pago</ion-label>
+    </ion-item>
+  </ion-list>
 
+  <br>
+  <br>
   <h2 style="color:black; text-align:center">
     Pagos realizados
   </h2>
+  <div *ngIf="cart.ticket.payment_methods.length == 0">
+    <ion-item style="color:black; text-align:center" no-lines>
+      <p>Todavía no pagaste nada!.</p>
+    </ion-item>
+    
+  </div>
   <ion-list *ngFor="let paymentMethod of this.cart.ticket.payment_methods">
     <ion-item-sliding>
-      <ion-item>
+      <ion-item >
         {{toCapitalize(paymentMethod.paymentMethod.name)}}: ${{paymentMethod.amountPaid}}
       </ion-item>
       <ion-item-options side="right">
@@ -102,9 +56,13 @@
       </ion-item-options>
     </ion-item-sliding>
   </ion-list>
-</ion-content>
-<ion-footer>
-  <button ion-button block (tap)="goToTicketDetailPage()" [disabled]="canPay"> 
-    Continuar
-  </button>
+
+
+<ion-footer no-border>
+    <ion-row>
+      <button type="submit" ion-button full color="loginButton" class="oneButtons" [disabled]="canPay"
+        (tap)="goToTicketDetailPage()" no-margin style="width: 100%">
+        Continuar
+      </button>
+    </ion-row>
 </ion-footer>
