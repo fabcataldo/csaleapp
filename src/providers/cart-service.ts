@@ -81,8 +81,19 @@ export class CartServiceProvider {
         else
             userStored.tickets = [this.getCart().ticket] 
             
-        
         localStorage.setItem('user', JSON.stringify(userStored));
+        console.log(this.getCart())
+
+        this.getCart().ticket.payment_methods.forEach((paymentMethod)=>{
+            this.PaymentMethodSrv.postPaymentMethod(paymentMethod).subscribe((resp3)=>{
+                console.log('PAYMENT METHODS:')
+                console.log(resp3)
+            }),
+            (err)=>{
+                console.log('ERROR al guardar ticket: Modelo PAYMENT METHODS')
+                console.log(err);
+            }
+        })
 
         this.TicketSrv.postTicket(this.getCart().ticket).subscribe(resp=>{
             console.log('postTicket resp: \n'+resp);
@@ -99,6 +110,7 @@ export class CartServiceProvider {
             console.log('ERROR al guardar ticket: Modelo Places')
             console.log(err);
         }
+
         this.UserSrv.putUser(userStored._id, userStored).subscribe(resp2=>{
             console.log(resp2)
         }),
@@ -106,15 +118,7 @@ export class CartServiceProvider {
             console.log('ERROR al guardar ticket: Modelo USERS')
             console.log(err);
         }
-        this.getCart().ticket.payment_methods.forEach((paymentMethod)=>{
-            this.PaymentMethodSrv.postPaymentMethod(paymentMethod).subscribe((resp3)=>{
-                console.log(resp3)
-            }),
-            (err)=>{
-                console.log('ERROR al guardar ticket: Modelo PAYMENT METHODS')
-                console.log(err);
-            }
-        })
+
 
 
         localStorage.removeItem('cart');
