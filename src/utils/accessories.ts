@@ -5,10 +5,11 @@ import { Comments } from "../models/comments";
 import { PurchasedProducts } from "../models/purchased_products";
 import { AbstractControl } from "@angular/forms";
 
+
 export class Accessories{
     static formatDate(date){
         var tmp = new Date(date)
-        return tmp.getDate()+'/'+(tmp.getMonth()+1)+'/'+tmp.getFullYear()+' '+tmp.getHours()+':'+tmp.getMinutes()+':'+tmp.getSeconds();
+        return tmp.getDay()+'/'+(tmp.getMonth()+1)+'/'+tmp.getFullYear()+' '+tmp.getHours()+':'+tmp.getMinutes()+':'+tmp.getSeconds();
     }
 
     static mapModelArray(array, model){
@@ -75,4 +76,5 @@ export class Accessories{
         }
         return result;
     }
+
 }
