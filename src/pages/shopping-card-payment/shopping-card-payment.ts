@@ -55,7 +55,7 @@ export class ShoppingCardPaymentPage {
 
     this.card = this.navParams.get('paymentMethod');
 
-    this.payment = this.navParams.get('cardPayment');
+    this.payment = this.navParams.get('cardPayment') ? this.navParams.get('cardPayment') : this.navParams.get('mercadoPagoPayment') ? this.navParams.get('mercadoPagoPayment') : null ;
     if(this.payment)
       this.setFormValues()
     
@@ -82,7 +82,7 @@ export class ShoppingCardPaymentPage {
         }
         
         if(this.payment){
-          this.remainingAmount = (this.cartSrv.getRemainingAmount() + this.payment.amountPaid) - amount
+          this.remainingAmount = (this.cartSrv.getRemainingAmount() + Number(this.payment.amountPaid)) - amount
         }
         else{
           this.remainingAmount = this.cartSrv.getRemainingAmount() - amount
