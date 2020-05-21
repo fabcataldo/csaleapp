@@ -11,6 +11,7 @@ import { Accessories } from '../../utils/accessories';
 import { TicketDetailPage } from '../ticket-detail/ticket-detail';
 import { ShoppingMercadopagoPaymentPage } from '../shopping-mercadopago-payment/shopping-mercadopago-payment';
 import { NotificationsProvider } from '../../providers/notifications-service';
+import { ShoppingConfirmPage } from '../shopping-confirm/shopping-confirm';
 
 /**
  * Generated class for the ShoppingCheckoutPage page.
@@ -28,7 +29,7 @@ export class ShoppingCheckoutPage {
   cart: Cart;
   remainingAmount: number;
   availablePaymentMethods: AvailablePaymentMethods[];
-  canPay: boolean;
+  canPay: boolean=false;
 
   @ViewChild(Navbar) navBar: Navbar;
   constructor(public navCtrl: NavController, public navParams: NavParams, 
@@ -41,11 +42,11 @@ export class ShoppingCheckoutPage {
   }
 
   ionViewDidLoad() {
-
+    
   }
 
   setCart(){
-    this.cart = new Cart(this.CartSrv.getCart());
+    this.cart = this.CartSrv.getCart();
   }
 
   setCanPay(){
@@ -95,7 +96,8 @@ export class ShoppingCheckoutPage {
   goToCardPaymentPage(payment?:any){
     this.navCtrl.push(ShoppingCardPaymentPage, {
       paymentMethod: this.availablePaymentMethods.find(item => item.name == 'tarjeta'),
-      cardPayment: payment ? payment : null
+      cardPayment: payment ? payment : null,
+      isMercadoPago: false
     });
   }
 
@@ -122,6 +124,6 @@ export class ShoppingCheckoutPage {
 
   goToTicketDetailPage(){
     this.CartSrv.setCart(this.cart);
-    this.navCtrl.push(TicketDetailPage, {isShopping: true})
+    this.navCtrl.push(ShoppingConfirmPage)
   }
 }
