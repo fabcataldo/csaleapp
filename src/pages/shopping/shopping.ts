@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { IonicPage, NavController, NavParams, Navbar } from 'ionic-angular';
 import { ProductsServiceProvider } from '../../providers/products-service';
 import { Products } from '../../models/products';
 import { PurchasedProducts } from '../../models/purchased_products';
@@ -10,6 +10,7 @@ import { Tickets } from '../../models/tickets';
 import { ShoppingCheckoutPage } from '../shopping-checkout/shopping-checkout';
 import { CartServiceProvider } from '../../providers/cart-service';
 import { NotificationsProvider } from '../../providers/notifications-service';
+import { ShoppingCartPage } from '../shopping-cart/shopping-cart';
 
 /**
  * Generated class for the PurchaseProductsPage page.
@@ -30,10 +31,15 @@ export class ShoppingPage {
   ticket: Tickets = new Tickets();
   purchasedProducts: PurchasedProducts[] = [];
   filterProductsPerBenefit: boolean;
+  quantityProduct: number=0;
+  isProductInCart: boolean;
+  canPay: boolean;
 
   private sub1$:any;
   private sub2$:any;
 
+
+  @ViewChild(Navbar) navBar: Navbar;
   constructor(public platform: Platform, public navCtrl: NavController, public navParams: NavParams, 
     public ProductsSrv: ProductsServiceProvider, private CartSrv: CartServiceProvider,
     private NotificationsCtrl: NotificationsProvider) {
@@ -49,6 +55,7 @@ export class ShoppingPage {
       this.cart = new Cart(this.CartSrv.getCart());
       this.ticket = this.cart.ticket;
       this.purchasedProducts = this.ticket.purchased_products;
+      this.canPay = true;
     }
     else{
       this.cart = new Cart();
@@ -70,6 +77,15 @@ export class ShoppingPage {
       });
     });
   }
+
+  backButtonHandler(){
+    this.navCtrl.popTo('PlaceDetailPage');
+  }
+
+  ionViewDidEnter(){
+    this.navBar.backButtonClick = this.backButtonHandler;
+  }
+  
 
   getFilteredProducts(products){
     return products.filter(item=>{
@@ -95,25 +111,39 @@ export class ShoppingPage {
     this.sub1$.unsubscribe();
     this.sub2$.unsubscribe();
   }
+
+  addQuantity(quantity){
+    quantity++;
+    return quantity;
+  }
+
+  substractQuantity(quantity){
+    if(quantity>=0){
+      quantity--;
+      return quantity;
+    }
+  }
   
-  addItem(index, event, product){
+  addItem(index, product, action){
     let itemIdx = this.purchasedProducts.findIndex(item => {
       return (item.product.description === product.description)
     })
     if(itemIdx !== -1){
-      if(event.target.value === ''){
-        this.purchasedProducts.splice(itemIdx, 1);
-      }
-      else{
-        this.purchasedProducts[itemIdx].quantity = event.target.value;
-      }
+        if(action==0){
+          this.purchasedProducts[itemIdx].quantity = this.substractQuantity(this.purchasedProducts[itemIdx].quantity);
+        }
+        else{
+          this.purchasedProducts[itemIdx].quantity = this.addQuantity(this.purchasedProducts[itemIdx].quantity);
+        }
     }
     else{
-      this.purchasedProducts.push(new PurchasedProducts({_id: null, product: this.productsSrv[index], quantity: event.target.value}));
+      this.purchasedProducts.push(new PurchasedProducts({_id: null, product: this.productsSrv[index], quantity: 1}));
     }
 
     this.ticket.purchased_products = this.purchasedProducts;
-    this.cart.ticket = this.ticket;    
+    this.cart.ticket = this.ticket;   
+    this.canPay = true;
+    this.CartSrv.setCart(this.cart)
   }
 
   getTotal(){
@@ -124,10 +154,10 @@ export class ShoppingPage {
     return result;
   }
 
-  goToCheckoutPage(){
+  goToCartPage(){
     this.ticket.total = this.getTotal();
     this.cart.ticket = this.ticket;
     this.CartSrv.setCart(this.cart);
-    this.navCtrl.push(ShoppingCheckoutPage);
+    this.navCtrl.push(ShoppingCartPage);
   }
 }
