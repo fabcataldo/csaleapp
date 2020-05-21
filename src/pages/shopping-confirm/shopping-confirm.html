@@ -1,0 +1,101 @@
+<!--
+  Generated template for the ShoppingConfirmPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar  color="primary">
+    <ion-title>Comprar productos</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <h1 style="color:black; text-align:center">
+    Confirmá tu compra
+  </h1>
+  
+  <ion-list *ngFor="let product of cart.ticket.purchased_products; let i=index">
+    <ion-item text-wrap style="width: 100%; text-align: center; border-bottom: 3.3px grey solid">
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+              {{product.product.description}}
+          </ion-col>
+          <ion-col>
+              ${{setQuantities(product.product, false) * product.product.price}}
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+  </ion-list>
+
+
+    <ion-grid>
+      <ion-row text-center>
+        <ion-col>
+          Total
+        </ion-col>
+        <ion-col>
+          ${{cart.ticket.total}}
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+
+  <ion-list *ngFor="let product of cart.ticket.purchased_products; let i=index">
+    <ion-card>
+      <ion-item>
+        <div *ngIf="product.product.description.includes('Entrada')">
+          <img class="imgStyle" src="../assets/imgs/entrada.jpg">
+        </div>
+        <div *ngIf="!product.product.description.includes('Entrada')">
+          <img class="imgStyle" src="../assets/imgs/benefit.jpg">
+        </div>
+        <br>
+        <h1 style="text-align: center; white-space: break-spaces"> {{product.product.description}}</h1>
+      </ion-item>
+      <br>
+      <ion-card-content>
+        <ion-row  text-center>
+          <ion-col>
+            <ion-label class="labelProducts">
+              {{setQuantities(product.product, true)}}
+            </ion-label>
+          </ion-col>
+          <ion-col style="margin-top: 1.8rem;">
+            <h3>
+              ${{setQuantities(product.product, false) * product.product.price}}
+            </h3>
+          </ion-col>
+        </ion-row>
+
+      </ion-card-content>
+    </ion-card>      
+  </ion-list>
+
+  <ion-list *ngFor="let paymentMethod of cart.ticket.payment_methods">
+      <ion-item >
+        <div *ngIf="paymentMethod.paymentMethod.name.includes('efectivo')">
+          <img item-start class="imgPaymentMethods" src="../assets/imgs/coin.png">
+        </div>
+        <div *ngIf="paymentMethod.paymentMethod.name.includes('tarjeta')">
+          <img item-start  class="imgPaymentMethods" src="../assets/imgs/card.png">
+        </div>
+        <div *ngIf="paymentMethod.paymentMethod.name.includes('mercado pago')">
+          <img item-start class="imgPaymentMethods" src="../assets/imgs/mp.png">
+        </div>
+        <ion-label>
+          Pagás ${{paymentMethod.amountPaid}} con {{toCapitalize(paymentMethod.paymentMethod.name)}}
+        </ion-label>
+      </ion-item>
+  </ion-list>
+</ion-content>
+
+<ion-footer no-border>
+  <ion-row>
+      <button ion-button full no-margin style="width: 100%" (tap)="goToHomePage()" class="oneButtons">
+          Confirmar
+      </button>
+    </ion-row>
+</ion-footer>
