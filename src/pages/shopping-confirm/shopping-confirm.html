@@ -85,7 +85,7 @@
         <div *ngIf="paymentMethod.paymentMethod.name.includes('mercado pago')">
           <img item-start class="imgPaymentMethods" src="../assets/imgs/mp.png">
         </div>
-        <ion-label>
+        <ion-label style="text-align: center;">
           Pagás ${{paymentMethod.amountPaid}} con {{toCapitalize(paymentMethod.paymentMethod.name)}}
         </ion-label>
       </ion-item>
