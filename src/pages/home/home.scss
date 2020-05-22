@@ -26,7 +26,13 @@
      }
  }
  
+
  #map_canvas {
-     height: 80%;
-     width: 100%;
+     height: 77%;
+     width: 95%;
+     margin-left: 1.5vh;
+     margin-top: -1vh;
+     -webkit-box-shadow: 6px 13px 11px -4px rgba(143,143,143,1);
+     -moz-box-shadow: 6px 13px 11px -4px rgba(143,143,143,1);
+     box-shadow: 6px 13px 11px -4px rgba(143,143,143,1);
  }
