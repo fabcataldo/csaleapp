@@ -31,7 +31,7 @@ export class PaymentMethodsServiceProvider {
   }
 
   postPaymentMethod(paymentMethod): Observable<PaymentMethods> {
-    return this.http.post<PaymentMethods>(Global.SRV+Global.URL_API+'/paymentMethods', JSON.stringify(paymentMethod))
+    return this.http.post<PaymentMethods>(Global.SRV+Global.URL_API+'/paymentMethods', paymentMethod)
   }
 
   postMercadopagoPayment(payment): Observable<Object>{
