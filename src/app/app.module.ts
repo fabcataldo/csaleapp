@@ -44,6 +44,7 @@ import { NotificationsProvider } from '../providers/notifications-service';
 import { RecoverPasswordPage } from '../pages/recover-password/recover-password';
 import { ShoppingCartPage } from '../pages/shopping-cart/shopping-cart';
 import { ShoppingConfirmPage } from '../pages/shopping-confirm/shopping-confirm';
+import { PurchasedProductsServiceProvider } from '../providers/purchased-products-service';
 
 const firebaseConfig = {
   apiKey: "AIzaSyDX2SigUNlJ_UiHX_DEQ6NvNFDvXBgcF0g",
@@ -132,7 +133,8 @@ const firebaseConfig = {
     CartServiceProvider,
     AvailablePaymentMethodsServiceProvider,
     PaymentMethodsServiceProvider,
-    NotificationsProvider
+    NotificationsProvider,
+    PurchasedProductsServiceProvider
   ]
 })
 export class AppModule {}
