@@ -20,7 +20,7 @@
     <preference name="SplashShowOnlyFirstTime" value="false" />
     <preference name="SplashScreen" value="screen" />
     <preference name="SplashScreenDelay" value="3000" />
-    <preference name="GOOGLE_MAPS_ANDROID_API_KEY" value="AIzaSyBiqg2GYKKz4_yojN9oSuIGK20mZm04UAM" />
+    <preference name="GOOGLE_MAPS_ANDROID_API_KEY" value="AIzaSyBDTlDTXBTWlRonfQDJOU3qPVnOH2w1EG0" />
     <platform name="android">
         <edit-config file="app/src/main/AndroidManifest.xml" mode="merge" target="/manifest/application" xmlns:android="http://schemas.android.com/apk/res/android">
             <application android:usesCleartextTraffic="true" />
@@ -105,4 +105,5 @@
     <plugin name="cordova-plugin-googleplus" source="npm">
         <variable name="WEB_APPLICATION_CLIENT_ID" value="1094589895444-np6ve4h2mkm3bste3bvc9olk5kksko9f.apps.googleusercontent.com" />
     </plugin>
+    <allow-navigation href="http://localhost:8100" sessionid="3710473f" />
 </widget>
