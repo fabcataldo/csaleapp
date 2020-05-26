@@ -51,6 +51,7 @@ export class ShoppingConfirmPage {
   goToHomePage(){
     console.log(this.cart)
     this.CartSrv.uploadCart();
+    this.CartSrv.saveNewData();
     this.navCtrl.setRoot(HomePage);
   }
 
