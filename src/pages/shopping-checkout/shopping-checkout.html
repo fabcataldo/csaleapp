@@ -44,7 +44,7 @@
   <ion-list *ngFor="let paymentMethod of this.cart.ticket.payment_methods">
     <ion-item-sliding>
       <ion-item style="border-bottom: 3.8px solid rgb(200, 200, 200)">
-        {{toCapitalize(paymentMethod.paymentMethod.name)}}: ${{paymentMethod.amountPaid}}
+        {{toCapitalize(paymentMethod.payment_method.name)}}: ${{paymentMethod.amount_paid}}
       </ion-item>
       <ion-item-options side="right">
         <button ion-button icon-start (click)="goToPaymentPage(paymentMethod)">

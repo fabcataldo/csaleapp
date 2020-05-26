@@ -12,6 +12,7 @@ import { TicketDetailPage } from '../ticket-detail/ticket-detail';
 import { ShoppingMercadopagoPaymentPage } from '../shopping-mercadopago-payment/shopping-mercadopago-payment';
 import { NotificationsProvider } from '../../providers/notifications-service';
 import { ShoppingConfirmPage } from '../shopping-confirm/shopping-confirm';
+import { PaymentMethods } from '../../models/payment_methods';
 
 /**
  * Generated class for the ShoppingCheckoutPage page.
@@ -75,10 +76,10 @@ export class ShoppingCheckoutPage {
   }
 
   goToPaymentPage(paymentMethod){
-    if(paymentMethod.paymentMethod.name === 'efectivo'){
+    if(paymentMethod.payment_method.name === 'efectivo'){
       this.goToCashPaymentPage(paymentMethod);
     }
-    if(paymentMethod.paymentMethod.name === 'tarjeta'){
+    if(paymentMethod.payment_method.name === 'tarjeta'){
       this.goToCardPaymentPage(paymentMethod);
     }
     
@@ -109,8 +110,8 @@ export class ShoppingCheckoutPage {
   }
 
   removePayment(paymentMethod){
-    let type = (paymentMethod.paymentMethod.name === 'efectivo') 
-      ? 'cash' : (paymentMethod.paymentMethod.name === 'tarjeta') ? 'card' : 'mercadopago'; 
+    let type = (paymentMethod.payment_method.name === 'efectivo') 
+      ? 'cash' : (paymentMethod.payment_method.name === 'tarjeta') ? 'card' : 'mercadopago'; 
     this.CartSrv.removePaymentMethod(paymentMethod, type);
     this.cart = this.CartSrv.getCart();
     localStorage.setItem('cart', JSON.stringify(this.cart))

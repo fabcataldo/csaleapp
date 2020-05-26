@@ -69,7 +69,7 @@ export class ShoppingCardPaymentPage {
     this.getFormFields()['user_name'].setValue(this.payment.card.user_name);
     this.getFormFields()['security_code'].setValue(this.payment.card.security_code);
     this.getFormFields()['expiration_date'].setValue(this.payment.card.expiration_date);
-    this.getFormFields()['amount'].setValue(this.payment.amountPaid);
+    this.getFormFields()['amount'].setValue(this.payment.amount_paid);
   }
 
   formControlsChange(){
@@ -82,7 +82,7 @@ export class ShoppingCardPaymentPage {
         }
         
         if(this.payment){
-          this.remainingAmount = (this.cartSrv.getRemainingAmount() + Number(this.payment.amountPaid)) - amount
+          this.remainingAmount = (this.cartSrv.getRemainingAmount() + Number(this.payment.amount_paid)) - amount
         }
         else{
           this.remainingAmount = this.cartSrv.getRemainingAmount() - amount
@@ -134,9 +134,9 @@ export class ShoppingCardPaymentPage {
     let newPaymentMethod = new PaymentMethods(
       {
         id: null,
-        paymentMethod: this.card,
+        payment_method: this.card,
         card: newCard,
-        amountPaid: data.amount
+        amount_paid: data.amount
       }
     )
     if(this.isMercadopago){

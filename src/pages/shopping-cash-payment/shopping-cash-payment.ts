@@ -36,7 +36,7 @@ export class ShoppingCashPaymentPage {
 
   ionViewDidLoad() {
     this.remainingAmount = this.cartSrv.getRemainingAmount();
-    this.amount = this.payment ? this.payment.amountPaid : this.remainingAmount;
+    this.amount = this.payment ? this.payment.amount_paid : this.remainingAmount;
   }
 
   ionViewDidEnter(){
@@ -54,7 +54,7 @@ export class ShoppingCashPaymentPage {
     }
     
     if(this.payment){
-      this.remainingAmount = (this.cartSrv.getRemainingAmount() + this.payment.amountPaid) - this.amount
+      this.remainingAmount = (this.cartSrv.getRemainingAmount() + this.payment.amount_paid) - this.amount
     }
     else{
       this.remainingAmount = this.cartSrv.getRemainingAmount() - this.amount
@@ -66,9 +66,9 @@ export class ShoppingCashPaymentPage {
     let newPaymentMethod = new PaymentMethods( 
       { 
         id: null,
-        paymentMethod: this.cash,
+        payment_method: this.cash,
         card: null,
-        amountPaid: this.amount
+        amount_paid: this.amount
       }
     )
     this.cartSrv.savePaymentMethod(newPaymentMethod, 'cash');
