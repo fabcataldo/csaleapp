@@ -182,8 +182,6 @@ export class HomePage {
       '</div>'
     ].join("");
     frame.getElementsByTagName("div")[0].addEventListener("click", () => {
-      console.log(place)
-      console.log(new Date().getDay())
       if(place.customer_service_days.find(item => {return item == new Date().getDay() })!==0 ){
         this.navCtrl.push(PlaceDetailPage, { place: place });        
       }  
