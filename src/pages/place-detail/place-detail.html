@@ -13,7 +13,13 @@
 <ion-content padding>
   <ion-card>
     <ion-item>
-      <img class="imgPlace" src="../assets/imgs/labarraboliche.jpg">
+      <div *ngIf="freeSpace">
+        <img class="imgPlace" src="../../assets/imgs/FOTO.png">
+      </div>
+      <div *ngIf="!freeSpace">
+        <img class="imgPlace" src="../../assets/imgs/FOTONOHAYLUGAR.png">
+      </div>
+      
       <h1 style="text-align: center; white-space: break-spaces">{{place.name}}</h1>
     </ion-item>
     <br>
@@ -23,42 +29,29 @@
   </ion-card>
 
   <ion-card>
-    <ion-card-content>
-      <div *ngIf="freeSpace">
-        <h2 style="text-align: center;">Disponibilidad: Hay Lugar!</h2>
-      </div>
-      <div *ngIf="!freeSpace">
-        <h2 style="text-align: center;">Disponibilidad: No hay Lugar!</h2>
-      </div>
-    </ion-card-content>
-  </ion-card>
-
-  <ion-card>
     <ion-item>
-      <br>
       <h2 style="text-align: center; white-space: break-spaces">Actualizaciones del ambiente</h2>
     </ion-item>
-
+    <br>
     <div *ngIf="place.comments.length!==0">
-      <ion-card-content *ngFor="let comment of place.comments">
-        <ion-card>
-          <ion-card-content>
-            <h3 style="text-align: center;">"{{comment.comment}}"</h3>
-            <br>
-            <ion-row>
-              <ion-col>
-                <h3 style="text-align: center">Puntuación del usuario:</h3>
-              </ion-col>
-              <ion-col>
-                <ionic3-star-rating #rating activeIcon="ios-star" text-align="center" defaultIcon="ios-star-outline"
-                  activeColor="black" defaultColor="black" readonly="true" [rating]="comment.qualification"
-                  fontSize="32px">
-                </ionic3-star-rating>
-              </ion-col>
-            </ion-row>
-          </ion-card-content>
-        </ion-card>
-      </ion-card-content>
+      <ion-list *ngFor="let comment of place.comments">
+        <ion-item style="border-bottom: 6px solid #ffff">
+          <p style="text-align: center;">"{{comment.comment}}"</p>
+          <br>
+          <ion-row>
+            <ion-col>
+              <h3 style="text-align: center">Puntuación del usuario:</h3>
+            </ion-col>
+            <ion-col>
+              <ionic3-star-rating #rating activeIcon="ios-star" text-align="center" defaultIcon="ios-star-outline"
+                activeColor="black" defaultColor="black" readonly="true" [rating]="comment.qualification"
+                fontSize="32px">
+              </ionic3-star-rating>
+            </ion-col>
+          </ion-row>
+        </ion-item>
+        <br>
+      </ion-list>
     </div>
   </ion-card>
 
