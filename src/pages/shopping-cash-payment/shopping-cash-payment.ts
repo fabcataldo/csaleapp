@@ -4,7 +4,9 @@ import { Cart } from '../../models/cart';
 import { CartServiceProvider } from '../../providers/cart-service';
 import { PaymentMethods } from '../../models/payment_methods';
 import { AvailablePaymentMethods } from '../../models/available_payment_methods';
-import { ShoppingCheckoutPage } from '../shopping-checkout/shopping-checkout';
+import { ShoppingConfirmPage } from '../shopping-confirm/shopping-confirm';
+import { PaymentMethodsServiceProvider } from '../../providers/payment-methods';
+import { NotificationsProvider } from '../../providers/notifications-service';
 
 /**
  * Generated class for the ShoppingCashPaymentPage page.
@@ -20,7 +22,7 @@ import { ShoppingCheckoutPage } from '../shopping-checkout/shopping-checkout';
 })
 export class ShoppingCashPaymentPage {
   cart: Cart;
-  amount: number;
+  //amount: number;
   remainingAmount: number;
   cash: AvailablePaymentMethods;
   canPay: boolean = true;
@@ -28,7 +30,8 @@ export class ShoppingCashPaymentPage {
 
   @ViewChild(Navbar) navBar: Navbar;
   constructor(public navCtrl: NavController, public navParams: NavParams, 
-    private cartSrv: CartServiceProvider) {
+    private cartSrv: CartServiceProvider, private PaymentMethodSrv: PaymentMethodsServiceProvider,
+    private NotificationsCtrl: NotificationsProvider) {
     this.cart = this.cartSrv.getCart();
     this.cash = this.navParams.get('paymentMethod');
     this.payment = this.navParams.get('cashPayment');
@@ -36,7 +39,6 @@ export class ShoppingCashPaymentPage {
 
   ionViewDidLoad() {
     this.remainingAmount = this.cartSrv.getRemainingAmount();
-    this.amount = this.payment ? this.payment.amount_paid : this.remainingAmount;
   }
 
   ionViewDidEnter(){
@@ -46,21 +48,7 @@ export class ShoppingCashPaymentPage {
   backButtonHandler(){
     this.navCtrl.popTo('ShoppingPage');
   }
-
-  inputChange(event){
-    this.amount = parseInt(event.value);
-    if(isNaN(this.amount)){
-      this.amount = 0;
-    }
-    
-    if(this.payment){
-      this.remainingAmount = (this.cartSrv.getRemainingAmount() + this.payment.amount_paid) - this.amount
-    }
-    else{
-      this.remainingAmount = this.cartSrv.getRemainingAmount() - this.amount
-    }
-    this.canPay = this.remainingAmount >= 0 && this.remainingAmount <= this.cart.ticket.total ? true : false;
-  }
+ 
 
   goToCheckoutPage(){
     let newPaymentMethod = new PaymentMethods( 
@@ -68,11 +56,24 @@ export class ShoppingCashPaymentPage {
         id: null,
         payment_method: this.cash,
         card: null,
-        amount_paid: this.amount
+        amount_paid: this.remainingAmount
       }
     )
+    let mercadopagoData = {
+      description: 'pago de compra CSaleApp; monto: , '+this.remainingAmount,
+      payment_method_id: 'rapipago',
+      transaction_amount: this.remainingAmount
+    }
+    this.PaymentMethodSrv.postMercadopagoPayment(mercadopagoData).subscribe(result=>{
+      console.log('PAGO EN MERCADO PAGO REALZIADO, PAGO CON TAREJTA APROVADO Y ACREDITADO')
+      console.log(result);
+    }),
+    (err)=>{
+      this.NotificationsCtrl.presentErrorNotification("Pago en Mercado Pago fallido.\nError técnico: "+err);
+      console.log(err);
+    }
     this.cartSrv.savePaymentMethod(newPaymentMethod, 'cash');
     this.cartSrv.setCart(this.cart);
-    this.navCtrl.push(ShoppingCheckoutPage);
+    this.navCtrl.push(ShoppingConfirmPage);
   }
 }
