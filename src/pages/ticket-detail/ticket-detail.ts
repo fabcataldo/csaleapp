@@ -20,7 +20,7 @@ export class TicketDetailPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private file: File,
     private CartSrv: CartServiceProvider, private NotificationsCtrl: NotificationsProvider) {
-    this.ticket = this.navParams.get('ticket') ? this.navParams.get('ticket') : this.CartSrv.getCart().ticket;
+    this.ticket = this.navParams.get('ticket') ? this.navParams.get('ticket') : null;
     this.isShopping = this.navParams.get('isShopping') ? this.navParams.get('isShopping') : false;
   }
 
