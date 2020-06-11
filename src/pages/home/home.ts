@@ -9,10 +9,10 @@ import { MyProfilePage } from '../my-profile/my-profile';
 import { Geolocation } from '@ionic-native/geolocation';
 import { PlacesServiceProvider } from '../../providers/places-service';
 import { Places } from '../../models/places';
-import { PopoverController } from 'ionic-angular';
 import { PlaceDetailPage } from '../place-detail/place-detail';
 import { ShoppingPage } from '../shopping/shopping';
 import { NotificationsProvider } from '../../providers/notifications-service';
+import { CartServiceProvider } from '../../providers/cart-service';
 
 
 @Component({
@@ -39,10 +39,17 @@ export class HomePage {
   constructor(public navCtrl: NavController, private afAuth: AngularFireAuth,
     private geolocation: Geolocation,
     private PlacesServiceProvider: PlacesServiceProvider,
-    private NotificationsCtrl: NotificationsProvider) {
+    private NotificationsCtrl: NotificationsProvider,
+    private CartSrv: CartServiceProvider) {
   }
 
   ionViewDidLoad() {
+    let cart = localStorage.getItem('cart');
+    if(cart){
+      setTimeout(()=>{
+        this.CartSrv.asyncTicketUpload(); 
+      },500)
+    }
     this.getStorageValues();
     this.loadMap();
     this.getCurrentPosition()
