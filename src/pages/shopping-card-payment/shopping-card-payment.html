@@ -12,9 +12,6 @@
 
 <ion-content padding>
   <div style="color:white" >
-  <h1 style="color:black; text-align:center">
-    Restante: ${{remainingAmount}} 
-  </h1>
   <form [formGroup]="cardForm" (ngSubmit) = "onClickSubmit(cardForm.value)" >
     <ion-item>
       <ion-label>
@@ -68,19 +65,9 @@
       Fecha de vencimiento inválido
     </div>
 
-    <ion-item>
-      <ion-label>
-        Monto:
-      </ion-label>
-      <ion-input type="number" formControlName="amount"></ion-input>
-    </ion-item>
-    <div *ngIf="cardForm.get('amount').errors && cardForm.get('amount').dirty" style="color: red">
-      Monto inválido
-    </div>
-
     <button type="submit" ion-button color="loginButton" class="oneButtons"
         [disabled]="!canPay"> 
-      Aplicar
+      Continuar
     </button>
 
   </form>
