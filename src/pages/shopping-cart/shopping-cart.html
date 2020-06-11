@@ -42,22 +42,16 @@
         </ion-row>
         <br>
         <ion-row>
-          <h3>
+          <h3 style="margin-left: 3vh">
             Validez: {{product.product.valid_date_from}} - {{product.product.valid_date_to}}
           </h3>
         </ion-row>
-        <ion-row>
-          <ion-col>
-            <ion-label class="labelProducts">
-              {{setQuantities(product.product, true)}}
-            </ion-label>
-          </ion-col>
-          <ion-col style="margin-top: 1.8rem;">
-            <h3>
-              ${{setQuantities(product.product, false) * product.product.price}}
-            </h3>
-          </ion-col>
-        </ion-row>
+        <ion-row style="margin-top: 1.8rem;">
+                <h3 style="margin-left: 16vh">
+                  {{setQuantities(product.product, true)}} x 
+                  ${{setQuantities(product.product, false) * product.product.price}}
+                </h3>
+          </ion-row>
 
       </ion-card-content>
     </ion-card>

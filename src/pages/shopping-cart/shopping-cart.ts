@@ -6,6 +6,7 @@ import { PurchasedProducts } from '../../models/purchased_products';
 import { ProductsServiceProvider } from '../../providers/products-service';
 import { CartServiceProvider } from '../../providers/cart-service';
 import { ShoppingCheckoutPage } from '../shopping-checkout/shopping-checkout';
+import { ShoppingConfirmPage } from '../shopping-confirm/shopping-confirm';
 
 /**
  * Generated class for the ShoppingCartPage page.
@@ -107,6 +108,10 @@ export class ShoppingCartPage {
     this.ticket.total = this.getTotal();
     this.cart.ticket = this.ticket;
     this.CartSrv.setCart(this.cart);
+
+    if(this.CartSrv.getCart().ticket.payment_methods.length !== 0){
+      this.navCtrl.push(ShoppingConfirmPage)
+    }
     this.navCtrl.push(ShoppingCheckoutPage);
   }
 
