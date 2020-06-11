@@ -5,6 +5,10 @@ import { UserServiceProvider } from './user-service';
 import { TicketsServiceProvider } from './tickets-service';
 import { PaymentMethodsServiceProvider } from './payment-methods';
 import { PurchasedProductsServiceProvider } from './purchased-products-service';
+import { Tickets } from '../models/tickets';
+import { PurchasedProducts } from '../models/purchased_products';
+import { PaymentMethods } from '../models/payment_methods';
+import { Observable, forkJoin } from 'rxjs';
 
 @Injectable()
 export class CartServiceProvider {
@@ -41,23 +45,14 @@ export class CartServiceProvider {
         return total;
     }
 
-    findPaymentMethod(paymentMethod, type){
-        if(type == 'cash'){
-            return this.cart.ticket.payment_methods.findIndex(item=>{
-                return 'efectivo' == item.payment_method.name
-            })
-        }
-        if(type == 'card'){
-            return this.cart.ticket.payment_methods.findIndex(item=>{
-                if(item.card){
-                    return paymentMethod.card.card_number == item.card.card_number
-                }
-            })
-        }
+    findPaymentMethod(type){
+        return this.cart.ticket.payment_methods.findIndex(item=>{
+            return item.payment_method.name.includes(type);
+        })
     }
 
     savePaymentMethod(paymentMethod, type){
-        let paymentIdx = this.findPaymentMethod(paymentMethod, type);
+        let paymentIdx = this.findPaymentMethod(type);
         if(paymentIdx !== -1){
             this.cart.ticket.payment_methods[paymentIdx].amount_paid = paymentMethod.amount_paid;
         }
@@ -67,45 +62,34 @@ export class CartServiceProvider {
     }
 
     removePaymentMethod(paymentMethod, type){
-        let paymentIdx = this.findPaymentMethod(paymentMethod, type);
+        let paymentIdx = this.findPaymentMethod(type);
         if(paymentIdx !== -1){
             this.cart.ticket.payment_methods.splice(paymentIdx, 1);
         }
         console.log(this.cart.ticket.payment_methods)
     }
 
-    saveLastTicket(idTicketSaved){
-        this.TicketSrv.getTicket(idTicketSaved).subscribe(resp=>{
-            this.getCart().ticket = resp;
-        }),
-        (err)=>{
-            console.log('ERROR al guardar ticket: Modelo Tickets')
-            console.log(err);
-        };
-    }
-
-    saveNewData(){   
+    async saveNewData(){
         let userStored = JSON.parse(localStorage.getItem('user'))
         if(userStored.tickets)
-            userStored.tickets.push(this.getCart().ticket) 
+            userStored.tickets.push(this.cart.ticket) 
         else
-            userStored.tickets = [this.getCart().ticket] 
+            userStored.tickets = [this.cart.ticket];
         localStorage.setItem('user', JSON.stringify(userStored));
 
-        this.UserSrv.putUser(userStored._id, userStored).subscribe(resp2=>{
+        if(this.getCart().place.tickets)
+            this.getCart().place.tickets.push(this.cart.ticket) 
+        else
+            this.getCart().place.tickets = [this.cart.ticket]
+
+        await this.UserSrv.putUser(userStored._id, userStored).subscribe(resp2=>{
             console.log(resp2)
         }),
         (err)=>{
             console.log('ERROR al guardar ticket: Modelo USERS')
             console.log(err);
         }
-
-        if(this.getCart().place.tickets)
-            this.getCart().place.tickets.push(this.getCart().ticket) 
-        else
-            this.getCart().place.tickets= [this.getCart().ticket]
-        
-        this.PlaceSrv.putPlace(this.getCart().place._id, this.getCart().place).subscribe(resp=>{
+        await this.PlaceSrv.putPlace(this.getCart().place._id, this.getCart().place).subscribe(resp=>{
             console.log(resp)
         }),
         (err)=>{
@@ -115,57 +99,52 @@ export class CartServiceProvider {
         localStorage.removeItem('cart');
     }
 
-    uploadCart(){
-        let savedPurchasedProducts=[];
-        let savedPaymentMethods=[];
-        let idTicketSaved;
-        
-        this.getCart().ticket.purchased_products.forEach((purchasedProducts)=>{
+
+    async uploadCart(){
+        this.getCart().ticket.purchased_products.forEach(async (purchasedProducts, index)=>{
             let newPurchasedProducts={
-                _id: purchasedProducts.id, product: purchasedProducts.product._id,
+                _id: purchasedProducts._id, product: purchasedProducts.product._id,
                 quantity: purchasedProducts.quantity
             }
-            this.PurchasedProductsSrv.postPurchasedProducts(newPurchasedProducts).subscribe((resp3)=>{
-                savedPurchasedProducts.push(resp3);
-                console.log(savedPurchasedProducts)
+            await this.PurchasedProductsSrv.postPurchasedProducts(newPurchasedProducts).subscribe((resp3)=>{
+                this.cart.ticket.purchased_products[index]._id = resp3._id;
+
             }),
             (err)=>{
                 console.log('ERROR al guardar ticket: Modelo PAYMENT METHODS')
                 console.log(err);
             }
         })
-        console.log(savedPurchasedProducts)
-        this.getCart().ticket.purchased_products = savedPurchasedProducts;
-        
 
-        this.getCart().ticket.payment_methods.forEach((paymentMethod)=>{
+
+        this.getCart().ticket.payment_methods.forEach(async (paymentMethod, index)=>{
             let newPaymentMethod={
-                _id: paymentMethod.id, card: paymentMethod.card,
-                payment_method: paymentMethod.payment_method.id, amount_paid: paymentMethod.amount_paid
+                _id: paymentMethod._id, payment_method: paymentMethod.payment_method.id, amount_paid: paymentMethod.amount_paid
             }
-            this.PaymentMethodSrv.postPaymentMethod(newPaymentMethod).subscribe((resp3)=>{
-                savedPaymentMethods.push(resp3);
+            await this.PaymentMethodSrv.postPaymentMethod(newPaymentMethod).subscribe((resp3)=>{
+                this.cart.ticket.payment_methods[index]._id = resp3._id;
+                console.log('PAYMENTMETHODS INDEX')
+                console.log(this.cart.ticket.payment_methods[index])
+
             }),
             (err)=>{
                 console.log('ERROR al guardar ticket: Modelo PAYMENT METHODS')
-                console.log(paymentMethod)
                 console.log(err);
             }
         })
-        console.log(savedPaymentMethods)
-        this.getCart().ticket.payment_methods = savedPaymentMethods;
 
-        
-        this.TicketSrv.postTicket(this.getCart().ticket).subscribe(resp=>{
-            console.log('postTicket resp: \n'+resp);
-            idTicketSaved = resp._id
+        localStorage.setItem('cart', JSON.stringify(this.cart))
 
-            this.saveLastTicket(idTicketSaved);
+    }
+
+    async asyncTicketUpload(){
+        await this.TicketSrv.postTicket(this.cart.ticket).subscribe(async resp=>{
+            this.cart.ticket = resp;
+            this.saveNewData();
         }),
         (err)=>{
             console.log('ERROR al guardar ticket: Modelo Tickets')
             console.log(err);
         };
-        
-    }
+    }    
 }
