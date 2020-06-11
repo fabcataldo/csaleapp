@@ -39,7 +39,6 @@ import { ShoppingCashPaymentPage } from '../pages/shopping-cash-payment/shopping
 import { ShoppingCardPaymentPage } from '../pages/shopping-card-payment/shopping-card-payment';
 import { AvailablePaymentMethodsServiceProvider } from '../providers/available-payment-methods';
 import { PaymentMethodsServiceProvider } from '../providers/payment-methods';
-import { ShoppingMercadopagoPaymentPage } from '../pages/shopping-mercadopago-payment/shopping-mercadopago-payment';
 import { NotificationsProvider } from '../providers/notifications-service';
 import { RecoverPasswordPage } from '../pages/recover-password/recover-password';
 import { ShoppingCartPage } from '../pages/shopping-cart/shopping-cart';
@@ -73,7 +72,6 @@ const firebaseConfig = {
     ShoppingCheckoutPage,
     ShoppingCashPaymentPage,
     ShoppingCardPaymentPage,
-    ShoppingMercadopagoPaymentPage,
     RecoverPasswordPage,
     ShoppingCartPage,
     ShoppingConfirmPage
@@ -103,7 +101,6 @@ const firebaseConfig = {
     ShoppingCheckoutPage,
     ShoppingCashPaymentPage,
     ShoppingCardPaymentPage,
-    ShoppingMercadopagoPaymentPage,
     RecoverPasswordPage,
     ShoppingCartPage,
     ShoppingConfirmPage
