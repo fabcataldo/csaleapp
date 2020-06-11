@@ -1,17 +1,14 @@
 import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, Navbar } from 'ionic-angular';
 import { Cart } from '../../models/cart';
-import { Tickets } from '../../models/tickets';
 import { CartServiceProvider } from '../../providers/cart-service';
-import { ShoppingCashPaymentPage } from '../shopping-cash-payment/shopping-cash-payment';
 import { ShoppingCardPaymentPage } from '../shopping-card-payment/shopping-card-payment';
 import { AvailablePaymentMethodsServiceProvider } from '../../providers/available-payment-methods';
 import { AvailablePaymentMethods } from '../../models/available_payment_methods';
 import { Accessories } from '../../utils/accessories';
-import { TicketDetailPage } from '../ticket-detail/ticket-detail';
-import { ShoppingMercadopagoPaymentPage } from '../shopping-mercadopago-payment/shopping-mercadopago-payment';
 import { NotificationsProvider } from '../../providers/notifications-service';
 import { ShoppingConfirmPage } from '../shopping-confirm/shopping-confirm';
+import { PaymentMethodsServiceProvider } from '../../providers/payment-methods';
 import { PaymentMethods } from '../../models/payment_methods';
 
 /**
@@ -35,7 +32,8 @@ export class ShoppingCheckoutPage {
   @ViewChild(Navbar) navBar: Navbar;
   constructor(public navCtrl: NavController, public navParams: NavParams, 
     private CartSrv: CartServiceProvider, private availablePaymentMethodsSrv: AvailablePaymentMethodsServiceProvider,
-    private NotificationsCtrl: NotificationsProvider) {
+    private NotificationsCtrl: NotificationsProvider, private cartSrv: CartServiceProvider,
+    private PaymentMethodSrv: PaymentMethodsServiceProvider) {
       this.getAvailablePaymentMethods();
       this.setCart();
       this.setRemainingAmount();
@@ -43,7 +41,7 @@ export class ShoppingCheckoutPage {
   }
 
   ionViewDidLoad() {
-    
+
   }
 
   setCart(){
@@ -75,38 +73,40 @@ export class ShoppingCheckoutPage {
     this.navCtrl.popTo('ShoppingPage');
   }
 
-  goToPaymentPage(paymentMethod){
-    if(paymentMethod.payment_method.name === 'efectivo'){
-      this.goToCashPaymentPage(paymentMethod);
+  payWithCash(){
+    let newPaymentMethod = new PaymentMethods( 
+      { 
+        id: null,
+        payment_method: this.availablePaymentMethods.find(item => item.name.includes('efectivo')),
+        card: null,
+        amount_paid: this.remainingAmount
+      }
+    )
+    let mercadopagoData = {
+      description: 'pago de compra en CSaleApp; monto: , '+this.remainingAmount,
+      payment_method_id: 'rapipago',
+      transaction_amount: this.remainingAmount
     }
-    if(paymentMethod.payment_method.name === 'tarjeta'){
-      this.goToCardPaymentPage(paymentMethod);
+    this.PaymentMethodSrv.postMercadopagoPayment(mercadopagoData).subscribe(result=>{
+      console.log('PAGO EN MERCADO PAGO REALZIADO, PAGO APROBADO Y ACREDITADO')
+      console.log(result);
+    }),
+    (err)=>{
+      this.NotificationsCtrl.presentErrorNotification("Pago en Mercado Pago fallido.\nError técnico: "+err);
+      console.log(err);
     }
-    
+    this.cartSrv.savePaymentMethod(newPaymentMethod, 'efectivo');
+    this.cartSrv.setCart(this.cart);
+    this.navCtrl.push(ShoppingConfirmPage);
   }
 
-  goToCashPaymentPage(payment?:any){
-    this.navCtrl.push(ShoppingCashPaymentPage, {
-      paymentMethod:
-        this.availablePaymentMethods.find(item => item.name == 'efectivo'),
-      cashPayment: payment ? payment : this.CartSrv.findPaymentMethod(null, 'cash') !== -1 ?
-        this.cart.ticket.payment_methods[this.CartSrv.findPaymentMethod(null, 'cash')] : null
-    });
-  }
-
-  goToCardPaymentPage(payment?:any){
-    this.navCtrl.push(ShoppingCardPaymentPage, {
-      paymentMethod: this.availablePaymentMethods.find(item => item.name == 'tarjeta'),
-      cardPayment: payment ? payment : null,
-      isMercadoPago: false
-    });
-  }
-
-  goToMercadopagoPaymentPage(payment?:any){
-    this.navCtrl.push(ShoppingMercadopagoPaymentPage, {
-      paymentMethod: this.availablePaymentMethods.find(item => item.name == 'mercado pago'),
-      mercadopagoPayment: payment ? payment : null
-    });
+  goToPaymentPage(paymentMethodName){
+    if(paymentMethodName)
+      this.payWithCash();
+    else
+      this.navCtrl.push(ShoppingCardPaymentPage, {
+        paymentMethod: this.availablePaymentMethods.find(item => item.name.includes('tarjeta'))
+      });
   }
 
   removePayment(paymentMethod){
