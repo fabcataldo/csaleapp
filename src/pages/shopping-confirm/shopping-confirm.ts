@@ -48,11 +48,11 @@ export class ShoppingConfirmPage {
     : '';
   }
 
-  goToHomePage(){
-    console.log(this.cart)
-    this.CartSrv.uploadCart();
-    this.CartSrv.saveNewData();
+  async goToHomePage(){
+    await this.CartSrv.uploadCart();
+    
     this.navCtrl.setRoot(HomePage);
+   
   }
 
 }
