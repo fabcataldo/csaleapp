@@ -76,17 +76,12 @@
                     </ion-item>
                     <ion-item no lines>
                         Pagaste con:
-                        <ion-grid *ngFor="let paymentMethod of ticket.payment_methods">
+                        <ion-grid>
                             <ion-row>
-                                - {{toCapitalize(paymentMethod.payment_method.name)}}
+                                - {{toCapitalize(ticket.payment_methods.name)}}
                             </ion-row>
-                            <div *ngIf="paymentMethod.payment_method.name == tarjeta">
-                                <ion-row>
-                                    Número: paymentMethod.creditCard
-                                </ion-row>
-                            </div>
                             <ion-row>
-                                Abonaste: ${{paymentMethod.amountPaid}}
+                                Abonaste: ${{ticket.payment_methods.amountPaid}}
                             </ion-row>
                         </ion-grid>
                     </ion-item>

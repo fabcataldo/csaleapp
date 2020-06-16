@@ -16,7 +16,7 @@
   </h1>
   
   <ion-list *ngFor="let product of cart.ticket.purchased_products; let i=index">
-    <ion-item text-wrap style="width: 100%; text-align: center; border-bottom: 3.3px grey solid">
+    <ion-item text-wrap style="width: 100%; text-align: center">
       <ion-grid>
         <ion-row>
           <ion-col>
@@ -31,7 +31,7 @@
   </ion-list>
 
 
-    <ion-grid>
+    <ion-item style="border-top: 0.5px grey solid" no-lines>
       <ion-row text-center>
         <ion-col>
           Total
@@ -40,8 +40,7 @@
           ${{cart.ticket.total}}
         </ion-col>
       </ion-row>
-    </ion-grid>
-
+  </ion-item>
 
   <ion-list *ngFor="let product of cart.ticket.purchased_products; let i=index">
     <ion-card>
@@ -55,38 +54,31 @@
         <br>
         <h1 style="text-align: center; white-space: break-spaces"> {{product.product.description}}</h1>
       </ion-item>
-      <br>
       <ion-card-content>
         <ion-row  text-center>
-          <ion-col>
-            <ion-label class="labelProducts">
-              {{setQuantities(product.product, true)}}
-            </ion-label>
-          </ion-col>
-          <ion-col style="margin-top: 1.8rem;">
-            <h3>
+            <h3 style="margin-left: 16vh; margin-top:1vh">
+              {{setQuantities(product.product, true)}} x 
               ${{setQuantities(product.product, false) * product.product.price}}
             </h3>
-          </ion-col>
         </ion-row>
 
       </ion-card-content>
     </ion-card>      
   </ion-list>
 
-  <ion-list *ngFor="let paymentMethod of cart.ticket.payment_methods">
+  <ion-list>
       <ion-item >
-        <div *ngIf="paymentMethod.payment_method.name.includes('efectivo')">
+        <div *ngIf="cart.ticket.payment_methods.payment_method.name.includes('efectivo')">
           <img item-start class="imgPaymentMethods" src="../assets/imgs/coin.png">
         </div>
-        <div *ngIf="paymentMethod.payment_method.name.includes('tarjeta')">
+        <div *ngIf="cart.ticket.payment_methods.payment_method.name.includes('tarjeta')">
           <img item-start  class="imgPaymentMethods" src="../assets/imgs/card.png">
         </div>
-        <div *ngIf="paymentMethod.payment_method.name.includes('mercado pago')">
+        <div *ngIf="cart.ticket.payment_methods.payment_method.name.includes('mercado pago')">
           <img item-start class="imgPaymentMethods" src="../assets/imgs/mp.png">
         </div>
         <ion-label style="text-align: center;">
-          Pagás ${{paymentMethod.amount_paid}} con {{toCapitalize(paymentMethod.payment_method.name)}}
+          Pagás ${{cart.ticket.payment_methods.amount_paid}} con {{toCapitalize(cart.ticket.payment_methods.payment_method.name)}}
         </ion-label>
       </ion-item>
   </ion-list>

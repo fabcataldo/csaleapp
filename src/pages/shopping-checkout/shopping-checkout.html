@@ -25,20 +25,4 @@
       <ion-label>Tarjeta</ion-label>
     </ion-item>
   </ion-list>
-
-  <br>
-  <br>
-  <h2 style="color:black; text-align:center">
-    Pagos realizados
-  </h2>
-  <div *ngIf="cart.ticket.payment_methods.length == 0">
-    <ion-item style="color:black; text-align:center" no-lines>
-      <p>Todavía no pagaste nada!.</p>
-    </ion-item>
-    
-  </div>
-  <ion-list *ngFor="let paymentMethod of this.cart.ticket.payment_methods">
-      <ion-item style="border-bottom: 3.8px solid rgb(200, 200, 200)">
-        {{toCapitalize(paymentMethod.payment_method.name)}}: ${{paymentMethod.amount_paid}}
-      </ion-item>
-  </ion-list>
+</ion-content>

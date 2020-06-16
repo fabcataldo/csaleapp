@@ -39,34 +39,12 @@ export class CartServiceProvider {
     
     getTotalPaid(){
         let total = 0;
-        this.cart.ticket.payment_methods.forEach(item => {
-          total+=Number(item.amount_paid);
-        })
+        total+=this.cart.ticket.payment_methods ? Number(this.cart.ticket.payment_methods.amount_paid) : 0;
         return total;
     }
 
-    findPaymentMethod(type){
-        return this.cart.ticket.payment_methods.findIndex(item=>{
-            return item.payment_method.name.includes(type);
-        })
-    }
-
-    savePaymentMethod(paymentMethod, type){
-        let paymentIdx = this.findPaymentMethod(type);
-        if(paymentIdx !== -1){
-            this.cart.ticket.payment_methods[paymentIdx].amount_paid = paymentMethod.amount_paid;
-        }
-        else{
-            this.cart.ticket.payment_methods.push(paymentMethod);
-        }
-    }
-
-    removePaymentMethod(paymentMethod, type){
-        let paymentIdx = this.findPaymentMethod(type);
-        if(paymentIdx !== -1){
-            this.cart.ticket.payment_methods.splice(paymentIdx, 1);
-        }
-        console.log(this.cart.ticket.payment_methods)
+    savePaymentMethod(paymentMethod){
+        this.cart.ticket.payment_methods = paymentMethod;
     }
 
     async saveNewData(){
@@ -116,22 +94,13 @@ export class CartServiceProvider {
             }
         })
 
-
-        this.getCart().ticket.payment_methods.forEach(async (paymentMethod, index)=>{
-            let newPaymentMethod={
-                _id: paymentMethod._id, payment_method: paymentMethod.payment_method.id, amount_paid: paymentMethod.amount_paid
-            }
-            await this.PaymentMethodSrv.postPaymentMethod(newPaymentMethod).subscribe((resp3)=>{
-                this.cart.ticket.payment_methods[index]._id = resp3._id;
-                console.log('PAYMENTMETHODS INDEX')
-                console.log(this.cart.ticket.payment_methods[index])
-
-            }),
-            (err)=>{
-                console.log('ERROR al guardar ticket: Modelo PAYMENT METHODS')
-                console.log(err);
-            }
-        })
+        await this.PaymentMethodSrv.postPaymentMethod(this.cart.ticket.payment_methods[0]).subscribe((resp3) => {
+            this.cart.ticket.payment_methods._id = resp3._id;
+        }),
+        (err) => {
+            console.log('ERROR al guardar ticket: Modelo PAYMENT METHODS')
+            console.log(err);
+        }
 
         localStorage.setItem('cart', JSON.stringify(this.cart))
 

@@ -35,7 +35,6 @@ import { PlaceDetailPage } from '../pages/place-detail/place-detail';
 import { ShoppingPage } from '../pages/shopping/shopping';
 import { ShoppingCheckoutPage } from '../pages/shopping-checkout/shopping-checkout';
 import { CartServiceProvider } from '../providers/cart-service';
-import { ShoppingCashPaymentPage } from '../pages/shopping-cash-payment/shopping-cash-payment';
 import { ShoppingCardPaymentPage } from '../pages/shopping-card-payment/shopping-card-payment';
 import { AvailablePaymentMethodsServiceProvider } from '../providers/available-payment-methods';
 import { PaymentMethodsServiceProvider } from '../providers/payment-methods';
@@ -70,7 +69,6 @@ const firebaseConfig = {
     PlaceDetailPage,
     ShoppingPage,
     ShoppingCheckoutPage,
-    ShoppingCashPaymentPage,
     ShoppingCardPaymentPage,
     RecoverPasswordPage,
     ShoppingCartPage,
@@ -99,7 +97,6 @@ const firebaseConfig = {
     PlaceDetailPage,
     ShoppingPage,
     ShoppingCheckoutPage,
-    ShoppingCashPaymentPage,
     ShoppingCardPaymentPage,
     RecoverPasswordPage,
     ShoppingCartPage,

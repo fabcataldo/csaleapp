@@ -108,11 +108,14 @@ export class ShoppingCartPage {
     this.ticket.total = this.getTotal();
     this.cart.ticket = this.ticket;
     this.CartSrv.setCart(this.cart);
-
-    if(this.CartSrv.getCart().ticket.payment_methods.length !== 0){
+    console.log(this.CartSrv.getCart().ticket.payment_methods)
+    if(this.CartSrv.getCart().ticket.payment_methods){
       this.navCtrl.push(ShoppingConfirmPage)
     }
-    this.navCtrl.push(ShoppingCheckoutPage);
+    else{
+      this.navCtrl.push(ShoppingCheckoutPage);
+    }
+
   }
 
 }

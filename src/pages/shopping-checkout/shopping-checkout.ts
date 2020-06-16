@@ -95,7 +95,7 @@ export class ShoppingCheckoutPage {
       this.NotificationsCtrl.presentErrorNotification("Pago en Mercado Pago fallido.\nError técnico: "+err);
       console.log(err);
     }
-    this.cartSrv.savePaymentMethod(newPaymentMethod, 'efectivo');
+    this.cartSrv.savePaymentMethod(newPaymentMethod);
     this.cartSrv.setCart(this.cart);
     this.navCtrl.push(ShoppingConfirmPage);
   }
@@ -107,16 +107,6 @@ export class ShoppingCheckoutPage {
       this.navCtrl.push(ShoppingCardPaymentPage, {
         paymentMethod: this.availablePaymentMethods.find(item => item.name.includes('tarjeta'))
       });
-  }
-
-  removePayment(paymentMethod){
-    let type = (paymentMethod.payment_method.name === 'efectivo') 
-      ? 'cash' : (paymentMethod.payment_method.name === 'tarjeta') ? 'card' : 'mercadopago'; 
-    this.CartSrv.removePaymentMethod(paymentMethod, type);
-    this.cart = this.CartSrv.getCart();
-    localStorage.setItem('cart', JSON.stringify(this.cart))
-    this.setRemainingAmount();
-    this.setCanPay();
   }
 
   toCapitalize(str){

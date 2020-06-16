@@ -97,7 +97,7 @@ export class ShoppingCardPaymentPage {
       }
     )
     this.payWithMercadopago(newCard)
-    this.cartSrv.savePaymentMethod(newPaymentMethod, 'card');
+    this.cartSrv.savePaymentMethod(newPaymentMethod);
     this.cartSrv.setCart(this.cartSrv.getCart());
 
     this.navCtrl.push(ShoppingConfirmPage);
