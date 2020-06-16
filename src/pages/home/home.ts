@@ -164,7 +164,7 @@ export class HomePage {
   }
 
   getStateOfPlace(place){
-    if(place.customer_service_days.find(item => item===new Date().getDay())){
+    if(place.customer_service_days.findIndex(item => item==new Date().getDay()) !== -1){
       return true;
     }
     return false;
@@ -189,7 +189,7 @@ export class HomePage {
       '</div>'
     ].join("");
     frame.getElementsByTagName("div")[0].addEventListener("click", () => {
-      if(place.customer_service_days.find(item => {return item == new Date().getDay() })!==0 ){
+      if(isPlaceOpen){
         this.navCtrl.push(PlaceDetailPage, { place: place });        
       }  
       else{
