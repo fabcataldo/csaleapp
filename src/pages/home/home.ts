@@ -46,8 +46,8 @@ export class HomePage {
   ionViewDidLoad() {
     let cart = localStorage.getItem('cart');
     if(cart){
-      setTimeout(()=>{
-        this.CartSrv.asyncTicketUpload(); 
+      setTimeout(async ()=>{
+        await this.CartSrv.asyncTicketUpload(); 
       },500)
     }
     this.getStorageValues();
