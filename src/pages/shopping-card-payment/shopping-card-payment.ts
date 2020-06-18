@@ -93,7 +93,7 @@ export class ShoppingCardPaymentPage {
       {
         id: null,
         payment_method: this.card,
-        amount_paid: this.cartSrv.getRemainingAmount()
+        amount_paid: this.cart.ticket.total
       }
     )
     this.payWithMercadopago(newCard)
