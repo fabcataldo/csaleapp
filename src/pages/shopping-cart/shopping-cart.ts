@@ -108,14 +108,6 @@ export class ShoppingCartPage {
     this.ticket.total = this.getTotal();
     this.cart.ticket = this.ticket;
     this.CartSrv.setCart(this.cart);
-    console.log(this.CartSrv.getCart().ticket.payment_methods)
-    if(this.CartSrv.getCart().ticket.payment_methods){
-      this.navCtrl.push(ShoppingConfirmPage)
-    }
-    else{
-      this.navCtrl.push(ShoppingCheckoutPage);
-    }
-
+    this.navCtrl.push(ShoppingCheckoutPage);
   }
-
 }
