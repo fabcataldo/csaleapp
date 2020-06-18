@@ -94,7 +94,7 @@ export class CartServiceProvider {
             }
         })
 
-        await this.PaymentMethodSrv.postPaymentMethod(this.cart.ticket.payment_methods[0]).subscribe((resp3) => {
+        await this.PaymentMethodSrv.postPaymentMethod(this.cart.ticket.payment_methods).subscribe((resp3) => {
             this.cart.ticket.payment_methods._id = resp3._id;
         }),
         (err) => {

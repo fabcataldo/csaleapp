@@ -7,7 +7,7 @@ export class PaymentMethods {
 
     constructor(paymentMethod ? : any) {
         if(paymentMethod){
-            this._id = paymentMethod._id ? paymentMethod._id : null;
+            this._id = paymentMethod._id ? paymentMethod._id : '';
             this.payment_method = paymentMethod.payment_method ? paymentMethod.payment_method : null;
             this.amount_paid = paymentMethod.amount_paid ? paymentMethod.amount_paid : 0;
         }

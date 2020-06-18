@@ -1,10 +1,10 @@
 export class AvailablePaymentMethods {
-    id: string;
+    _id: string;
     name : string;
     
     constructor(paymentMethod ? : any) {
         if(paymentMethod){
-            this.id = paymentMethod._id;
+            this._id = paymentMethod._id;
             this.name = paymentMethod.name;
         }
     }
