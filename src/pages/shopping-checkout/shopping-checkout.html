@@ -15,6 +15,7 @@
     ¿Cómo querés pagar?
   </h1>
   <br>
+  <br>
   <ion-list>
     <ion-item style="border-bottom: 6px solid #ffff" (tap)="goToPaymentPage('efectivo')" >
       <img item-start class="imgPaymentMethods" src="../assets/imgs/cash1.png">
@@ -26,3 +27,14 @@
     </ion-item>
   </ion-list>
 </ion-content>
+
+<ion-footer style="height:8%">
+  <ion-row text-center style="margin-top:1.5vh">
+    <ion-col>
+      Pagás
+    </ion-col>
+    <ion-col>
+      ${{cart.ticket.total}}
+    </ion-col>
+  </ion-row>
+</ion-footer>
