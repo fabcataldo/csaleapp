@@ -11,7 +11,7 @@ import { Platform } from 'ionic-angular';
 import { Facebook } from '@ionic-native/facebook';
 import { Users } from '../../models/users';
 import { NotificationsProvider } from '../../providers/notifications-service';
-import { RecoverPasswordPage } from '../recover-password/recover-password';
+import { RecoverPasswordFirstStepPage } from '../recover-password-first-step/recover-password-first-step';
 
 /**
  * Generated class for the LoginPage page.
@@ -58,30 +58,29 @@ export class LoginPage {
   get formFields() { return this.loginForm.controls; }
 
   async onClickSubmit(data) {
-    await this.UserService.loginUser(data).subscribe((data) => {
+    await this.UserService.loginUser(data).subscribe((data) => { 
         this.user = new Users(data['user']);
         localStorage.setItem('user', JSON.stringify(this.user));
         localStorage.setItem('token', JSON.stringify(data['token']));
         this.navCtrl.setRoot(HomePage);
-      }),
+      },
       (err) => {
-        console.log(err);
-        this.NotificationsCtrl.presentErrorNotification("No se pudo iniciar sesión.\nError técnico: "+err);
-      };
+        this.NotificationsCtrl.presentErrorNotification("No se pudo iniciar sesión.\nError técnico: "+err.message);
+      });
   }
 
-  saveOAuthUser() {
-    this.UserService.postUser(this.userOAuth).subscribe((res: any) => {
+  async saveOAuthUser() {
+    await this.UserService.postUser(this.userOAuth).subscribe((res: any) => {
         this.userOAuth = res.user;
         this.tokenUserOAuth = res.token;
 
         localStorage.setItem('user', JSON.stringify(this.userOAuth))
         localStorage.setItem('token', JSON.stringify(this.tokenUserOAuth));
         this.navCtrl.setRoot(HomePage);
-      }),
+      },
       (err) => {
         this.NotificationsCtrl.presentErrorNotification("No se pudo guardar los datos del usuario.\nError técnico: "+err);
-      }
+      })
   }
 
   goToRegisterPage() {
@@ -190,7 +189,7 @@ export class LoginPage {
   }
 
   goToRecoverPasswordPage(){
-    this.navCtrl.push(RecoverPasswordPage);
+    this.navCtrl.push(RecoverPasswordFirstStepPage);
   }
 
 }
