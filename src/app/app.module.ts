@@ -36,13 +36,14 @@ import { ShoppingPage } from '../pages/shopping/shopping';
 import { ShoppingCheckoutPage } from '../pages/shopping-checkout/shopping-checkout';
 import { CartServiceProvider } from '../providers/cart-service';
 import { ShoppingCardPaymentPage } from '../pages/shopping-card-payment/shopping-card-payment';
-import { AvailablePaymentMethodsServiceProvider } from '../providers/available-payment-methods';
-import { PaymentMethodsServiceProvider } from '../providers/payment-methods';
+import { AvailablePaymentMethodsServiceProvider } from '../providers/available-payment-methods-service';
+import { PaymentMethodsServiceProvider } from '../providers/payment-methods-service';
 import { NotificationsProvider } from '../providers/notifications-service';
-import { RecoverPasswordPage } from '../pages/recover-password/recover-password';
+import { RecoverPasswordFirstStepPage } from '../pages/recover-password-first-step/recover-password-first-step';
 import { ShoppingCartPage } from '../pages/shopping-cart/shopping-cart';
 import { ShoppingConfirmPage } from '../pages/shopping-confirm/shopping-confirm';
 import { PurchasedProductsServiceProvider } from '../providers/purchased-products-service';
+import { RecoverPasswordFinalStepPage } from '../pages/recover-password-final-step/recover-password-final-step';
 
 const firebaseConfig = {
   apiKey: "AIzaSyDX2SigUNlJ_UiHX_DEQ6NvNFDvXBgcF0g",
@@ -70,9 +71,10 @@ const firebaseConfig = {
     ShoppingPage,
     ShoppingCheckoutPage,
     ShoppingCardPaymentPage,
-    RecoverPasswordPage,
+    RecoverPasswordFirstStepPage,
     ShoppingCartPage,
-    ShoppingConfirmPage
+    ShoppingConfirmPage,
+    RecoverPasswordFinalStepPage
   ],
   imports: [
     BrowserModule,
@@ -98,9 +100,10 @@ const firebaseConfig = {
     ShoppingPage,
     ShoppingCheckoutPage,
     ShoppingCardPaymentPage,
-    RecoverPasswordPage,
+    RecoverPasswordFirstStepPage,
     ShoppingCartPage,
-    ShoppingConfirmPage
+    ShoppingConfirmPage,
+    RecoverPasswordFinalStepPage
   ],
   providers: [
     StatusBar,
