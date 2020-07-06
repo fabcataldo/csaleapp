@@ -4,10 +4,8 @@ import { ProductsServiceProvider } from '../../providers/products-service';
 import { Products } from '../../models/products';
 import { PurchasedProducts } from '../../models/purchased_products';
 import { Cart } from '../../models/cart';
-import { Users } from '../../models/users';
 import { Platform } from 'ionic-angular';
 import { Tickets } from '../../models/tickets';
-import { ShoppingCheckoutPage } from '../shopping-checkout/shopping-checkout';
 import { CartServiceProvider } from '../../providers/cart-service';
 import { NotificationsProvider } from '../../providers/notifications-service';
 import { ShoppingCartPage } from '../shopping-cart/shopping-cart';
@@ -46,11 +44,11 @@ export class ShoppingPage {
     this.filterProductsPerBenefit = this.navParams.get('filterProductsPerBenefit') ? this.navParams.get('filterProductsPerBenefit') : false;
     this.ProductsSrv.getProducts().subscribe((result)=>{
       this.productsSrv = this.getFilteredProducts(result);
-    }),
+    },
     (err)=>{
       console.log(err);
       this.NotificationsCtrl.presentErrorNotification("Carga de productos fallida.\nError técnico: "+err);
-    }
+    })
     if(localStorage.getItem('cart')){
       this.cart = new Cart(this.CartSrv.getCart());
       this.ticket = this.cart.ticket;
@@ -60,7 +58,6 @@ export class ShoppingPage {
     else{
       this.cart = new Cart();
       this.ticket.date_of_purchase = new Date().toISOString();
-      this.ticket.user = JSON.parse(localStorage.getItem('user')); 
       this.ticket.purchased_products = this.purchasedProducts;
       
       this.cart.place = this.navParams.get('place');

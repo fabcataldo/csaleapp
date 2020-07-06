@@ -27,10 +27,10 @@ export class PlaceDetailPage {
 
     this.PlaceSrv.getFreeSpace(this.place._id).subscribe((result)=>{
       this.freeSpace = result;
-    }),
+    },
     (err)=>{
       this.NotificationsCtrl.presentErrorNotification("No se pudo obtener información sobre el espacio del lugar.\nError técnico: "+err);
-    };
+    });
   }
 
   ionViewDidLoad() {

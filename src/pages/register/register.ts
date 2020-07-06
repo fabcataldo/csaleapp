@@ -37,11 +37,11 @@ export class RegisterPage {
     await this.UserService.postUser(data).subscribe( (data)=>{
       this.NotificationsCtrl.presentOkNotification("Registro exitoso!");
       this.navCtrl.setRoot(LoginPage, {email: this.registerForm.value.email, password: this.registerForm.value.password});
-    }),
+    },
     (err)=>{
       console.log(err);
       this.NotificationsCtrl.presentErrorNotification("Registro fallido.\nError técnico: "+err);
-    };
+    });
   }
 
   goToRegisterPage(){

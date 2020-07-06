@@ -42,7 +42,6 @@ export class ShoppingCartPage {
     else{
       this.cart = new Cart();
       this.ticket.date_of_purchase = new Date().toISOString();
-      this.ticket.user = JSON.parse(localStorage.getItem('user')); 
       this.ticket.purchased_products = this.purchasedProducts;
       
       this.cart.place = this.navParams.get('place');

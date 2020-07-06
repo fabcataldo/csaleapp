@@ -6,7 +6,7 @@ import { CartServiceProvider } from '../../providers/cart-service';
 import { PaymentMethods } from '../../models/payment_methods';
 import { Accessories} from '../../utils/accessories';
 import { ShoppingConfirmPage } from '../shopping-confirm/shopping-confirm';
-import { PaymentMethodsServiceProvider } from '../../providers/payment-methods';
+import { PaymentMethodsServiceProvider } from '../../providers/payment-methods-service';
 import { NotificationsProvider } from '../../providers/notifications-service';
 
 /**
@@ -29,7 +29,6 @@ export class ShoppingCardPaymentPage {
   card: any;
   payment: PaymentMethods;
   canPay: boolean = true;
-  mercadopagoData: [];
 
   constructor(public navCtrl: NavController, public navParams: NavParams, 
     private formBuilder: FormBuilder, private cartSrv: CartServiceProvider,
@@ -99,30 +98,30 @@ export class ShoppingCardPaymentPage {
     this.payWithMercadopago(newCard)
     this.cartSrv.savePaymentMethod(newPaymentMethod);
     this.cartSrv.setCart(this.cartSrv.getCart());
-
     this.navCtrl.push(ShoppingConfirmPage);
   }
 
-  sdkResponseHandler(status, response) {
+  async sdkResponseHandler(status, response) {
     if (status != 200 && status != 201) {
         console.log("verify filled data");
     }else{
       let mercadopagoData = {
         payment_type: 'card',
         token: response.id,
-        description: 'pago de compra CSaleApp; monto: , '+this.cartSrv.getRemainingAmount(),
+        description: 'pago de compra CSaleApp; monto: , '+this.cartSrv.getTotalPaid(),
         payment_method_id: 'visa',
         payer_email: JSON.parse(localStorage.getItem('user')).email,
-        transaction_amount: this.cartSrv.getRemainingAmount()
+        issuer_id: '',
+        transaction_amount: this.cartSrv.getTotalPaid()
       }
-      this.PaymentMethodSrv.postMercadopagoPayment(mercadopagoData).subscribe(result=>{
+      await this.PaymentMethodSrv.postMercadopagoPayment(mercadopagoData).subscribe(result=>{
         console.log('PAGO EN MERCADO PAGO REALZIADO, PAGO CON TAREJTA APROVADO Y ACREDITADO')
         console.log(result);
-      }),
+      },
       (err)=>{
         this.NotificationsCtrl.presentErrorNotification("Pago en Mercado Pago fallido.\nError técnico: "+err);
         console.log(err);
-      }
+      })
       return response;
     }
 };

@@ -85,10 +85,10 @@ export class MyProfilePage {
       localStorage.removeItem('token');
       this.navCtrl.setRoot(LoginPage);
       this.NotificationsCtrl.presentOkNotification("Cuenta eliminada!");
-    }),
+    },
     (err)=>{
       console.log(err)
       this.NotificationsCtrl.presentErrorNotification("Eliminación fallida.\nError técnico: "+err);
-    };
+    });
   }
 }

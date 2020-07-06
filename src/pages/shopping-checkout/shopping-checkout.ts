@@ -3,12 +3,12 @@ import { IonicPage, NavController, NavParams, Navbar } from 'ionic-angular';
 import { Cart } from '../../models/cart';
 import { CartServiceProvider } from '../../providers/cart-service';
 import { ShoppingCardPaymentPage } from '../shopping-card-payment/shopping-card-payment';
-import { AvailablePaymentMethodsServiceProvider } from '../../providers/available-payment-methods';
+import { AvailablePaymentMethodsServiceProvider } from '../../providers/available-payment-methods-service';
 import { AvailablePaymentMethods } from '../../models/available_payment_methods';
 import { Accessories } from '../../utils/accessories';
 import { NotificationsProvider } from '../../providers/notifications-service';
 import { ShoppingConfirmPage } from '../shopping-confirm/shopping-confirm';
-import { PaymentMethodsServiceProvider } from '../../providers/payment-methods';
+import { PaymentMethodsServiceProvider } from '../../providers/payment-methods-service';
 import { PaymentMethods } from '../../models/payment_methods';
 
 /**
@@ -28,6 +28,7 @@ export class ShoppingCheckoutPage {
   remainingAmount: number;
   availablePaymentMethods: AvailablePaymentMethods[];
   canPay: boolean=false;
+  isMercadopagoPaymentOk: boolean=true;
 
   @ViewChild(Navbar) navBar: Navbar;
   constructor(public navCtrl: NavController, public navParams: NavParams, 
@@ -59,10 +60,10 @@ export class ShoppingCheckoutPage {
   async getAvailablePaymentMethods(){
     await this.availablePaymentMethodsSrv.getAvailablePaymentMethods().subscribe(data=>{
       this.availablePaymentMethods = data;
-    }),
+    },
     (err)=>{
       this.NotificationsCtrl.presentErrorNotification("No se pudieron obtener los métodos de pago disponibles.\nError técnico: "+err);
-    }
+    })
   }
 
   ionViewDidEnter(){
@@ -73,7 +74,7 @@ export class ShoppingCheckoutPage {
     this.navCtrl.popTo('ShoppingPage');
   }
 
-  payWithCash(){
+  async payWithCash(){
     let newPaymentMethod = new PaymentMethods( 
       { 
         id: null,
@@ -83,18 +84,18 @@ export class ShoppingCheckoutPage {
       }
     )
     let mercadopagoData = {
-      description: 'pago de compra en CSaleApp; monto: , '+this.remainingAmount,
+      description: 'pago de compra en CSaleApp; monto: '+newPaymentMethod.amount_paid,
       payment_method_id: 'rapipago',
-      transaction_amount: this.remainingAmount
+      transaction_amount: newPaymentMethod.amount_paid
     }
-    this.PaymentMethodSrv.postMercadopagoPayment(mercadopagoData).subscribe(result=>{
+    await this.PaymentMethodSrv.postMercadopagoPayment(mercadopagoData).subscribe(result=>{
       console.log('PAGO EN MERCADO PAGO REALZIADO, PAGO APROBADO Y ACREDITADO')
       console.log(result);
-    }),
+    },
     (err)=>{
       this.NotificationsCtrl.presentErrorNotification("Pago en Mercado Pago fallido.\nError técnico: "+err);
-      console.log(err);
-    }
+      this.isMercadopagoPaymentOk=false;
+    })
     this.cartSrv.savePaymentMethod(newPaymentMethod);
     this.cartSrv.setCart(this.cart);
     this.navCtrl.push(ShoppingConfirmPage);
@@ -111,10 +112,5 @@ export class ShoppingCheckoutPage {
 
   toCapitalize(str){
     return Accessories.capitalizeFirstChar(str);
-  }
-
-  goToTicketDetailPage(){
-    this.CartSrv.setCart(this.cart);
-    this.navCtrl.push(ShoppingConfirmPage)
   }
 }
