@@ -1,9 +1,3 @@
-<!--
-  Generated template for the TicketDetailPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
     <ion-navbar color="primary">
         <ion-title>Detalle de compra</ion-title>
@@ -18,20 +12,16 @@
                     CSaleApp
                 </h1>
                 <h2 style="color:black; text-align:center;">
-                    Recibo
+                    Código único: <br>{{ticket.unique_code}}
                 </h2>
-                <h3 style="color:black; text-align:center;">
-                    Código de compra: <br>{{ticket._id}}
-                </h3>
             </ion-item>
-
+            <br>
             <ion-card-content>
                 <ion-list>
-                    <ion-item no-lines>
-                        Fecha: {{ticket.date_of_purchase}}
+                    <ion-item no-lines class="itemLabels">
+                        Fecha: {{toCorrectDate(ticket.date_of_purchase)}}
                     </ion-item>
-
-                    <ion-item>
+                    <ion-item class="itemLabels">
                         Productos:
                         <ion-list>
                             <ion-item text-wrap>
@@ -62,7 +52,7 @@
                                                 {{purchaseProduct.quantity}}
                                             </ion-col>
                                             <ion-col class="cell-class">
-                                                {{purchaseProduct.product.valid_date_from}}-{{purchaseProduct.product.valid_date_to}}
+                                                {{toCorrectDate(purchaseProduct.product.valid_date_from)}}-{{toCorrectDate(purchaseProduct.product.valid_date_to)}}
                                             </ion-col>
                                         </ion-row>
                                     </div>
@@ -70,22 +60,16 @@
                             </ion-item>
                         </ion-list>
                     </ion-item>
-
-                    <ion-item no lines>
+                    <br>
+                    <ion-item no lines class="itemLabels">
                         Total: ${{ticket.total}}
                     </ion-item>
-                    <ion-item no lines>
-                        Pagaste con:
-                        <ion-grid>
-                            <ion-row>
-                                - {{toCapitalize(ticket.payment_methods.name)}}
-                            </ion-row>
-                            <ion-row>
-                                Abonaste: ${{ticket.payment_methods.amountPaid}}
-                            </ion-row>
-                        </ion-grid>
+                    <ion-item no lines class="itemLabels">
+                        Pagaste ${{ticket.payment_methods.amount_paid}} con {{toCapitalize(ticket.payment_methods.payment_method.name)}}
                     </ion-item>
-                    <div>
+                    <br>
+                    <br>
+                    <div class="ItemLabels">
                         Nota: cuando llegués a la entrada, mostrale al boletero/a o barman/barwoman este ticket, asi aprovechás tu compra!.
                     </div>
                 </ion-list>
@@ -93,15 +77,3 @@
         </ion-card>
     </div>
 </ion-content>
-
-
-<ion-footer>
-    <ion-row>
-      <ion-col no-padding>
-        <button type="submit" ion-button full color="loginButton" class="oneButtons" 
-         (tap)="downloadTicket()" no-margin style="width: 100%"> 
-          Imprimir
-        </button>  
-      </ion-col>
-    </ion-row>
-</ion-footer>
