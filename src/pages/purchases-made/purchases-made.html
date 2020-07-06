@@ -14,12 +14,16 @@
     <div *ngFor="let ticket of tickets">
         <ion-card (tap)="viewTicketDetail(ticket)">
             <ion-item>
-                <ion-label>Fecha: {{ticket.date_of_purchase}}</ion-label>
+                <ion-label>Fecha: {{toCorrectDate(ticket.date_of_purchase)}}</ion-label>
             </ion-item>
 
             <ion-card-content>
                 <ion-label>Total: ${{ticket.total}}</ion-label>
             </ion-card-content>
         </ion-card>
+    </div>
+    <div class="noTickets" *ngIf="tickets.length == 0">
+        <img class="cartImg" src="../../assets/imgs/carrito-de-compras.png">
+        <h1 style="color:#606060">¡No has hecho ninguna compra aún!.</h1>
     </div>
 </ion-content>

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Tickets } from "../../models/tickets";
 import { TicketDetailPage } from '../ticket-detail/ticket-detail';
+import { Accessories } from '../../utils/accessories';
 
 /**
  * Generated class for the PurchasesPage page.
@@ -29,6 +30,10 @@ export class PurchasesMadePage {
 
   viewTicketDetail(ticket){
     this.navCtrl.push(TicketDetailPage, {ticket: ticket});
+  }
+
+  toCorrectDate(string){
+    return Accessories.toCorrectDate(string);
   }
 
 }
