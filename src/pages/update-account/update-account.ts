@@ -60,11 +60,11 @@ export class UpdateAccountPage {
       this.navCtrl.push(MyProfilePage, {email: this.updateAccountForm.value.email, 
         name: this.updateAccountForm.value.name, surname: this.updateAccountForm.value.surname});
       this.NotificationsCtrl.presentOkNotification("Cuenta actualizada!");
-    }),
+    },
     (err)=>{
       console.log(err);
       this.NotificationsCtrl.presentErrorNotification("Actualización fallida.\n"+"Error técnico: "+err);
-    };
+    });
   }
 
 }
