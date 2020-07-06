@@ -77,7 +77,11 @@
       </ion-card-content>
     </ion-card>
   </ion-list>
-
+  
+  <div class="noTickets" *ngIf="!productsSrv">
+    <img class="cartImg" src="../../assets/imgs/openbox.png">
+    <h1 style="color:#606060">¡No hay ningún producto cargado!.</h1>
+  </div>
 </ion-content>
 
 <ion-footer>
