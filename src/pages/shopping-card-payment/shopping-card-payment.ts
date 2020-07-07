@@ -8,6 +8,7 @@ import { Accessories} from '../../utils/accessories';
 import { ShoppingConfirmPage } from '../shopping-confirm/shopping-confirm';
 import { PaymentMethodsServiceProvider } from '../../providers/payment-methods-service';
 import { NotificationsProvider } from '../../providers/notifications-service';
+import { Global } from '../../utils/global';
 
 /**
  * Generated class for the ShoppingCardPaymentPage page.
@@ -36,15 +37,16 @@ export class ShoppingCardPaymentPage {
     private NotificationsCtrl: NotificationsProvider) {
     
     this.cardForm = this.formBuilder.group({
-      card_number: ['', Validators.compose([Validators.required, Accessories.cardValidator])],
+      card_number: ['', Validators.compose([Validators.required, Validators.maxLength(16), Accessories.cardValidator])],
       user_dni: ['', Validators.compose([Validators.required])],
       user_name: ['', Validators.compose([Validators.required])],
       security_code: ['', Validators.compose([Validators.required, Validators.maxLength(3)])],
       expiration_date: ['', Validators.compose([Validators.required])],
     })
-    this.getFormFields()['user_name'].setValue(JSON.parse(localStorage.getItem('user')).name)
+    let actualUser = JSON.parse(localStorage.getItem('user'))
+    this.getFormFields()['user_name'].setValue(actualUser.name + ' ' + actualUser.surname);
     this.cart = this.cartSrv.getCart();
-    Mercadopago.setPublishableKey("TEST-29ec7fdc-602d-4241-bb97-e94a7dfa7b11")
+    Mercadopago.setPublishableKey(Global.MERCADO_PAGO_PUBLIC_KEY)
     console.log('DNISSS : ',Mercadopago.getIdentificationTypes())
 
     this.card = this.navParams.get('paymentMethod');
@@ -72,7 +74,7 @@ export class ShoppingCardPaymentPage {
         "securityCode" : card.security_code ,
         "cardExpirationMonth" : '11' ,
         "cardExpirationYear" : '25',
-        "cardholderName" : 'Pepe Argento',
+        "cardholderName" : card.user_name,
         "docType": 'DNI',
         "docNumber": card.user_dni,
         "installments": 1

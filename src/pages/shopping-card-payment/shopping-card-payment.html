@@ -14,7 +14,7 @@
   <div style="color:white" >
   <form [formGroup]="cardForm" (ngSubmit) = "onClickSubmit(cardForm.value)" >
     <ion-item>
-      <ion-label>
+      <ion-label style="color: #000000;" stacked>
         Número de tarjeta
       </ion-label>
       <ion-input type="number" (ionInput)=numCardChange() formControlName="card_number"></ion-input>
@@ -24,7 +24,7 @@
     </div>
 
     <ion-item>
-      <ion-label>
+      <ion-label style="color: #000000;" stacked>
         DNI del titular
       </ion-label>
       <ion-input type="number" formControlName="user_dni"></ion-input>
@@ -34,7 +34,7 @@
     </div>
 
     <ion-item>
-      <ion-label>
+      <ion-label style="color: #000000;" stacked>
         Nombre y apellido
       </ion-label>
       <ion-input type="text" formControlName="user_name"></ion-input>
@@ -44,7 +44,7 @@
     </div>
 
     <ion-item>
-      <ion-label>
+      <ion-label style="color: #000000;" stacked>
         Código de seguridad
       </ion-label>
       <!--son 3 num-->
@@ -55,7 +55,7 @@
     </div>
 
     <ion-item>
-      <ion-label>
+      <ion-label style="color: #000000;" stacked>
         Fecha de vencimiento
       </ion-label>
       <!--son 4 num, primero los dos num de mes y despues dos num del añ-->
