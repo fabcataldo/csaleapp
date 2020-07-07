@@ -84,21 +84,21 @@ export class UpdatePlacePage {
       localStorage.setItem('user', JSON.stringify(user));
       this.PlacesService.putPlace(this.selectedPlace._id, this.selectedPlace).subscribe((result)=>{
           console.log(result);
-      }),
+      },
       (err)=>{
         this.NotificationsCtrl.presentErrorNotification("No se pudo guardar la actualización al lugar elegido.\nError técnico"+err);
-      }
+      })
       this.UserSrv.putUser(user._id, user).subscribe((result)=>{
         console.log(result);
-      }),
+      },
       (err)=>{
         this.NotificationsCtrl.presentErrorNotification("No se pudo guardar la actualización al usuario actual.\nError técnico"+err);
-      }
+      })
       this.NotificationsCtrl.presentOkNotification("Actualización enviada!.");
       this.navCtrl.setRoot(HomePage);
-    }),
+    },
     (err)=>{
       this.NotificationsCtrl.presentErrorNotification("No se pudo guardar la actualización.\nError técnico"+err);
-    }
+    })
   }
 }

@@ -11,12 +11,13 @@
 </ion-header>
 
 <ion-content padding>
-    <form [formGroup]="updatePlaceForm" (ngSubmit)="onClickSubmit(updatePlaceForm.value)">
+    <form [formGroup]="updatePlaceForm" >
         <ion-item>
             <ion-label>Buscar boliche</ion-label>
             <ionic-selectable color="primary" item-content formControlName="selectedPlace" itemValueField="_id" itemTextField="name" [items]="places" [canSearch]="true">
             </ionic-selectable>
         </ion-item>
+        <br>
         <br>
         <ion-grid>
             <ion-row>
@@ -42,10 +43,15 @@
                 <ion-textarea class="commentary" formControlName="comment" rows="6" cols="20" color="primary" mode="md"></ion-textarea>
             </ion-row>
         </ion-grid>
-
-        <button type="submit" ion-button [disabled]="updatePlaceForm.invalid" color="loginButton" class="oneButtons"> 
-          Actualizar
-        </button>
-
     </form>
 </ion-content>
+
+<ion-footer>
+    <ion-row>
+      <ion-col no-padding>
+            <button type="submit" full (tap)="onClickSubmit(updatePlaceForm.value)" ion-button [disabled]="updatePlaceForm.invalid" color="loginButton" class="oneButtons"> 
+                Actualizar
+            </button>
+      </ion-col>
+    </ion-row>
+</ion-footer>
