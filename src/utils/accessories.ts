@@ -31,6 +31,12 @@ export class Accessories{
             return new PaymentMethods(object);
     }
 
+    static toCorrectDate(string){
+        let date = new Date(string);
+        let monthDate = date.getMonth().toString().length < 2 ? '0'+date.getMonth() : date.getMonth();
+        return date.getDate()+'/'+monthDate+'/'+date.getFullYear()+' '+date.getHours()+date.getMinutes();
+    }
+
     static capitalizeFirstChar(string){
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
@@ -65,17 +71,4 @@ export class Accessories{
         }
         return results.length ? { validCard: true } : null;
     };
-
-    //clase que se usa, por ej., para generar un string adicionalñ
-    //a la hora de guardar un ticket en el dispositivo.
-    static makeRandomString(length) {
-        var result           = '';
-        var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-        var charactersLength = characters.length;
-        for ( var i = 0; i < length; i++ ) {
-           result += characters.charAt(Math.floor(Math.random() * charactersLength));
-        }
-        return result;
-    }
-
 }
