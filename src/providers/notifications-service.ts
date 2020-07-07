@@ -19,7 +19,7 @@ export class NotificationsProvider {
   presentOkNotification(message) {
     let toast = this.toastCtrl.create({
       message: message,
-      duration: 1500,
+      duration: 2000,
       position: "top",
       cssClass: "okToastStyle"
     });
@@ -29,7 +29,7 @@ export class NotificationsProvider {
   presentErrorNotification(message) {
     let toast = this.toastCtrl.create({
       message: message,
-      duration: 1500,
+      duration: 2000,
       showCloseButton: true,
       closeButtonText: "Ok",
       position: "top",
