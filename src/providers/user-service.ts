@@ -35,4 +35,12 @@ export class UserServiceProvider {
   loginUser(user): Observable<any>{
     return this.http.post<Users>(Global.SRV+Global.URL_API+'/login', user)
   }
+
+  passwordResetRequest(userEmail): Observable<any>{
+    return this.http.post<any>(Global.SRV+Global.URL_API+'/users/passwordResetRequest', userEmail)
+  }
+
+  passwordReset(passwordResetBody): Observable<any>{
+    return this.http.post<any>(Global.SRV+Global.URL_API+'/users/passwordReset', passwordResetBody)
+  }
 }
