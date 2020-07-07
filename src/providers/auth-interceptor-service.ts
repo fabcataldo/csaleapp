@@ -12,7 +12,8 @@ import { Global } from '../utils/global';
 */
 @Injectable()
 export class AuthInterceptorServiceProvider implements HttpInterceptor{
-  private token: string
+  private token: string;
+  private passwordResetToken: string;
 
   constructor(public http: HttpClient) {
   }
@@ -20,8 +21,15 @@ export class AuthInterceptorServiceProvider implements HttpInterceptor{
       let request = req;  
       let newHeaders = request.headers;
       this.token = JSON.parse(localStorage.getItem('token'));
-      newHeaders = newHeaders.append('authorization', `${ this.token }`);
-        
+      this.passwordResetToken = JSON.parse(localStorage.getItem('passwordResetToken'));
+
+      if(this.passwordResetToken){
+        newHeaders = newHeaders.append('authorization', `${ this.passwordResetToken }`);  
+      }
+      else{
+        newHeaders = newHeaders.append('authorization', `${ this.token }`);
+      }
+      
       request = req.clone({
         headers: newHeaders
       })
