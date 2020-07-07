@@ -3,12 +3,9 @@ import { Cart } from '../models/cart';
 import { PlacesServiceProvider } from './places-service';
 import { UserServiceProvider } from './user-service';
 import { TicketsServiceProvider } from './tickets-service';
-import { PaymentMethodsServiceProvider } from './payment-methods';
+import { PaymentMethodsServiceProvider } from './payment-methods-service';
 import { PurchasedProductsServiceProvider } from './purchased-products-service';
-import { Tickets } from '../models/tickets';
-import { PurchasedProducts } from '../models/purchased_products';
-import { PaymentMethods } from '../models/payment_methods';
-import { Observable, forkJoin } from 'rxjs';
+import { NotificationsProvider } from './notifications-service';
 
 @Injectable()
 export class CartServiceProvider {
@@ -16,7 +13,8 @@ export class CartServiceProvider {
 
     constructor(private PlaceSrv: PlacesServiceProvider, private UserSrv: UserServiceProvider,
         private TicketSrv: TicketsServiceProvider, private PaymentMethodSrv: PaymentMethodsServiceProvider,
-        private PurchasedProductsSrv: PurchasedProductsServiceProvider) {
+        private PurchasedProductsSrv: PurchasedProductsServiceProvider,
+        private NotificationsCtrl: NotificationsProvider) {
         this.cart = JSON.parse(localStorage.getItem('cart'));
     }
     
@@ -89,6 +87,7 @@ export class CartServiceProvider {
 
             }),
             (err)=>{
+                this.NotificationsCtrl.presentErrorNotification("Error al guardar los productos de tu compra.\nError técnico: "+err);
                 console.log('ERROR al guardar ticket: Modelo PAYMENT METHODS')
                 console.log(err);
             }
@@ -98,6 +97,7 @@ export class CartServiceProvider {
             this.cart.ticket.payment_methods._id = resp3._id;
         }),
         (err) => {
+            this.NotificationsCtrl.presentErrorNotification("Error al guardar el pago de tu compra.\nError técnico: "+err);
             console.log('ERROR al guardar ticket: Modelo PAYMENT METHODS')
             console.log(err);
         }
@@ -110,8 +110,10 @@ export class CartServiceProvider {
         await this.TicketSrv.postTicket(this.cart.ticket).subscribe(async resp=>{
             this.cart.ticket = resp;
             this.saveNewData();
+            this.NotificationsCtrl.presentOkNotification("¡Compra realizada!")
         }),
         (err)=>{
+            this.NotificationsCtrl.presentErrorNotification("Error al guardar tu compra.\nError técnico: "+err);
             console.log('ERROR al guardar ticket: Modelo Tickets')
             console.log(err);
         };
