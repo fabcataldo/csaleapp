@@ -2,6 +2,6 @@
 
 export class Global{
     static URL_API='/api';
-    static SRV = 'http://192.168.1.78:3000';
+    static SRV = 'http://192.168.1.161:3000';
     static USER_TOKEN = null;
 }
