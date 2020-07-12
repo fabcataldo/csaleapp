@@ -5,6 +5,7 @@ import { Tickets } from '../../models/tickets';
 import { Cart } from '../../models/cart';
 import { HomePage } from '../home/home';
 import { Accessories } from '../../utils/accessories';
+import { LoadingServiceProvider } from '../../providers/loading-service';
 
 /**
  * Generated class for the ShoppingConfirmPage page.
@@ -21,7 +22,8 @@ import { Accessories } from '../../utils/accessories';
 export class ShoppingConfirmPage {
   cart: Cart;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private CartSrv: CartServiceProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, 
+    private CartSrv: CartServiceProvider, private LoadingCtrl: LoadingServiceProvider) {
     this.cart = this.CartSrv.getCart();
   }
 
@@ -50,7 +52,7 @@ export class ShoppingConfirmPage {
 
   async goToHomePage(){
     await this.CartSrv.uploadCart();
-    
+    this.LoadingCtrl.showLoading(1000);
     this.navCtrl.setRoot(HomePage);
    
   }

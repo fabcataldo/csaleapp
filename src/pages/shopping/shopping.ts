@@ -9,6 +9,7 @@ import { Tickets } from '../../models/tickets';
 import { CartServiceProvider } from '../../providers/cart-service';
 import { NotificationsProvider } from '../../providers/notifications-service';
 import { ShoppingCartPage } from '../shopping-cart/shopping-cart';
+import { LoadingServiceProvider } from '../../providers/loading-service';
 
 /**
  * Generated class for the PurchaseProductsPage page.
@@ -40,7 +41,7 @@ export class ShoppingPage {
   @ViewChild(Navbar) navBar: Navbar;
   constructor(public platform: Platform, public navCtrl: NavController, public navParams: NavParams, 
     public ProductsSrv: ProductsServiceProvider, private CartSrv: CartServiceProvider,
-    private NotificationsCtrl: NotificationsProvider) {
+    private NotificationsCtrl: NotificationsProvider, private LoadingCtrl: LoadingServiceProvider) {
     this.filterProductsPerBenefit = this.navParams.get('filterProductsPerBenefit') ? this.navParams.get('filterProductsPerBenefit') : false;
     this.ProductsSrv.getProducts().subscribe((result)=>{
       this.productsSrv = this.getFilteredProducts(result);
@@ -102,6 +103,10 @@ export class ShoppingPage {
   }
 
   ionViewDidLoad() {
+    if(this.cart.ticket.purchased_products.length < 1){
+      this.canPay = false;
+    }
+    this.LoadingCtrl.showLoading(1000);
   }
 
   ionViewWillUnload() {

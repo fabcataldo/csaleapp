@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, Validators} from '@angular/forms';
 import { UserServiceProvider } from '../../providers/user-service';
 import { MyProfilePage } from '../my-profile/my-profile';
 import { NotificationsProvider } from '../../providers/notifications-service';
+import { LoadingServiceProvider } from '../../providers/loading-service';
 
 /**
  * Generated class for the UpdateAccountPage page.
@@ -22,7 +23,8 @@ export class UpdateAccountPage {
   userDataStrge = JSON.parse(localStorage.getItem('user'));
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private formBuilder: FormBuilder,
-    private UserService: UserServiceProvider, private NotificationsCtrl: NotificationsProvider) {
+    private UserService: UserServiceProvider, private NotificationsCtrl: NotificationsProvider, 
+    private LoadingCtrl: LoadingServiceProvider) {
       this.updateAccountForm = this.formBuilder.group({
         email: [this.userDataStrge.email, Validators.compose([Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$")])],
         password: [''],
@@ -51,6 +53,7 @@ export class UpdateAccountPage {
     if(data.password === ''){
       data.password = this.userDataStrge.password;
     }
+    this.LoadingCtrl.showLoading(1000);
     await this.UserService.putUser(this.userDataStrge._id, data).subscribe( (result)=>{
       if(result.token)
         localStorage.token = JSON.stringify(result.token);
