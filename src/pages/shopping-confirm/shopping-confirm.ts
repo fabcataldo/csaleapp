@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { CartServiceProvider } from '../../providers/cart-service';
-import { Tickets } from '../../models/tickets';
 import { Cart } from '../../models/cart';
 import { HomePage } from '../home/home';
 import { Accessories } from '../../utils/accessories';
