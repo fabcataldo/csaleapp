@@ -43,16 +43,8 @@ ion-card{
     box-shadow: 0 0px 1px rgba(0, 0, 0, 0.19), 0 3px 6px rgba(0, 0, 0, 0.23) !important
 }
 
-h1,
-h2,
-h3 {
-    font-family: Roboto;
-    color: white;
-}
+$font-family-base: "Roboto";
 
-ion-title {
-    color: white;
-}
 
 h1 {
     font-size: 2rem;
@@ -65,12 +57,10 @@ ion-navbar {
 
 h2 {
     font-size: 1.5rem;
-    color: white;
 }
 
 h3 {
     font-size: 1.2rem;
-    color: white;
 }
 
 .button {
@@ -78,10 +68,8 @@ h3 {
 }
 
 .oneButtons {
-    //se alinea el botón al centro
     margin: 0 auto;
     display: block;
-    //estilo del botón en sí
     font-size: 1.25rem;
 }
 
@@ -101,6 +89,9 @@ h3 {
     .toast-wrapper{
         background-color: white;
     } 
+    .toast-message{
+        color: black;
+    }
 }
 
 ion-card{
