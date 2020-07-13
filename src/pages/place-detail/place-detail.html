@@ -19,18 +19,44 @@
       <div *ngIf="!freeSpace">
         <img class="imgPlace" src="../../assets/imgs/FOTONOHAYLUGAR.png">
       </div>
-      
-      <h1 style="text-align: center; white-space: break-spaces">{{place.name}}</h1>
+      <br>
+      <h1 class="titlesAndSubtitlesDistribution">{{place.name}}</h1>
     </ion-item>
-    <br>
     <ion-card-content>
-      <p style="text-align: center; white-space: break-spaces">{{place.address}}</p>
+      <div *ngIf="place.social_media_urls.length !== 0" class="socialMediaContainer">
+        <h2 class="socialMediaTitle">Redes sociales</h2>
+
+        <ion-row>
+          <ion-col text-center *ngIf="place.social_media_urls[0].includes('facebook')">
+            <a href={{place.social_media_urls[0]}}>
+              <img class="place.social_media_urls.length>1 ? socialMediaLogo : socialmediaOneLogo" src="../../assets/imgs/facebook.png">
+              Facebook
+            </a>
+          </ion-col>
+          <ion-col text-center
+            *ngIf="place.social_media_urls[0].includes('instagram') || place.social_media_urls.length>1 && place.social_media_urls[1].includes('instagram')">
+            <div *ngIf="place.social_media_urls.length>1 && place.social_media_urls[1].includes('instagram')">
+              <a href={{place.social_media_urls[1]}}>
+                <img class="place.social_media_urls.length>1 ? socialMediaLogo : socialmediaOneLogo" src="../../assets/imgs/instagram.png">
+                Instagram
+              </a>
+            </div>
+            <div *ngIf="place.social_media_urls[0].includes('instagram')">
+              <a href={{place.social_media_urls[0]}}>
+                <img class="place.social_media_urls.length>1 ? socialMediaLogo : socialmediaOneLogo" src="../../assets/imgs/instagram.png">
+                Instagram
+              </a>
+            </div>
+          </ion-col>
+        </ion-row>
+      </div>
+      
     </ion-card-content>
   </ion-card>
 
   <ion-card>
     <ion-item>
-      <h2 style="text-align: center; white-space: break-spaces">Actualizaciones del ambiente</h2>
+      <h2 class="titlesAndSubtitlesDistribution">Actualizaciones del ambiente</h2>
     </ion-item>
     <br>
     <div *ngIf="place.comments.length!==0">
@@ -66,7 +92,7 @@
 
 <ion-footer>
   <ion-row>
-    <ion-col no-padding >
+    <ion-col no-padding>
       <button ion-button full no-margin (tap)="goToShoppingPage()">Comprar productos</button>
     </ion-col>
   </ion-row>

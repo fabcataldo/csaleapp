@@ -7,6 +7,31 @@
     width: 100%;
 }
 
+.socialMediaTitle{
+    text-align: center; 
+    margin-bottom: 2vh !important;
+}
+
+.socialMediaLogo{
+    max-width: 30% !important;
+    display: block !important;
+    margin: auto !important;
+}
+
+.socialMediaOneLogo{
+    max-width: 20% !important;
+    display: block !important;
+    margin: auto !important;
+}
+
+.socialMediaContainer{
+    margin-top: 3vh !important;
+}
+
+.titlesAndSubtitlesDistribution{
+    text-align: center; 
+    white-space: break-spaces;
+}
 
 ion-card{
     margin: 10px -2% !important;
