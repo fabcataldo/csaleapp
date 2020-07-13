@@ -17,9 +17,9 @@
       <ion-label style="color: #000000;" stacked>
         Número de tarjeta
       </ion-label>
-      <ion-input type="number" (ionInput)=numCardChange() formControlName="card_number"></ion-input>
+      <ion-input type="number" formControlName="card_number"></ion-input>
     </ion-item>      
-    <div *ngIf="cardForm.get('card_number').errors && cardForm.get('card_number').dirty" style="color: red">
+    <div *ngIf="cardForm.get('card_number').errors && cardForm.get('card_number').dirty && !cardForm.get('card_number').valid" style="color: red">
       Número de tarjeta inválido
     </div>
 
@@ -29,7 +29,7 @@
       </ion-label>
       <ion-input type="number" formControlName="user_dni"></ion-input>
     </ion-item>
-    <div *ngIf="cardForm.get('user_dni').errors && cardForm.get('user_dni').dirty" style="color: red">
+    <div *ngIf="cardForm.get('user_dni').errors && cardForm.get('user_dni').dirty && !cardForm.get('user_dni').valid" style="color: red">
       DNI inválido
     </div>
 
@@ -39,7 +39,7 @@
       </ion-label>
       <ion-input type="text" formControlName="user_name"></ion-input>
     </ion-item>
-    <div *ngIf="cardForm.get('user_name').errors && cardForm.get('user_name').dirty" style="color: red">
+    <div *ngIf="cardForm.get('user_name').errors && cardForm.get('user_name').dirty && !cardForm.get('user_name').valid" style="color: red">
       Nombre y apellido inválido
     </div>
 
@@ -50,7 +50,7 @@
       <!--son 3 num-->
       <ion-input type="number" formControlName="security_code"></ion-input>
     </ion-item>
-    <div *ngIf="cardForm.get('security_code').errors && cardForm.get('security_code').dirty" style="color: red">
+    <div *ngIf="cardForm.get('security_code').errors && cardForm.get('security_code').dirty && !cardForm.get('security_code').valid"  style="color: red">
       Código de seguridad inválido
     </div>
 
@@ -61,7 +61,7 @@
       <!--son 4 num, primero los dos num de mes y despues dos num del añ-->
       <ion-input type="text" formControlName="expiration_date"></ion-input>
     </ion-item>
-    <div *ngIf="cardForm.get('expiration_date').errors && cardForm.get('expiration_date').dirty" style="color: red">
+    <div *ngIf="cardForm.get('expiration_date').errors && cardForm.get('expiration_date').dirty && !cardForm.get('expiration_date').valid"  style="color: red">
       Fecha de vencimiento inválido
     </div>
 
