@@ -11,7 +11,8 @@ export class Places {
     lng: number;
     tickets: [Tickets];
     comments: [Comments];
-    customer_service_days: [Number]
+    customer_service_days: [Number];
+    social_media_urls: [String];
 
    constructor(place ? : any) {
     if(place)
@@ -24,5 +25,6 @@ export class Places {
         this.tickets = place.tickets ? Accessories.mapModelArray(place.tickets,'tickets') : null;
         this.comments = place.comments ? Accessories.mapModelArray(place.comments, 'comments') : null;
         this.customer_service_days =  place.customer_service_days ? place.customer_service_days : [];
+        this.social_media_urls = place.social_media_urls ? place.social_media_urls : [];
    }
 }
