@@ -93,6 +93,8 @@ export class ShoppingCartPage {
     this.ticket.purchased_products = this.purchasedProducts;
     this.cart.ticket = this.ticket;
     this.CartSrv.setCart(this.cart);
+    if(this.ticket.purchased_products.length < 1)
+      this.canPay = false;
   }
 
   getTotal(){
