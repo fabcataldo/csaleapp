@@ -44,6 +44,7 @@ import { ShoppingCartPage } from '../pages/shopping-cart/shopping-cart';
 import { ShoppingConfirmPage } from '../pages/shopping-confirm/shopping-confirm';
 import { PurchasedProductsServiceProvider } from '../providers/purchased-products-service';
 import { RecoverPasswordFinalStepPage } from '../pages/recover-password-final-step/recover-password-final-step';
+import { LoadingServiceProvider } from '../providers/loading-service';
 
 const firebaseConfig = {
   apiKey: "AIzaSyDX2SigUNlJ_UiHX_DEQ6NvNFDvXBgcF0g",
@@ -131,7 +132,8 @@ const firebaseConfig = {
     AvailablePaymentMethodsServiceProvider,
     PaymentMethodsServiceProvider,
     NotificationsProvider,
-    PurchasedProductsServiceProvider
+    PurchasedProductsServiceProvider,
+    LoadingServiceProvider
   ]
 })
 export class AppModule {}
