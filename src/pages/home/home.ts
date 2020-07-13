@@ -44,11 +44,11 @@ export class HomePage {
   }
 
   ionViewDidLoad() {
-    let cart = localStorage.getItem('cart');
+    let cart = JSON.parse(localStorage.getItem('cart'));
     if(cart){
-      setTimeout(async ()=>{
-        await this.CartSrv.asyncTicketUpload(); 
-      },500)
+        setTimeout(async ()=>{
+          await this.CartSrv.asyncTicketUpload(); 
+        },500)
     }
     this.getStorageValues();
     this.loadMap();
@@ -124,10 +124,7 @@ export class HomePage {
     if (this.userLogged.loggedWithOAuth2) {
       this.signOut();
     }
-    localStorage.removeItem('user');
-    localStorage.removeItem('token');
-    localStorage.removeItem('cart');
-    localStorage.removeItem('place');
+    localStorage.clear();
     this.navCtrl.setRoot(LoginPage)
   }
 
