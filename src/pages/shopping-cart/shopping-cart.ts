@@ -6,7 +6,7 @@ import { PurchasedProducts } from '../../models/purchased_products';
 import { ProductsServiceProvider } from '../../providers/products-service';
 import { CartServiceProvider } from '../../providers/cart-service';
 import { ShoppingCheckoutPage } from '../shopping-checkout/shopping-checkout';
-import { ShoppingConfirmPage } from '../shopping-confirm/shopping-confirm';
+import { Accessories } from '../../utils/accessories';
 
 /**
  * Generated class for the ShoppingCartPage page.
@@ -37,7 +37,8 @@ export class ShoppingCartPage {
       this.cart = new Cart(this.CartSrv.getCart());
       this.ticket = this.cart.ticket;
       this.purchasedProducts = this.ticket.purchased_products;
-      this.canPay = true;
+      
+      this.canPay = this.purchasedProducts.length > 0 ? true : false;
     }
     else{
       this.cart = new Cart();
@@ -103,6 +104,10 @@ export class ShoppingCartPage {
       result += item.product.price * item.quantity;
     })
     return result;
+  }
+
+  toCorrectDate(string){
+    return Accessories.toCorrectDate(string);
   }
 
   goToCheckoutPage(){

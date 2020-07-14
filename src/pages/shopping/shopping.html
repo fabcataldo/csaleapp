@@ -35,7 +35,7 @@
             Precio: $ {{product.price}}
           </ion-label>
           <ion-label class="labelProducts">
-            Validez: {{product.valid_date_from}} - {{product.valid_date_to}}
+            Validez: {{toCorrectDate(product.valid_date_from)}} - {{toCorrectDate(product.valid_date_to)}}
           </ion-label>
         </div>
           <ion-row>

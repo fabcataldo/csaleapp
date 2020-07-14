@@ -10,6 +10,7 @@ import { CartServiceProvider } from '../../providers/cart-service';
 import { NotificationsProvider } from '../../providers/notifications-service';
 import { ShoppingCartPage } from '../shopping-cart/shopping-cart';
 import { LoadingServiceProvider } from '../../providers/loading-service';
+import { Accessories } from '../../utils/accessories';
 
 /**
  * Generated class for the PurchaseProductsPage page.
@@ -32,7 +33,7 @@ export class ShoppingPage {
   filterProductsPerBenefit: boolean;
   quantityProduct: number=0;
   isProductInCart: boolean;
-  canPay: boolean;
+  canPay: boolean = false;
 
   private sub1$:any;
   private sub2$:any;
@@ -54,7 +55,11 @@ export class ShoppingPage {
       this.cart = new Cart(this.CartSrv.getCart());
       this.ticket = this.cart.ticket;
       this.purchasedProducts = this.ticket.purchased_products;
-      this.canPay = true;
+
+      let emptyQuantityPurchasedProduct = this.purchasedProducts.find(purchasedProduct => {
+        return purchasedProduct.quantity < 0;
+      })
+      this.canPay = emptyQuantityPurchasedProduct ? false : true;
     }
     else{
       this.cart = new Cart();
@@ -99,7 +104,7 @@ export class ShoppingPage {
     let element = this.purchasedProducts.find(item=>{
       if(item.product.price == product.price) return item;
     })
-    return element ? element.quantity.toString() : '';;
+    return element ? element.quantity.toString() : '';
   }
 
   ionViewDidLoad() {
@@ -107,6 +112,7 @@ export class ShoppingPage {
       this.canPay = false;
     }
     this.LoadingCtrl.showLoading(1000);
+    
   }
 
   ionViewWillUnload() {
@@ -124,6 +130,10 @@ export class ShoppingPage {
       quantity--;
       return quantity;
     }
+    if(quantity<0){
+      quantity = 0;
+      return quantity;
+    }
   }
   
   addItem(index, product, action){
@@ -137,14 +147,25 @@ export class ShoppingPage {
         else{
           this.purchasedProducts[itemIdx].quantity = this.addQuantity(this.purchasedProducts[itemIdx].quantity);
         }
+        if(this.purchasedProducts[itemIdx].quantity > 0){
+          this.canPay = true;
+        }
+        else{
+          this.canPay = false;
+        }
     }
     else{
       this.purchasedProducts.push(new PurchasedProducts({_id: null, product: this.productsSrv[index], quantity: 1}));
+      if(this.purchasedProducts[this.purchasedProducts.length-1].quantity > 0){
+        this.canPay = true;
+      }
+      else{
+        this.canPay = false;
+      }
     }
 
     this.ticket.purchased_products = this.purchasedProducts;
-    this.cart.ticket = this.ticket;   
-    this.canPay = true;
+    this.cart.ticket = this.ticket;
     this.CartSrv.setCart(this.cart)
   }
 
@@ -155,6 +176,11 @@ export class ShoppingPage {
     })
     return result;
   }
+
+  toCorrectDate(string){
+    return Accessories.toCorrectDate(string);
+  }
+
 
   goToCartPage(){
     this.ticket.total = this.getTotal();
