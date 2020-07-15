@@ -6,6 +6,7 @@ import { LoginPage } from '../login/login';
 import { UpdateAccountPage } from '../update-account/update-account';
 import { HomePage } from '../home/home';
 import { NotificationsProvider } from '../../providers/notifications-service';
+import { LoadingServiceProvider } from '../../providers/loading-service';
 
 /**
  * Generated class for the MyProfilePage page.
@@ -27,7 +28,7 @@ export class MyProfilePage {
   @ViewChild(Navbar) navBar: Navbar;
   constructor(public navCtrl: NavController, public navParams: NavParams, 
       private AlertController: AlertController, private UserService: UserServiceProvider,
-      private NotificationsCtrl: NotificationsProvider
+      private NotificationsCtrl: NotificationsProvider, private LoadingCtrl: LoadingServiceProvider
       ) {
         if (this.navParams.get('email') && this.navParams.get('name') && this.navParams.get('surname') ) {
           this.usrNameSurname = this.navParams.get('name')+' '+this.navParams.get('surname');
@@ -78,9 +79,10 @@ export class MyProfilePage {
     this.navCtrl.push(UpdateAccountPage);
   }
 
-  deleteAccount(){
+  async deleteAccount(){
     let userToRmv = JSON.parse(localStorage.getItem('user'));
-    this.UserService.deleteUser(userToRmv._id).subscribe((result)=>{
+    this.LoadingCtrl.showLoading(1000);
+    await this.UserService.deleteUser(userToRmv._id).subscribe((result)=>{
       localStorage.removeItem('user');
       localStorage.removeItem('token');
       this.navCtrl.setRoot(LoginPage);
