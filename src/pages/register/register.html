@@ -12,7 +12,7 @@
 
 <ion-content padding>
   <div style="color:white" >
-    <form [formGroup]="registerForm" (ngSubmit) = "onClickSubmit(registerForm.value)" >
+    <form [formGroup]="registerForm">
       <ion-item class="bg-transparent">
         <ion-label style="color: #000000;" stacked>Nombre</ion-label>
         <ion-input type="text" placeholder="" style="color:#000000" formControlName="name"></ion-input>
@@ -46,19 +46,17 @@
       <div *ngIf="(formFields.password.invalid && formFields.password.touched) || formFields.password.dirty">
         <div *ngIf="formFields.password.errors?.required" >Contraseña requerida</div>
       </div>
-
-      <button type="submit" ion-button color="loginButton" class="oneButtons"
-        [disabled]="registerForm.invalid"> 
-        Continuar
-      </button>
-
-    <h2 style="text-align: center">
-        Olvidé mi contraseña
-    </h2>
-    <h2 style="text-align: center">
-      No tenés cuenta? <h2 style="font-weight:bold;">Creá una.</h2>
-    </h2>
-
     </form>
   </div>
 </ion-content>
+
+<ion-footer>
+  <ion-row>
+    <ion-col no-padding>
+      <button  type="submit"  ion-button full color="loginButton" class="oneButtons"
+      [disabled]="registerForm.invalid" no-margin (tap)="onClickSubmit(registerForm.value)">
+        Crear cuenta
+      </button>
+    </ion-col>
+  </ion-row>
+</ion-footer>
