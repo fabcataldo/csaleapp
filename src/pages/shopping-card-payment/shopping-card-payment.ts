@@ -37,43 +37,29 @@ export class ShoppingCardPaymentPage {
     private NotificationsCtrl: NotificationsProvider) {
     
     this.cardForm = this.formBuilder.group({
-      card_number: ['', Validators.compose([Validators.required, Validators.maxLength(16), Accessories.cardValidator])],
-      user_dni: ['', Validators.compose([Validators.required])],
+      card_number: ['', Validators.compose([Validators.required, (control) => Accessories.cardValidator(control)])],
+      user_dni: ['', Validators.compose([Validators.required, Validators.minLength(8), Validators.maxLength(8)])],
       user_name: ['', Validators.compose([Validators.required])],
-      security_code: ['', Validators.compose([Validators.required, Validators.maxLength(3)])],
+      security_code: ['', Validators.compose([Validators.required, Validators.minLength(3), Validators.maxLength(3)])],
       expiration_date: ['', Validators.compose([Validators.required])],
     })
     let actualUser = JSON.parse(localStorage.getItem('user'))
     this.getFormFields()['user_name'].setValue(actualUser.name + ' ' + actualUser.surname);
     this.cart = this.cartSrv.getCart();
+    
     Mercadopago.setPublishableKey(Global.MERCADO_PAGO_PUBLIC_KEY)
-    console.log('DNISSS : ',Mercadopago.getIdentificationTypes())
 
     this.card = this.navParams.get('paymentMethod');
-    
-    this.formControlsChange();
-  }
-
-
-  formControlsChange(){
-    let cardNumberControl = this.cardForm.get('card_number');
-    cardNumberControl.valueChanges.subscribe((value)=>{
-      if(value.length>0){
-        cardNumberControl.clearValidators();
-        cardNumberControl.setValidators(Validators.compose([Validators.required, Accessories.cardValidator]))
-      }
-    })
   }
 
   getFormFields() { return this.cardForm.controls; }
 
   payWithMercadopago(card){
-    console.log('ES CON MERCADO PAGO')
       var respuesta = Mercadopago.createToken({
         "cardNumber" : card.card_number,
         "securityCode" : card.security_code ,
-        "cardExpirationMonth" : '11' ,
-        "cardExpirationYear" : '25',
+        "cardExpirationMonth" : card.expiration_date.substring(0,2),
+        "cardExpirationYear" : card.expiration_date.substring(3,5),
         "cardholderName" : card.user_name,
         "docType": 'DNI',
         "docNumber": card.user_dni,
