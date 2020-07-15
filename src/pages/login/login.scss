@@ -23,8 +23,12 @@
     color: #ffffff;
 }
 
-h1,
-h2,
-h3 {
-    color: white;
+.titlesAndSubtitles{
+    color: white !important; 
+    text-align: center !important;
+
+    .titlesAndSubtitles .forgotPasswordTitle{
+        font-weight:bold !important;
+    }
 }
+
