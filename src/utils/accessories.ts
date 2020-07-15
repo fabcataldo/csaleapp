@@ -7,11 +7,6 @@ import { AbstractControl } from "@angular/forms";
 
 
 export class Accessories{
-    static formatDate(date){
-        var tmp = new Date(date)
-        return tmp.getDay()+'/'+(tmp.getMonth()+1)+'/'+tmp.getFullYear()+' '+tmp.getHours()+':'+tmp.getMinutes()+':'+tmp.getSeconds();
-    }
-
     static mapModelArray(array, model){
         if(model==='products')
             return array.map((item)=> new Products(item));
@@ -34,14 +29,13 @@ export class Accessories{
     static toCorrectDate(string){
         let date = new Date(string);
         let monthDate = date.getMonth().toString().length < 2 ? '0'+date.getMonth() : date.getMonth();
-        return date.getDate()+'/'+monthDate+'/'+date.getFullYear()+' '+date.getHours()+date.getMinutes();
+        return date.getDate()+'/'+monthDate+'/'+date.getFullYear()+' '+date.getHours()+':'+date.getMinutes();
     }
 
     static capitalizeFirstChar(string){
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
 
-    //validador de números de tarjeta
     static cardValidator(control: AbstractControl){
              let cards = {
                 'mc': '5[1-5][0-9]{14}',
