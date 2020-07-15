@@ -1,10 +1,10 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { IonicPage, NavController, NavParams,  Navbar } from 'ionic-angular';
 import { FormGroup, FormBuilder, Validators} from '@angular/forms';
 import { NotificationsProvider } from '../../providers/notifications-service';
 import { UserServiceProvider } from '../../providers/user-service';
-import { ThrowStmt } from '@angular/compiler';
 import { LoginPage } from '../login/login';
+import { LoadingServiceProvider } from '../../providers/loading-service';
 
 /**
  * Generated class for the RecoverPasswordFinalStepPage page.
@@ -23,9 +23,10 @@ export class RecoverPasswordFinalStepPage {
   passwordResetForm: FormGroup;
   userEmail: string;
 
+  @ViewChild(Navbar) navBar: Navbar;
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private formBuilder: FormBuilder, private UserService: UserServiceProvider, 
-    private NotificationsCtrl: NotificationsProvider) {
+    private NotificationsCtrl: NotificationsProvider, private LoadingCtrl: LoadingServiceProvider) {
     this.passwordResetForm = this.formBuilder.group({
       newPassword: ['', Validators.compose([Validators.required])],
     }) 
@@ -39,17 +40,25 @@ export class RecoverPasswordFinalStepPage {
     }
   }
 
+  backButtonHandler(){
+    localStorage.clear();
+    this.navCtrl.popTo('RecoverPasswordFirstStepPage');
+  }
   
+  ionViewDidEnter(){
+    this.navBar.backButtonClick = this.backButtonHandler;
+  }
+
   get formFields() { return this.passwordResetForm.controls; }
 
   async formSubmit(formData){
-    console.log(formData.newPassword)
     var passwordResetBody = {
       passwordResetToken: this.passwordResetToken,
       newPassword: formData.newPassword
     }
+    this.LoadingCtrl.showLoading(1000);
     await this.UserService.passwordReset(passwordResetBody).subscribe( (data)=>{
-      this.NotificationsCtrl.presentOkNotification("Revisá tu correo para continuar!.");
+      this.NotificationsCtrl.presentOkNotification("Cuenta recuperada!. Ahora vas a poder iniciar sesión directamente");
       localStorage.removeItem('passwordResetToken');
       this.navCtrl.setRoot(LoginPage, {email: this.userEmail, password: formData.newPassword});
     },
