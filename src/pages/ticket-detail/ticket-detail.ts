@@ -1,9 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Tickets } from '../../models/tickets';
-import { File, IWriteOptions } from '@ionic-native/file';
-import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
 import { Accessories } from '../../utils/accessories';
 import { CartServiceProvider } from '../../providers/cart-service';
 import { HomePage } from '../home/home';
@@ -18,8 +15,8 @@ export class TicketDetailPage {
   ticket: Tickets;
   isShopping: boolean;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private file: File,
-    private CartSrv: CartServiceProvider, private NotificationsCtrl: NotificationsProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,
+    private CartSrv: CartServiceProvider) {
     this.ticket = this.navParams.get('ticket') ? this.navParams.get('ticket') : null;
     this.isShopping = this.navParams.get('isShopping') ? this.navParams.get('isShopping') : false;
   }
