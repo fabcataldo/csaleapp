@@ -102,12 +102,18 @@ export class ShoppingCheckoutPage {
   }
 
   goToPaymentPage(paymentMethodName){
-    if(paymentMethodName)
-      this.payWithCash();
-    else
-      this.navCtrl.push(ShoppingCardPaymentPage, {
-        paymentMethod: this.availablePaymentMethods.find(item => item.name.includes('tarjeta'))
-      });
+    if(paymentMethodName){
+        this.payWithCash();
+    }
+    else{
+        this.navCtrl.push(ShoppingCardPaymentPage, {
+          paymentMethod: this.availablePaymentMethods.find(item => item.name.includes('tarjeta'))
+        });        
+    }
+  }
+
+  goToConfirmPage(){
+    this.navCtrl.push(ShoppingConfirmPage);
   }
 
   toCapitalize(str){

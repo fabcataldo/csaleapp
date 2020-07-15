@@ -11,30 +11,57 @@
 </ion-header>
 
 <ion-content padding>
-  <h1 style="color:black; text-align:center">
-    ¿Cómo querés pagar?
-  </h1>
-  <br>
-  <br>
-  <ion-list>
-    <ion-item style="border-bottom: 6px solid #ffff" (tap)="goToPaymentPage('efectivo')" >
-      <img item-start class="imgPaymentMethods" src="../assets/imgs/cash1.png">
-      <ion-label>Efectivo</ion-label>
-    </ion-item>
-    <ion-item style="border-bottom: 6px solid #ffff"(tap)="goToPaymentPage()">
-      <img item-start  class="imgPaymentMethods" src="../assets/imgs/card1.png">
-      <ion-label>Tarjeta</ion-label>
-    </ion-item>
-  </ion-list>
+  <div *ngIf="!cart.ticket.payment_methods">
+    <h1 style="color:black; text-align:center">
+      ¿Cómo querés pagar?
+    </h1>
+    <ion-list style="margin-top: 4rem">
+      <ion-item style="border-bottom: 6px solid #ffff" (tap)="goToPaymentPage('efectivo')" >
+        <img item-start class="imgPaymentMethods" src="../assets/imgs/cash1.png">
+        <ion-label>Efectivo</ion-label>
+      </ion-item>
+      <ion-item style="border-bottom: 6px solid #ffff"(tap)="goToPaymentPage()">
+        <img item-start  class="imgPaymentMethods" src="../assets/imgs/card1.png">
+        <ion-label>Tarjeta</ion-label>
+      </ion-item>
+    </ion-list>  
+  </div>
+
+  <div *ngIf="cart.ticket.payment_methods">
+    <h1 style="text-align:center">
+      Vas a pagar ${{cart.ticket.total}} con {{cart.ticket.payment_methods.payment_method.name}}
+    </h1>
+    <h2 style="text-align: center; margin-top: 10rem">
+      Si querés podes cambiar el método de pago
+    </h2>
+    <div style="margin-top: 2rem">
+      <div *ngIf="!cart.ticket.payment_methods.payment_method.name.includes('efectivo')">  
+        <ion-item (tap)="goToPaymentPage('efectivo')" >
+          <img item-start class="imgPaymentMethods" src="../assets/imgs/cash1.png">
+          <ion-label>Efectivo</ion-label>
+        </ion-item>
+      </div>
+      <div *ngIf="!cart.ticket.payment_methods.payment_method.name.includes('tarjeta')">
+        <ion-item style="border-bottom: 6px solid #ffff"(tap)="goToPaymentPage()">
+          <img item-start  class="imgPaymentMethods" src="../assets/imgs/card1.png">
+          <ion-label>Tarjeta</ion-label>
+        </ion-item>
+      </div>  
+    </div>
+
+    <h2 style="text-align: center; margin-top: 4rem">
+      O si no...
+    </h2>
+  </div>
 </ion-content>
 
-<ion-footer style="height:8%">
-  <ion-row text-center style="margin-top:1.5vh">
-    <ion-col>
-      Pagás
-    </ion-col>
-    <ion-col>
-      ${{cart.ticket.total}}
+<ion-footer *ngIf="cart.ticket.payment_methods">
+  <ion-row>
+    <ion-col no-padding>
+      <button type="submit" ion-button full color="loginButton" class="oneButtons"
+        (tap)="goToConfirmPage()" no-margin style="width: 100%">
+        Continuar
+      </button>
     </ion-col>
   </ion-row>
 </ion-footer>
