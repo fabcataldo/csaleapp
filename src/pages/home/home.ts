@@ -174,7 +174,7 @@ export class HomePage {
     frame.innerHTML = [
       '<div>',
       '<div>',
-      '<img style="max-width: 100%; height: auto;" src="assets/imgs/background.jpg">',
+      '<img style="height: 12rem; width: 22.8rem" src="assets/imgs/background.jpg">',
       '</div>',
       '<br>',
       '<div>',
@@ -194,7 +194,7 @@ export class HomePage {
 
       }
     });
-    htmlInfoWindow.setContent(frame, { width: "25rem", height: "36rem" });
+    htmlInfoWindow.setContent(frame, { width: "22rem", height: "31rem" });
     return htmlInfoWindow;
   }
 
