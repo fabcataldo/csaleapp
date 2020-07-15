@@ -11,7 +11,7 @@
 </ion-header>
 
 <ion-content padding>
-    <form [formGroup]="updateAccountForm" (ngSubmit)="onClickSubmit(updateAccountForm.value)">
+    <form [formGroup]="updateAccountForm">
         <ion-item class="bg-transparent">
             <ion-label style="color: #000000;" stacked>Nombre</ion-label>
             <ion-input type="text" placeholder="" style="color:#000000" formControlName="name"></ion-input>
@@ -43,9 +43,16 @@
         <div *ngIf="(formFields.password.invalid && formFields.password.touched) || formFields.password.dirty">
             <div *ngIf="formFields.password.errors?.required">Contraseña requerida</div>
         </div>
-
-        <button type="submit" ion-button color="loginButton" class="oneButtons" [disabled]="updateAccountForm.invalid"> 
-      Continuar
-    </button>
     </form>
 </ion-content>
+
+<ion-footer>
+    <ion-row>
+      <ion-col no-padding>
+            <button type="submit" fullion-button color="loginButton" class="oneButtons" 
+                [disabled]="updateAccountForm.invalid" (tap)="onClickSubmit(updateAccountForm.value)">
+                Actualizar cuenta
+            </button>
+      </ion-col>
+    </ion-row>
+</ion-footer>
