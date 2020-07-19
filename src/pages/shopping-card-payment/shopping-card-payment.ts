@@ -40,8 +40,8 @@ export class ShoppingCardPaymentPage {
       card_number: ['', Validators.compose([Validators.required, (control) => Accessories.cardValidator(control)])],
       user_dni: ['', Validators.compose([Validators.required, Validators.minLength(8), Validators.maxLength(8)])],
       user_name: ['', Validators.compose([Validators.required])],
-      security_code: ['', Validators.compose([Validators.required, Validators.minLength(3), Validators.maxLength(3)])],
-      expiration_date: ['', Validators.compose([Validators.required])],
+      security_code: ['', Validators.compose([Validators.required, Validators.minLength(3)])],
+      expiration_date: ['', Validators.compose([Validators.required, Validators.minLength(4)])],
     })
     let actualUser = JSON.parse(localStorage.getItem('user'))
     this.getFormFields()['user_name'].setValue(actualUser.name + ' ' + actualUser.surname);
