@@ -79,7 +79,6 @@ export class ShoppingCheckoutPage {
       { 
         id: null,
         payment_method: this.availablePaymentMethods.find(item => item.name.includes('efectivo')),
-        card: null,
         amount_paid: this.cart.ticket.total
       }
     )
