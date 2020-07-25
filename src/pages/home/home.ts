@@ -48,7 +48,7 @@ export class HomePage {
     if(cart){
         setTimeout(async ()=>{
           await this.CartSrv.asyncTicketUpload(); 
-        },500)
+        },1000)
     }
     this.getStorageValues();
     this.loadMap();
