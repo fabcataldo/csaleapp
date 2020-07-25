@@ -79,15 +79,14 @@
         <br>
       </ion-list>
     </div>
+    <div *ngIf="place.comments.length==0">
+      <ion-item>
+        <h3 style="text-align: center;">No hay comentarios.</h3>
+      </ion-item>
+    </div>
   </ion-card>
 
-  <div *ngIf="place.comments.length==0">
-    <ion-card>
-      <ion-card-content>
-        <h3 style="text-align: center;">No hay comentarios.</h3>
-      </ion-card-content>
-    </ion-card>
-  </div>
+  
 </ion-content>
 
 <ion-footer>
