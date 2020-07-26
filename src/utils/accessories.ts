@@ -28,8 +28,9 @@ export class Accessories{
 
     static toCorrectDate(string){
         let date = new Date(string);
-        let monthDate = date.getMonth().toString().length < 2 ? '0'+date.getMonth() : date.getMonth();
-        return date.getDate()+'/'+monthDate+'/'+date.getFullYear()+' '+date.getHours()+':'+date.getMinutes();
+        let monthDate = date.getMonth().toString().length < 2 ? '0'+(date.getMonth()+1) : date.getMonth();
+        let minutesDate = date.getMinutes().toString().length < 2 ? '0'+(date.getMinutes()+1) : date.getMinutes();
+        return date.getDate()+'/'+monthDate+'/'+date.getFullYear()+' '+date.getHours()+':'+minutesDate;
     }
 
     static capitalizeFirstChar(string){
