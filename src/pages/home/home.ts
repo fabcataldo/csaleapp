@@ -46,9 +46,11 @@ export class HomePage {
   ionViewDidLoad() {
     let cart = JSON.parse(localStorage.getItem('cart'));
     if(cart){
+      if(!cart._ticket._id){
         setTimeout(async ()=>{
           await this.CartSrv.asyncTicketUpload(); 
         },1000)
+      }
     }
     this.getStorageValues();
     this.loadMap();
