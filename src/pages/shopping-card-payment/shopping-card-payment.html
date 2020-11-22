@@ -80,8 +80,8 @@
 <ion-footer>
   <ion-row>
     <ion-col no-padding>
-      <button type="submit" full [disabled]="cardForm.invalid" ion-button color="loginButton" class="oneButtons" (tap)="onClickSubmit(cardForm.value)"
-        [disabled]="!canPay">
+      <button type="submit" full ion-button color="loginButton" class="oneButtons" (tap)="onClickSubmit(cardForm.value)"
+        [disabled]="!canPay || cardForm.invalid">
         Continuar
       </button>
     </ion-col>
