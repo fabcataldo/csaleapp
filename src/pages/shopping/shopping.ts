@@ -11,6 +11,8 @@ import { NotificationsProvider } from '../../providers/notifications-service';
 import { ShoppingCartPage } from '../shopping-cart/shopping-cart';
 import { LoadingServiceProvider } from '../../providers/loading-service';
 import { Accessories } from '../../utils/accessories';
+import { PlacesServiceProvider } from '../../providers/places-service';
+import { Places } from '../../models/places';
 
 /**
  * Generated class for the PurchaseProductsPage page.
@@ -26,6 +28,7 @@ import { Accessories } from '../../utils/accessories';
 })
 export class ShoppingPage {
   productsSrv: Products[];
+  placesSrv: Places[];
   total: number;
   cart: Cart;
   ticket: Tickets = new Tickets();
@@ -42,7 +45,8 @@ export class ShoppingPage {
   @ViewChild(Navbar) navBar: Navbar;
   constructor(public platform: Platform, public navCtrl: NavController, public navParams: NavParams, 
     public ProductsSrv: ProductsServiceProvider, private CartSrv: CartServiceProvider,
-    private NotificationsCtrl: NotificationsProvider, private LoadingCtrl: LoadingServiceProvider) {
+    private NotificationsCtrl: NotificationsProvider, private LoadingCtrl: LoadingServiceProvider,
+    private PlacesServiceProvider: PlacesServiceProvider) {
     this.filterProductsPerBenefit = this.navParams.get('filterProductsPerBenefit') ? this.navParams.get('filterProductsPerBenefit') : false;
     this.ProductsSrv.getProducts().subscribe((result)=>{
       this.productsSrv = this.getFilteredProducts(result);
@@ -51,6 +55,16 @@ export class ShoppingPage {
       console.log(err);
       this.NotificationsCtrl.presentErrorNotification("Carga de productos fallida.\nError técnico: "+err);
     })
+
+    this.PlacesServiceProvider.getPlaces().subscribe((result)=>{
+      this.placesSrv = result;
+    },
+    (err)=>{
+      console.log(err);
+      this.NotificationsCtrl.presentErrorNotification("Búsqueda de lugares fallido.\nError técnico: "+err);
+    })
+
+
     if(localStorage.getItem('cart')){
       this.cart = new Cart(this.CartSrv.getCart());
       this.ticket = this.cart.ticket;
@@ -135,6 +149,13 @@ export class ShoppingPage {
       return quantity;
     }
   }
+
+  findPlaceOfProduct(product){
+    let placeFinded = this.placesSrv.find(item=>{
+      return (product.description.toLowerCase().includes(item.name.toLowerCase()));
+    });
+    return placeFinded;
+  }
   
   addItem(index, product, action){
     let itemIdx = this.purchasedProducts.findIndex(item => {
@@ -155,7 +176,15 @@ export class ShoppingPage {
         }
     }
     else{
-      this.purchasedProducts.push(new PurchasedProducts({_id: null, product: this.productsSrv[index], quantity: 1}));
+      let productToAdd = new PurchasedProducts({_id: null, product: this.productsSrv[index], quantity: 1})
+      
+      this.purchasedProducts.push(productToAdd);
+      if(this.filterProductsPerBenefit){
+          let placeOfProduct = this.findPlaceOfProduct(productToAdd.product);
+          if(placeOfProduct){
+            this.cart.place = placeOfProduct;
+          }
+      }
       if(this.purchasedProducts[this.purchasedProducts.length-1].quantity > 0){
         this.canPay = true;
       }
@@ -163,7 +192,7 @@ export class ShoppingPage {
         this.canPay = false;
       }
     }
-
+    
     this.ticket.purchased_products = this.purchasedProducts;
     this.cart.ticket = this.ticket;
     this.CartSrv.setCart(this.cart)
